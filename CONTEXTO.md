@@ -47,5 +47,6 @@ Valores: Sofisticação · Confiança · Foco em resultados · Precisão · Parc
 - Linhas finas, grid rígido, molduras discretas. A cor entra só pelos projetos do portfólio.
 - Imagens: arquitetura, tecnologia, materiais, luz e sombra, pessoas em contexto profissional, mockups realistas.
 - Evitar gradientes coloridos, glassmorphism, neon e ícones genéricos.
-- Logo sem contorno, sombra, degradê ou distorção; respiro mínimo igual à altura do "S".
+- Assinatura no topo de toda peça (carrossel, Reels, post): símbolo da Solvix ao lado de "SOLVIX AGENCY". Arquivos em `marca/`: `solvix-simbolo.png` (branco com fundo transparente, para fundo escuro), `solvix-avatar.png` (foto de perfil) e `solvix-simbolo-original.webp` (arquivo enviado).
+- Logo sem contorno, sombra extra, degradê ou distorção; respiro mínimo igual à altura do "S".
 - Formatos: carrossel 1080×1350, Reels 1080×1920 com texto dentro da zona segura.

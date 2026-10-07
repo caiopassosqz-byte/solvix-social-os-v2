@@ -18,9 +18,11 @@ body { background: #222; }
 .abs { position: absolute; }
 [data-in] { opacity: 0; will-change: opacity, transform; }
 
-.logo { left: 96px; top: 250px; font-size: 30px; font-weight: 500; line-height: 1; letter-spacing: 0.01em; }
+.logo { left: 96px; top: 244px; font-size: 30px; font-weight: 500; line-height: 1; letter-spacing: 0.01em; display: flex; align-items: center; gap: 16px; }
+.logo img { height: 56px; width: auto; display: block; }
+.logo > span { display: block; }
 .logo small { display: block; font-size: 9px; letter-spacing: 0.42em; color: var(--g4); margin-top: 8px; font-weight: 400; }
-.rule { left: 96px; right: 96px; top: 320px; height: 1px; background: var(--line); }
+.rule { left: 96px; right: 96px; top: 330px; height: 1px; background: var(--line); }
 
 .scene { left: 96px; right: 120px; top: 540px; }
 .eyebrow { font-size: 26px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--g4); }
@@ -69,14 +71,16 @@ body { background: #222; }
 /* Cena 4 e 5 */
 .big { font-size: 150px; line-height: 0.98; }
 .cta { font-size: 84px; line-height: 1.08; }
-.end-logo { font-size: 64px; font-weight: 500; letter-spacing: 0.01em; line-height: 1; }
-.end-logo small { display: block; font-size: 17px; letter-spacing: 0.42em; color: var(--g4); margin-top: 14px; font-weight: 400; }
+.end-logo { display: flex; align-items: center; gap: 28px; }
+.end-logo img { height: 124px; width: auto; display: block; }
+.end-logo p { font-size: 64px; font-weight: 500; letter-spacing: 0.01em; line-height: 1; }
+.end-logo p small { display: block; font-size: 17px; letter-spacing: 0.42em; color: var(--g4); margin-top: 14px; font-weight: 400; }
 .pill { display: inline-block; border: 2px solid var(--off); border-radius: 999px; padding: 26px 40px; font-size: 32px; letter-spacing: 0.04em; margin-top: 56px; }
 </style>
 </head>
 <body>
 <div id="stage">
-  <div class="abs logo">SOLVIX<small>AGENCY</small></div>
+  <div class="abs logo"><img src="../../marca/solvix-simbolo.png" alt=""><span>SOLVIX<small>AGENCY</small></span></div>
   <div class="abs rule"></div>
 
   <!-- 1 · Hook (0 – 4.2) -->
@@ -144,7 +148,7 @@ body { background: #222; }
     <span class="pill" data-in="21.87">Enviar →</span>
   </div>
   <div class="abs" data-in="22.4" style="left:96px; top:1330px">
-    <p class="end-logo">SOLVIX<small>SITES QUE POSICIONAM</small></p>
+    <div class="end-logo"><img src="../../marca/solvix-simbolo.png" alt=""><p>SOLVIX<small>SITES QUE POSICIONAM</small></p></div>
   </div>
 </div>
 

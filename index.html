@@ -71,7 +71,8 @@ button, select, input, textarea { font: inherit; color: inherit; }
 /* Topo */
 .top { border-bottom: 1px solid var(--line); background: var(--bg); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; }
 .top-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px 0; }
-.brand { display: flex; align-items: baseline; gap: 14px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.mark { width: 34px; height: 34px; border-radius: 9px; display: block; box-shadow: 0 0 0 1px var(--line); }
 .mono { font-family: var(--serif); font-size: 1.6rem; line-height: 1; }
 .brand-name { font-size: 1.05rem; letter-spacing: 0.02em; line-height: 1; }
 .brand-name small { display: block; font-size: 0.5rem; letter-spacing: 0.35em; color: var(--text-2); margin-top: 4px; }
@@ -211,7 +212,8 @@ main { padding-block: 40px 96px; }
 }
 .cover.reels { aspect-ratio: 9 / 16; max-width: 220px; }
 .cover-top, .cover-foot { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.5625rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--post-muted); }
-.cover-top b { font-family: var(--sans); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.02em; color: var(--post-fg); }
+.cover-top b { font-family: var(--sans); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.02em; color: var(--post-fg); display: inline-flex; align-items: center; gap: 6px; }
+.cover-top b img { height: 16px; width: auto; display: block; }
 .cover-hook { align-self: center; font-family: var(--serif); font-weight: 400; font-size: 1.2rem; line-height: 1.18; text-wrap: balance; }
 .cover-foot { border-top: 1px solid var(--post-line); padding-top: 10px; }
 
@@ -268,7 +270,7 @@ main { padding-block: 40px 96px; }
   <div class="wrap">
     <div class="top-row">
       <div class="brand">
-        <span class="mono" aria-hidden="true">SV</span>
+        <img class="mark" src="marca/solvix-avatar.png" alt="" width="34" height="34">
         <span class="brand-name">SOLVIX<small>SOCIAL OS</small></span>
       </div>
       <div class="top-meta" id="topMeta">Instagram · 30 dias</div>
@@ -847,7 +849,7 @@ main { padding-block: 40px 96px; }
 
   function cover(p, n) {
     return '<div class="cover' + (p.fmt === "Reels" ? " reels" : "") + '" aria-label="Prévia da capa no padrão Solvix">' +
-      '<div class="cover-top"><b>SOLVIX</b><span>' + p.fmt + "</span></div>" +
+      '<div class="cover-top"><b><img src="marca/solvix-simbolo.png" alt="">SOLVIX</b><span>' + p.fmt + "</span></div>" +
       '<p class="cover-hook">' + esc(p.hook) + "</p>" +
       '<div class="cover-foot"><span>' + esc(PIL[p.p]) + "</span><span>" + pad(n) + "</span></div></div>";
   }
