@@ -20,6 +20,13 @@ Só vai para o Postiz o que estiver **Aprovado** no painel. Nada é publicado se
 
 Nunca cole a chave, senha ou código de acesso no chat.
 
+## Links do perfil (você coloca no app)
+
+Editar perfil › Links › Adicionar link externo:
+
+1. **WhatsApp:** https://wa.me/5599981726563?text=Oi!%20Vim%20pelo%20Instagram%20da%20Solvix. (título: Falar no WhatsApp)
+2. **Site:** https://solvixagency.vercel.app (título: Ver projetos)
+
 ## O que o Claude faz depois
 
 1. Confere a conexão: lista os canais do Postiz e as configurações exigidas pelo Instagram.
@@ -34,7 +41,6 @@ Pendências que travam posts específicos (também aparecem no painel, em Hoje):
 
 | Pendência | Posts |
 |---|---|
-| @ da agência e link da bio | todos os que citam "link da bio" |
 | Autorização do Grupo Kaza | D12 |
 | Números reais do Insights | D13, D30 |
 | Confirmar domínio no nome do cliente e suporte depois da entrega (contrato e 50% + 50% já confirmados) | D17, D18, D29 e guia de investimento |

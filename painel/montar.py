@@ -98,11 +98,15 @@ PECAS = {
     "D27": {"slides": ["posts/manifestos/manifesto-d27.png"], "pasta": "posts/manifestos/"},
 }
 
+PERFIL = {
+    "arroba": "solvixagencybr",
+    "whatsapp": "https://wa.me/5599981726563?text=Oi!%20Vim%20pelo%20Instagram%20da%20Solvix.",
+    "site": "https://solvixagency.vercel.app",
+}
+
 PENDENCIAS = [
     {"id": "publicacao", "titulo": "Conectar a publicação automática",
      "detalhe": "Crie uma conta no Postiz e conecte o Instagram da Solvix (conta profissional ligada a uma página do Facebook). Depois, adicione a chave da API nas configurações do ambiente do Claude com o nome POSTIZ_API_KEY. Não cole a chave no chat. Até lá, os posts aprovados ficam prontos para você subir manualmente."},
-    {"id": "arroba", "titulo": "Confirmar o @ da agência", "detalhe": "Usei @solvixagency nas prévias e na bio sugerida."},
-    {"id": "link", "titulo": "Enviar o link da bio", "detalhe": "Ele entra na bio e nos botões \"Ver projetos\"."},
     {"id": "kaza", "titulo": "Autorização do Grupo Kaza", "detalhe": "Para publicar o D12 com o nome e as fotos da Kaza.", "posts": [12]},
     {"id": "materiais", "titulo": "Materiais das palavras-chave", "detalhe": "Checklist de landing page, guia de investimento e roteiro da análise gratuita. Posso escrever os três; preciso do seu ok no conteúdo.", "posts": [5, 10, 17, 24]},
     {"id": "politicas", "titulo": "Confirmar duas políticas da Solvix", "detalhe": "Contrato e pagamento 50% + 50% já estão confirmados. Faltam: o domínio fica no nome do cliente? E existe suporte depois da entrega (incluso por um período ou só como manutenção paga)? Citados no D17, D18, D29 e no guia de investimento.", "posts": [17, 18, 29]},
@@ -169,6 +173,7 @@ def dados():
         "posts": posts,
         "pendencias": PENDENCIAS,
         "agenda": plano.get("agenda"),
+        "perfil": PERFIL,
         "trilhas": [dict(id=k, **v) for k, v in trs.items()],
     }
 

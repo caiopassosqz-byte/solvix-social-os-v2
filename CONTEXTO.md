@@ -18,6 +18,12 @@ Se algo aqui conflitar com o manual, o manual vence.
 - Ticket: R$1 mil a R$35 mil.
 - Fase atual: construção de portfólio, projetos demonstrativos, preparação para os primeiros clientes.
 
+## Perfil e contatos
+
+- Instagram: **@solvixagencybr**
+- Link 1 da bio: WhatsApp com mensagem pronta — https://wa.me/5599981726563?text=Oi!%20Vim%20pelo%20Instagram%20da%20Solvix.
+- Link 2 da bio: site — https://solvixagency.vercel.app
+
 ## Posicionamento
 
 > Mais que presença digital. Clareza, estrutura e resultado.

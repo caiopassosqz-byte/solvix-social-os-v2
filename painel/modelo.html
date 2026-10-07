@@ -745,10 +745,10 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     }).join("");
     $("v-grid").innerHTML = '<div class="page-head"><p class="eyebrow">Grid do perfil</p><h1>O feed como uma campanha só.</h1><p class="lede">Os 30 posts na ordem em que aparecem no perfil ao fim do ciclo, do mais novo ao mais antigo, com os três fixados no topo. A grade do Instagram corta em 3:4. O sinal no canto mostra a etapa de cada um.</p></div>' +
       '<div class="profile"><div class="feed">' + tiles + "</div>" +
-      '<aside class="card bio-card"><div class="who"><img src="marca/solvix-avatar.png" alt=""><div><b style="font-weight:600">solvixagency</b><p class="muted" style="font-size:0.875rem">Solvix Agency · Desenvolvimento web</p></div></div>' +
+      '<aside class="card bio-card"><div class="who"><img src="marca/solvix-avatar.png" alt=""><div><b style="font-weight:600">' + esc((DATA.perfil || {}).arroba || "solvixagency") + '</b><p class="muted" style="font-size:0.875rem">Solvix Agency · Desenvolvimento web</p></div></div>' +
       "<pre>Sites · Sistemas · Estratégia · Resultados\nLanding pages, CRM e Google Meu Negócio\nPortfólio ↓ Envie ANÁLISE na DM</pre>" +
       '<p class="eyebrow">Destaques</p><div class="tags"><span class="tag">Projetos</span><span class="tag">Como funciona</span><span class="tag">Investimento</span></div>' +
-      '<p class="muted" style="font-size:0.875rem">Bio e destaques sugeridos. O @ e o link da bio ainda dependem da sua confirmação.</p></aside></div>';
+      (DATA.perfil ? '<dl class="kv" style="font-size:0.875rem"><dt>Link 1</dt><dd><a href="' + DATA.perfil.whatsapp + '" target="_blank" rel="noopener">WhatsApp com mensagem pronta</a></dd><dt>Link 2</dt><dd><a href="' + DATA.perfil.site + '" target="_blank" rel="noopener">' + DATA.perfil.site.replace("https://", "") + '</a></dd></dl>' : '') + '<p class="muted" style="font-size:0.875rem">Bio e destaques sugeridos. Os links entram em Editar perfil › Links, no app.</p></aside></div>';
   }
 
   /* ---------------- BIBLIOTECA ---------------- */
