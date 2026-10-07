@@ -168,7 +168,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D06",
@@ -264,7 +265,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D08",
@@ -360,7 +362,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D10",
@@ -375,7 +378,7 @@
    2,
    6
   ],
-  "bpm": 78,
+  "bpm": 110,
   "arpejo": 3,
   "timbre_arpejo": "piano",
   "pad": "seno-tremolo",
@@ -419,7 +422,8 @@
      "arpejo"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D11",
@@ -515,7 +519,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D12",
@@ -764,7 +769,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D16",
@@ -860,7 +866,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D19",
@@ -956,7 +963,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D20",
@@ -1147,7 +1155,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D23",
@@ -1242,7 +1251,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D24",
@@ -1257,7 +1267,7 @@
    0,
    4
   ],
-  "bpm": 77,
+  "bpm": 112,
   "arpejo": 4,
   "timbre_arpejo": "piano",
   "pad": "triangulo",
@@ -1301,7 +1311,8 @@
      "arpejo"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D25",
@@ -1456,7 +1467,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D28",
@@ -1552,7 +1564,8 @@
      "melodia"
     ]
    ]
-  ]
+  ],
+  "nota": "Trilha do motor de Reels (reels/trilha.py): mesma harmonia do catálogo, andamento do roteiro e efeitos nos tempos dos movimentos."
  },
  {
   "id": "D30",

@@ -51,7 +51,40 @@ def legendas():
         bloco = bloco[bloco.index("**Legenda**"):]
         fim = bloco.find("\n## ", 1)
         out[d] = limpa(bloco[: fim if fim >= 0 else None])
+    for pid, info in varrer().items():
+        if pid not in out and info.get("_md"):
+            md = ler(info["_md"])
+            if "## Legenda" in md:
+                out[pid] = secao(md, "## Legenda")
     return out
+
+
+def varrer():
+    """Peças das pastas posts/dNN-*: Reels (reels-dNN.mp4 + capa.png) ou carrossel (slide-NN.png)."""
+    achados = {}
+    base = os.path.join(RAIZ, "posts")
+    for nome in sorted(os.listdir(base)):
+        m = re.match(r"d(\d\d)-", nome)
+        if not m:
+            continue
+        pid = "D" + m.group(1)
+        pasta = os.path.join(base, nome)
+        arqs = sorted(os.listdir(pasta))
+        rel = f"posts/{nome}/"
+        info = {"pasta": rel}
+        video = f"reels-d{m.group(1)}.mp4"
+        slides = [rel + a for a in arqs if re.match(r"slide-\d+\.png$", a)]
+        if video in arqs:
+            info["video"] = rel + video
+            info["slides"] = [rel + "capa.png"] if "capa.png" in arqs else []
+        elif slides:
+            info["slides"] = slides
+        for md in ("roteiro.md", "legenda.md"):
+            if md in arqs:
+                info["_md"] = rel + md
+                break
+        achados[pid] = info
+    return achados
 
 
 PECAS = {
@@ -101,6 +134,8 @@ def dados():
     plano = json.loads(ler("painel/plano.json"))
     leg = legendas()
     trs = trilhas()
+    pecas = {k: {a: b for a, b in v.items() if not a.startswith("_")} for k, v in varrer().items() if v.get("video") or v.get("slides")}
+    pecas.update(PECAS)
     posts = []
     for i, p in enumerate(plano["posts"]):
         pid = f"D{i + 1:02d}"
@@ -109,15 +144,15 @@ def dados():
         p.pop("peca", None)
         p["id"] = pid
         p["n"] = i + 1
-        if pid in PECAS:
-            p.update(PECAS[pid])
+        if pid in pecas:
+            p.update(pecas[pid])
         if pid in leg:
             p["legenda"] = leg[pid]
         if pid == "D03":
             p["pasta"] = "posts/d03-por-que-a-solvix-existe/"
         if p["fmt"] == "Reels" and pid in trs:
             p["trilha"] = trs[pid]
-        p["statusInicial"] = "revisao" if pid in PECAS else "planejado"
+        p["statusInicial"] = "revisao" if pid in pecas else "planejado"
         posts.append(p)
     return {
         "inicio": INICIO,

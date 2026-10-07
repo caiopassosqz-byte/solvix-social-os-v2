@@ -1,0 +1,10 @@
+// D05 · Checklist de landing page (Conversão). 7 slides; o slide 04 é o momento claro.
+window.CAR = { id: "D05", slides: [
+  { tipo: "capa", eyebrow: "Checklist de landing page", titulo: "5 itens que toda landing page precisa [antes de receber um real de anúncio.]", tamanho: 96, grande: "5", sub: "Confira um por um na sua página." },
+  { tipo: "item", num: "01", eyebrow: "Promessa", titulo: "Uma promessa que cabe [em uma frase.]", texto: "O que você faz, para quem e qual o resultado. Se precisa de um parágrafo, o anúncio paga pelo clique de quem não entendeu.", emvez: "Soluções completas em saúde bucal.", prefira: "Implante dentário com avaliação em 24 horas." },
+  { tipo: "item", num: "02", eyebrow: "Objetivo", titulo: "Um único [próximo passo.]", texto: "Página de anúncio tem um objetivo: agendar, pedir orçamento ou comprar. Cinco caminhos dividem a atenção.", emvez: "Menu com oito links e três botões diferentes.", prefira: "Um botão, repetido ao longo da página." },
+  { tipo: "item", num: "03", eyebrow: "Contato", titulo: "Contato sem atrito [no celular.]", texto: "Quem clica num anúncio do Instagram está no celular. O caminho até falar com você precisa caber no polegar.", emvez: "Formulário com nove campos.", prefira: "WhatsApp com a mensagem já escrita.", claro: true },
+  { tipo: "item", num: "04", eyebrow: "Prova", titulo: "Prova antes [do pedido.]", texto: "Depoimento, antes e depois, garantia. Perto do botão, onde a dúvida aparece.", emvez: "Depoimentos escondidos em outra página.", prefira: "Uma prova logo acima do botão." },
+  { tipo: "item", num: "05", eyebrow: "Velocidade", titulo: "Abre rápido, [mesmo no 4G.]", texto: "Cada segundo de tela branca é anúncio pago por alguém que já foi embora.", emvez: "Vídeo pesado no topo da página.", prefira: "Imagem leve e texto que aparece na hora." },
+  { tipo: "cta", titulo: "Quer o checklist [completo?]", palavra: "CHECKLIST", sub: "Mando a versão completa, com os itens para revisar antes de ligar o anúncio.", rodapeDir: "Salve este post" }
+] };

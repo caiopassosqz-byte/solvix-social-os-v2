@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Motor de Reels · Solvix</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+Display:wght@300;400;500&display=swap">
+<style>
+/* Motor de Reels Solvix — 1080×1920. Lê window.SPEC (reels/roteiros/dXX.js) e desenha o quadro do segundo t em render(t).
+   Linguagem do D01 v2: palavras na batida, câmera que pulsa, cortes com varredura, celular que reage.
+   Preto domina; no máximo uma cena clara por vídeo. Zona segura: textos entre y=260 e y=1520. */
+:root { --bg: #050505; --card: #141414; --line: #262626; --g5: #737373; --g4: #A3A3A3; --off: #F5F5F3;
+  --serif: "Noto Serif Display", Georgia, serif; --sans: "Inter", Arial, sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #222; }
+#stage { width: 1080px; height: 1920px; position: relative; overflow: hidden; background: var(--bg); color: var(--off); font-family: var(--sans); }
+#cam { position: absolute; inset: 0; transform-origin: 50% 46%; }
+.abs { position: absolute; }
+.scene { position: absolute; inset: 0; display: none; }
+.scene.light { background: var(--off); color: #0A0A0A; }
+.grid { position: absolute; inset: -200px; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 120px 120px; }
+.light .grid { background-image: linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px); }
+.glow { position: absolute; width: 1400px; height: 1400px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0) 60%); }
+.light .glow { background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 60%); }
+.w { display: inline-block; }
+.serif { font-family: var(--serif); letter-spacing: -0.02em; font-weight: 300; }
+.cinza { color: var(--g4); }
+.light .cinza { color: var(--g5); }
+.label { font-size: 30px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 600; color: var(--g4); }
+.light .label { color: var(--g5); }
+.top { position: absolute; left: 96px; right: 96px; top: 236px; display: flex; justify-content: space-between; align-items: center; z-index: 20; }
+.logo { display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 500; letter-spacing: 0.01em; line-height: 1; }
+.logo img { height: 56px; display: block; }
+.logo small { display: block; font-size: 9px; letter-spacing: 0.42em; color: var(--g4); margin-top: 8px; font-weight: 400; }
+.prog { position: absolute; left: 96px; right: 96px; top: 330px; height: 3px; background: rgba(255,255,255,0.14); z-index: 20; }
+.prog i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--off); }
+#stage.inv .top { color: #0A0A0A; }
+#stage.inv .prog { background: rgba(0,0,0,0.12); }
+#stage.inv .prog i { background: #0A0A0A; }
+.wipe { position: absolute; top: -10%; bottom: -10%; width: 140%; left: -20%; z-index: 30; transform: translateX(-130%) skewX(-12deg); }
+.flash { position: absolute; inset: 0; background: #fff; z-index: 31; opacity: 0; pointer-events: none; }
+
+/* celular e sites */
+.phone { position: absolute; width: 540px; height: 1080px; border-radius: 70px; background: #0C0C0C; padding: 18px; box-shadow: 0 0 0 3px #2C2C2C, 0 60px 120px rgba(0,0,0,0.6); }
+.phone::before { content: ""; position: absolute; top: 34px; left: 50%; width: 150px; height: 40px; border-radius: 24px; background: #000; transform: translateX(-50%); z-index: 6; }
+.screen { position: absolute; inset: 18px; border-radius: 54px; overflow: hidden; background: #F5F5F3; color: #0A0A0A; }
+.page { position: absolute; left: 0; right: 0; top: 0; min-height: 100%; }
+.site { padding: 104px 40px 40px; display: grid; align-content: start; gap: 24px; }
+.site .nav { display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 700; letter-spacing: 0.08em; }
+.site .nav i { display: block; width: 36px; height: 3px; background: #0A0A0A; box-shadow: 0 10px 0 #0A0A0A, 0 -10px 0 #0A0A0A; }
+.site h3 { font-family: var(--serif); font-weight: 400; font-size: 54px; line-height: 1.04; letter-spacing: -0.015em; }
+.site p { font-size: 24px; line-height: 1.4; color: #575757; }
+.site .img { height: 280px; border-radius: 18px; background: linear-gradient(135deg, #CFCFCC, #E2E2DF); }
+.site .img.dark { background: linear-gradient(135deg, #1E1E1E, #4A4A4A); }
+.site .btn { background: #0A0A0A; color: #F5F5F3; border-radius: 999px; padding: 24px; font-size: 25px; font-weight: 600; text-align: center; }
+.site .btn.ghost { background: transparent; color: #0A0A0A; box-shadow: inset 0 0 0 2px #0A0A0A; }
+.site .lines i { display: block; height: 16px; border-radius: 8px; background: #DADAD7; margin-top: 14px; }
+.site .lines i:nth-child(2) { width: 82%; } .site .lines i:nth-child(3) { width: 64%; }
+.site .mini { font-size: 17px; letter-spacing: 0.16em; text-transform: uppercase; color: #777; font-weight: 600; }
+.site .row { display: flex; justify-content: space-between; font-size: 22px; padding: 14px 0; border-top: 1px solid #E2E2DF; }
+.site .tiny { font-size: 15px; color: #999; }
+.sticky { position: absolute; left: 22px; right: 22px; bottom: 26px; background: #0A0A0A; color: #F5F5F3; border-radius: 999px; padding: 24px; text-align: center; font-size: 24px; font-weight: 600; z-index: 4; box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+.skel { position: absolute; inset: 0; padding: 104px 40px 40px; display: grid; align-content: start; gap: 24px; background: #F5F5F3; z-index: 3; }
+.skel i { display: block; border-radius: 14px; background: linear-gradient(90deg, #E4E4E1 0%, #F2F2EF 50%, #E4E4E1 100%); background-size: 300% 100%; }
+.loadbar { position: absolute; left: 0; top: 0; height: 8px; background: #0A0A0A; z-index: 4; }
+.dim { position: absolute; inset: 0; background: rgba(5,5,5,0.72); z-index: 5; opacity: 0; }
+.tap { position: absolute; width: 120px; height: 120px; border-radius: 50%; border: 5px solid #0A0A0A; background: rgba(10,10,10,0.12); z-index: 7; opacity: 0; }
+.bubble { position: absolute; right: 30px; bottom: 120px; max-width: 380px; background: #0A0A0A; color: #F5F5F3; border-radius: 30px 30px 8px 30px; padding: 24px 28px; font-size: 25px; line-height: 1.35; z-index: 7; opacity: 0; }
+.bubble small { display: block; font-size: 17px; color: #A3A3A3; margin-top: 8px; text-align: right; }
+.hl { position: absolute; border: 5px solid #0A0A0A; border-radius: 14px; z-index: 6; opacity: 0; box-shadow: 0 0 0 4000px rgba(5,5,5,0.45); }
+.chip { position: absolute; top: 60px; left: 28px; z-index: 7; background: #0A0A0A; color: #F5F5F3; font-size: 18px; letter-spacing: 0.2em; font-weight: 600; padding: 8px 16px; border-radius: 999px; }
+.reveal { position: absolute; inset: 0; z-index: 2; background: #F5F5F3; }
+.revline { position: absolute; top: 0; bottom: 0; width: 6px; background: #0A0A0A; z-index: 6; box-shadow: 0 0 0 3px #F5F5F3; }
+
+/* busca genérica (sem marca) */
+.sbar { margin: 104px 28px 0; border-radius: 999px; box-shadow: 0 4px 18px rgba(0,0,0,0.12), inset 0 0 0 1.5px #DDD; padding: 22px 28px; font-size: 26px; display: flex; gap: 14px; align-items: center; background: #fff; }
+.sbar .lupa { width: 26px; height: 26px; border: 3px solid #777; border-radius: 50%; position: relative; flex: none; }
+.sbar .lupa::after { content: ""; position: absolute; width: 12px; height: 3px; background: #777; right: -11px; bottom: -6px; transform: rotate(45deg); }
+.sbar .cur { display: inline-block; width: 2px; height: 30px; background: #0A0A0A; vertical-align: middle; margin-left: 2px; }
+.sbar s { color: #999; }
+.res { margin: 22px 28px 0; display: grid; gap: 14px; }
+.res .r { background: #fff; border-radius: 18px; padding: 20px 22px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); display: grid; gap: 6px; }
+.res .r b { font-size: 25px; font-weight: 600; }
+.res .r span { font-size: 19px; color: #777; }
+.res .r em { font-style: normal; font-size: 18px; color: #0A0A0A; font-weight: 600; }
+
+/* textos de apoio */
+.verdict { position: absolute; left: 96px; right: 96px; display: grid; gap: 14px; }
+.verdict b { font-family: var(--serif); font-weight: 400; font-size: 132px; line-height: 0.95; letter-spacing: -0.03em; }
+.verdict span { font-size: 38px; color: var(--g4); }
+.count { position: absolute; font-family: var(--serif); font-weight: 400; line-height: 0.8; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.dec { position: absolute; left: 96px; width: 330px; display: grid; gap: 34px; }
+.dec div { display: grid; gap: 6px; }
+.dec span { font-family: var(--serif); font-size: 34px; color: var(--g4); }
+.dec b { font-family: var(--serif); font-weight: 300; font-size: 50px; line-height: 1.04; }
+.bars { position: absolute; left: 96px; right: 96px; display: grid; gap: 44px; }
+.bars .b { display: grid; gap: 10px; }
+.bars .b .t { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; }
+.bars .b .t b { font-family: var(--serif); font-weight: 300; font-size: 70px; line-height: 1; white-space: nowrap; }
+.bars .b .t span { font-size: 27px; color: var(--g4); text-align: right; max-width: 300px; }
+.bars .b i { display: block; height: 18px; border-radius: 9px; background: var(--off); transform-origin: left; }
+.bars .ends { display: flex; justify-content: space-between; font-size: 30px; letter-spacing: 0.08em; color: var(--g4); margin-top: 6px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="cam"></div>
+  <div class="top"><span class="logo"><img id="logoImg" src="../marca/solvix-simbolo.png" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="label" id="stepLabel" style="font-size:22px"></span></div>
+  <div class="prog"><i id="progBar"></i></div>
+  <div class="wipe" id="wipe"></div>
+  <div class="flash" id="flash"></div>
+</div>
+<script src="sites.js"></script>
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var src = "roteiros/" + (params.get("r") || "d04") + ".js";
+  document.write('<script src="' + src + '"><\/script>');
+})();
+</script>
+<script>
+var S = window.SPEC, BEAT = 60 / S.bpm, BAR = 4 * BEAT;
+var EVENTS = [];
+function ev(tipo, t) { EVENTS.push([tipo, Math.round(t * 1000) / 1000]); }
+function $(id) { return document.getElementById(id); }
+function cl(x) { return Math.max(0, Math.min(1, x)); }
+function outExpo(x) { return x >= 1 ? 1 : 1 - Math.pow(2, -10 * x); }
+function outBack(x) { var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
+function outCubic(x) { return 1 - Math.pow(1 - x, 3); }
+function inOut(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+function pop(el, t, t0, o) {
+  o = o || {}; var d = o.d || 0.32, p = cl((t - t0) / d), e = (o.ease || outBack)(p), on = t >= t0 - 1e-6;
+  var x = (o.x || 0) * (1 - e), y = (o.y == null ? 60 : o.y) * (1 - e), s = 1 + (o.s == null ? 0.35 : o.s) * (1 - e);
+  el.style.opacity = on ? 1 : 0;
+  el.style.transform = "translate(" + x + "px," + y + "px) scale(" + s + ")";
+}
+// texto com [trechos em cinza]
+function rich(txt) {
+  return txt.replace(/\[([^\]]+)\]/g, '<span class="cinza">$1</span>');
+}
+function words(line) { // separa palavras preservando [cinza]
+  var out = [], cinza = false;
+  line.split(" ").forEach(function (w) {
+    var c = cinza || w.indexOf("[") === 0; if (w.indexOf("[") === 0) cinza = true;
+    var clean = w.replace(/[\[\]]/g, ""); out.push({ w: clean, c: c });
+    if (w.indexOf("]") >= 0) cinza = false;
+  });
+  return out;
+}
+
+var cam = $("cam"), T = 0;
+S.cenas.forEach(function (c, i) { c.i = i; c.t0 = T; c.dur = c.compassos * BAR; T += c.dur; });
+var DURATION = T;
+window.DURATION = DURATION;
+
+function bg(sec, k) {
+  sec.innerHTML = '<div class="grid"></div><div class="glow" style="' + ["left:-500px;top:-300px", "right:-600px;top:200px", "left:-300px;top:600px", "right:-400px;top:400px"][k % 4] + '"></div>';
+}
+function el(html, parent) { var d = document.createElement("div"); d.innerHTML = html.trim(); var n = d.firstChild; (parent || cam).appendChild(n); return n; }
+function B(c, beats) { return c.t0 + beats * BEAT; } // tempo absoluto de um tempo da cena
+
+/* ---------------- tipos de cena ---------------- */
+var TIPOS = {};
+
+TIPOS.palavras = function (sec, c) {
+  var top = c.top || 560, size = c.tamanho || 140, ini = c.inicio == null ? 0 : c.inicio, passo = c.passo || 0.5;
+  var wrap = el('<div class="abs" style="left:96px;right:' + (c.direita || 96) + 'px;top:' + top + 'px"></div>', sec);
+  var box = el('<div class="serif" style="font-size:' + size + 'px;line-height:1.02"></div>', wrap);
+  var ws = [], k = 0;
+  c.linhas.forEach(function (ln, li) {
+    words(ln).forEach(function (o) { var s = document.createElement("span"); s.className = "w" + (o.c ? " cinza" : ""); s.textContent = o.w; box.appendChild(s); box.appendChild(document.createTextNode(" ")); ws.push({ el: s, at: B(c, ini + k * passo) }); k++; });
+    if (li < c.linhas.length - 1) box.appendChild(document.createElement("br"));
+  });
+  if (c.t0 === 0 && ws.length) ws[0].at = -1;
+  ws.forEach(function (o, j) { if (j < 7 && o.at >= 0) ev("pop", o.at); });
+  var lab = c.label ? el('<div class="label" style="margin-top:70px">' + c.label + '</div>', wrap) : null;
+  var labAt = B(c, ini + k * passo + 0.5);
+  var ico = c.icone ? el('<div style="margin-top:80px;position:relative;width:200px;height:370px;border:4px solid currentColor;border-radius:42px"><div style="position:absolute;top:20px;left:50%;width:64px;height:14px;border-radius:9px;background:currentColor;transform:translateX(-50%)"></div></div>', wrap) : null;
+  if (lab) ev("tique", labAt);
+  return function (t) {
+    ws.forEach(function (o, j) { pop(o.el, t, o.at, j % 3 === 1 ? { y: 0, x: 80, s: 0.2, ease: outExpo, d: 0.25 } : { y: 80, s: 0.28 }); });
+    if (lab) pop(lab, t, labAt, { x: -40, y: 0, s: 0, ease: outExpo });
+    if (ico) { pop(ico, t, labAt - BEAT, { y: 220, s: 0, d: 0.4 }); var w0 = labAt - BEAT + 0.4; if (t > w0) ico.style.transform += " rotate(" + Math.sin((t - w0) * 24) * 6 * Math.exp(-(t - w0) * 3) + "deg)"; }
+  };
+};
+
+TIPOS.numero = function (sec, c) {
+  var a = el('<div class="abs serif" style="left:96px;top:470px;font-size:84px;color:' + (c.claro ? "#737373" : "#A3A3A3") + '">' + (c.antes || "") + '</div>', sec);
+  var n = el('<div class="abs serif" style="left:70px;top:520px;font-size:' + (c.tamanho || 860) + 'px;line-height:1">' + c.numero + '</div>', sec);
+  var d = el('<div class="abs serif" style="left:96px;right:96px;top:1330px;font-size:' + (c.depoisTamanho || 150) + 'px;line-height:1.02">' + (c.depois || "") + '</div>', sec);
+  ev("impacto", c.t0); ev("pop", B(c, 1));
+  return function (t) {
+    pop(a, t, c.t0, { y: 30, s: 0.1, ease: outExpo, d: 0.2 }); pop(n, t, c.t0, { y: 0, s: 1.2, ease: outBack, d: 0.42 }); pop(d, t, B(c, 1), { y: 80, s: 0.15 });
+    var bump = 0.05 * Math.exp(-((t - c.t0) % BEAT) / 0.08); n.style.transform += " scale(" + (1 + bump) + ")";
+  };
+};
+
+TIPOS.lista = function (sec, c) {
+  var top = c.top || 600, size = c.tamanho || 100, ini = c.inicio == null ? 1 : c.inicio, passo = c.passo || 2;
+  var eb = el('<div class="abs label" style="left:96px;top:' + top + 'px">' + c.eyebrow + '</div>', sec);
+  var box = el('<div class="abs" style="left:96px;right:96px;top:' + (top + 100) + 'px;display:grid;gap:52px"></div>', sec);
+  var rows = c.itens.map(function (it, i) {
+    return { el: el('<div style="display:grid;grid-template-columns:100px 1fr;align-items:baseline"><span class="serif" style="font-size:50px;color:#737373">0' + (i + 1) + '</span><span class="serif" style="font-size:' + size + 'px;line-height:1.02">' + it + '</span></div>', box), at: B(c, ini + i * passo) };
+  });
+  var line = el('<div class="abs" style="left:196px;height:6px;background:currentColor;top:0"></div>', sec);
+  rows.forEach(function (r) { ev("pop", r.at); });
+  ev("tique", c.t0);
+  var dark = c.claro ? "#0A0A0A" : "#F5F5F3", gray = c.claro ? "#A3A3A3" : "#5E5E5E";
+  return function (t) {
+    pop(eb, t, c.t0, { x: -60, y: 0, s: 0, ease: outExpo, d: 0.3 });
+    var cur = 0;
+    rows.forEach(function (r, i) { pop(r.el, t, r.at, { x: 420, y: 0, s: 0, ease: outExpo, d: 0.38 }); if (t >= r.at) cur = i; });
+    rows.forEach(function (r, i) { r.el.style.color = i < cur ? gray : dark; });
+    var r = rows[cur].el; line.style.top = (top + 100 + r.offsetTop + r.offsetHeight + 6) + "px";
+    line.style.width = (outExpo(cl((t - rows[cur].at - 0.15) / 0.35)) * 640) + "px"; line.style.opacity = t >= rows[0].at + 0.1 ? 1 : 0;
+  };
+};
+
+function phoneBlock(sec, c, siteHtml) {
+  var right = c.lado !== "centro";
+  var left = right ? 450 : 270;
+  var ph = el('<div class="phone" style="left:' + left + 'px;top:470px"><div class="screen"><div class="page">' + siteHtml + '</div></div></div>', sec);
+  var scr = ph.querySelector(".screen"), page = ph.querySelector(".page");
+  return { ph: ph, scr: scr, page: page, right: right };
+}
+function pageY(page, alvo) { var e = page.querySelector(alvo); if (!e) return 0; var y = 0, n = e; while (n && n !== page) { y += n.offsetTop; n = n.offsetParent; } return y; }
+
+TIPOS.celular = function (sec, c) {
+  var P = phoneBlock(sec, c, SITES[c.site] || c.site), ph = P.ph, scr = P.scr, page = P.page;
+  var lab = c.label ? el('<div class="abs label" style="left:96px;top:400px">' + c.label + '</div>', sec) : null;
+  var cnt = null, segs = null;
+  if (c.contador) { cnt = el('<div class="count" style="left:96px;top:520px;font-size:340px">5</div>', sec); segs = el('<div class="abs label" style="left:110px;top:820px">segundos</div>', sec); }
+  var skel = null, lb = null;
+  if (c.carregar) { skel = el('<div class="skel"><i style="height:30px;width:40%"></i><i style="height:280px"></i><i style="height:60px"></i><i style="height:60px;width:70%"></i><i style="height:26px"></i><i style="height:26px;width:80%"></i></div>', scr); lb = el('<div class="loadbar"></div>', scr); }
+  var dim = el('<div class="dim"></div>', scr);
+  var tap = el('<div class="tap"></div>', scr);
+  var bub = c.mensagem ? el('<div class="bubble">' + c.mensagem.texto + '<small>agora ✓✓</small></div>', scr) : null;
+  var hl = el('<div class="hl"></div>', scr);
+  var chip = c.chip ? el('<div class="chip">' + c.chip + '</div>', scr) : null;
+  var vd = c.veredito ? el('<div class="verdict" style="top:1330px"><b>' + c.veredito.titulo + '</b><span>' + (c.veredito.sub || "") + '</span></div>', sec) : null;
+  var notes = (c.destaques || []).map(function (d) { return el('<div class="verdict" style="top:1330px"><b style="font-size:96px">' + d.texto + '</b>' + (d.sub ? '<span>' + d.sub + '</span>' : "") + '</div>', sec); });
+  var carregar = c.carregar ? c.carregar * BEAT : 0;
+  ev("whoosh", c.t0 - 0.28);
+  var cstart = c.contador ? B(c, c.contador.inicio || 1) : 0, cpasso = c.contador ? (c.contador.passo || 1) * BEAT : 0;
+  if (c.contador) { for (var k = 0; k <= (c.contador.de - c.contador.ate); k++) ev("tique", cstart + k * cpasso); }
+  (c.destaques || []).forEach(function (d) { ev("pop", B(c, d.beat)); });
+  if (c.toque) ev("clique", B(c, c.toque.beat));
+  if (c.mensagem) ev("pop", B(c, c.mensagem.beat));
+  if (c.veredito) { ev(c.veredito.tipo === "ruim" ? "impacto" : "chime", B(c, c.veredito.beat)); if (c.veredito.tipo === "ruim") ev("glitch", B(c, c.veredito.beat)); }
+  (c.rolar || []).forEach(function (r) { ev("whoosh_desce", B(c, r.beat)); });
+  var shrinkAt = Math.min(c.veredito ? B(c, c.veredito.beat) : 1e9, (c.destaques && c.destaques.length) ? B(c, c.destaques[0].beat) : 1e9);
+  return function (t) {
+    if (lab) pop(lab, t, c.t0, { x: -60, y: 0, s: 0, ease: outExpo });
+    var pe = outExpo(cl((t - c.t0) / 0.55));
+    var fromX = c.entrada === "esquerda" ? -900 : c.entrada === "direita" ? 900 : 0, fromY = fromX ? 0 : 700;
+    var shake = c.veredito && c.veredito.tipo === "ruim" && t >= B(c, c.veredito.beat) ? Math.sin(t * 90) * 18 * Math.exp(-(t - B(c, c.veredito.beat)) / 0.18) : 0;
+    var sh = 1 - 0.24 * outExpo(cl((t - shrinkAt) / 0.3));
+    ph.style.transformOrigin = P.right ? "100% 0" : "50% 0";
+    ph.style.transform = "translate(" + (fromX * (1 - pe) + shake) + "px," + (fromY * (1 - pe)) + "px) rotate(" + ((fromX ? -5 : 6) * (1 - pe)) + "deg) scale(" + sh + ")";
+    // rolagem
+    var y = 0; (c.rolar || []).forEach(function (r) { var ty = typeof r.y === "string" ? Math.max(0, pageY(page, r.y) - 140) : r.y; ty = Math.min(ty, Math.max(0, page.offsetHeight - scr.clientHeight)); var p = inOut(cl((t - B(c, r.beat)) / ((r.dur || 1) * BEAT))); if (t >= B(c, r.beat)) y = y + (ty - y) * p; });
+    page.style.transform = "translateY(" + (-y) + "px)";
+    if (skel) { var lt = c.t0 + 0.4; lb.style.width = (100 * outCubic(cl((t - lt) / carregar))) + "%"; lb.style.opacity = t < lt + carregar + 0.1 ? 1 : 0; skel.style.opacity = t < lt + carregar ? 1 : 0; skel.querySelectorAll("i").forEach(function (i) { i.style.backgroundPosition = (100 - ((t * 120) % 300)) + "% 0"; }); }
+    if (cnt) {
+      var steps = Math.floor((t - cstart) / cpasso), left = c.contador.de - Math.max(0, Math.min(c.contador.de - c.contador.ate, t < cstart ? 0 : steps + 1));
+      if (t < cstart) left = c.contador.de;
+      var since = t < cstart ? t - c.t0 : (t - cstart) % cpasso;
+      cnt.textContent = left; cnt.style.opacity = t >= c.t0 + 0.2 ? 1 : 0; cnt.style.transformOrigin = "0 80%"; cnt.style.transform = "scale(" + (1 + 0.35 * Math.exp(-since / 0.08)) + ")"; segs.style.opacity = cnt.style.opacity;
+    }
+    // destaques: caixa sobre o elemento e frase embaixo
+    var cur = -1; (c.destaques || []).forEach(function (d, i) { if (t >= B(c, d.beat)) cur = i; });
+    notes.forEach(function (n, i) { n.style.display = i === cur ? "grid" : "none"; if (i === cur) pop(n, t, B(c, c.destaques[i].beat), { y: 100, s: 0.2, d: 0.32 }); });
+    if (cur >= 0) {
+      var d = c.destaques[cur], e = page.querySelector(d.alvo);
+      if (e) { var yy = pageY(page, d.alvo) - y; hl.style.left = (e.offsetLeft - 12) + "px"; hl.style.top = (yy - 12) + "px"; hl.style.width = (e.offsetWidth + 24) + "px"; hl.style.height = (e.offsetHeight + 24) + "px"; }
+      var hp = outBack(cl((t - B(c, d.beat)) / 0.3)); hl.style.opacity = 1; hl.style.transform = "scale(" + (1.15 - 0.15 * hp) + ")";
+      if (c.veredito && t >= B(c, c.veredito.beat)) hl.style.opacity = 0;
+    } else hl.style.opacity = 0;
+    if (c.toque) {
+      var tb = B(c, c.toque.beat), te = page.querySelector(c.toque.alvo) || scr.querySelector(c.toque.alvo);
+      if (te) { var inSticky = te.classList.contains("sticky"); var tx = te.offsetLeft + te.offsetWidth / 2, ty2 = inSticky ? te.offsetTop + te.offsetHeight / 2 : pageY(page, c.toque.alvo) - y + te.offsetHeight / 2;
+        var mv = outCubic(cl((t - (tb - 0.4)) / 0.4)); tap.style.left = (tx - 60 + 160 * (1 - mv)) + "px"; tap.style.top = (ty2 - 60 + 200 * (1 - mv)) + "px";
+        tap.style.opacity = t >= tb - 0.4 && t < tb + 0.8 ? 1 - cl((t - tb - 0.4) / 0.4) : 0; tap.style.transform = "scale(" + (t >= tb ? 1 + 0.6 * cl((t - tb) / 0.5) : 1) + ")"; te.style.transform = "scale(" + (t >= tb && t < tb + 0.2 ? 0.94 : 1) + ")"; }
+    }
+    if (bub) pop(bub, t, B(c, c.mensagem.beat), { y: 80, s: 0.3, d: 0.35 });
+    if (chip) chip.style.opacity = t >= c.t0 + 0.3 ? 1 : 0;
+    if (vd) { pop(vd, t, B(c, c.veredito.beat), { y: 120, s: 0.2, d: 0.35 }); dim.style.opacity = c.veredito.tipo === "ruim" ? cl((t - B(c, c.veredito.beat)) / 0.15) : 0; if (t >= B(c, c.veredito.beat)) notes.forEach(function (n) { n.style.display = "none"; }); }
+  };
+};
+
+TIPOS.antesdepois = function (sec, c) {
+  var P = phoneBlock(sec, c, SITES[c.antes]), ph = P.ph, scr = P.scr;
+  var rv = el('<div class="reveal"><div class="page">' + SITES[c.depois] + '</div></div>', scr);
+  var line = el('<div class="revline"></div>', scr);
+  var chip = el('<div class="chip">ANTES</div>', scr);
+  var lab = c.label ? el('<div class="abs label" style="left:96px;top:400px">' + c.label + '</div>', sec) : null;
+  var dec = el('<div class="dec" style="top:560px"></div>', sec);
+  var rs = B(c, c.revela || 2), rd = 1.2 * BEAT;
+  var items = (c.decisoes || []).map(function (d, i) { return { el: el('<div><span>0' + (i + 1) + '</span><b' + (c.decTamanho ? ' style="font-size:' + c.decTamanho + 'px"' : '') + '>' + d + '</b></div>', dec), at: rs + rd + i * (c.passo || 1.5) * BEAT }; });
+  ev("whoosh", c.t0 - 0.28); ev("whoosh", rs); items.forEach(function (it) { ev("pop", it.at); }); ev("chime", rs + rd);
+  return function (t) {
+    if (lab) pop(lab, t, c.t0, { x: -60, y: 0, s: 0, ease: outExpo });
+    var pe = outExpo(cl((t - c.t0) / 0.55));
+    ph.style.transform = "translate(0," + (700 * (1 - pe)) + "px) rotate(" + (6 * (1 - pe)) + "deg)";
+    var p = inOut(cl((t - rs) / rd));
+    rv.style.clipPath = "inset(0 " + (100 - p * 100) + "% 0 0)";
+    line.style.left = (p * 100) + "%"; line.style.opacity = p > 0 && p < 1 ? 1 : 0;
+    chip.textContent = p >= 0.5 ? "DEPOIS" : "ANTES";
+    items.forEach(function (it) { pop(it.el, t, it.at, { x: -60, y: 0, s: 0.1, ease: outExpo, d: 0.35 }); });
+  };
+};
+
+TIPOS.busca = function (sec, c) {
+  var P = phoneBlock(sec, { lado: "centro" }, '<div class="sbar"><span class="lupa"></span><span class="q"></span><span class="cur"></span></div><div class="res"></div>');
+  var ph = P.ph, q = ph.querySelector(".q"), res = ph.querySelector(".res");
+  var lab = c.label ? el('<div class="abs label" style="left:96px;top:400px">' + c.label + '</div>', sec) : null;
+  var cards = (c.resultados || []).map(function (r) { return el('<div class="r"><b>' + r.nome + '</b><span>' + r.linha + '</span>' + (r.tag ? '<em>' + r.tag + '</em>' : "") + '</div>', res); });
+  var hl = el('<div class="hl"></div>', P.scr);
+  var vd = c.veredito ? el('<div class="verdict" style="top:1330px"><b style="font-size:104px">' + c.veredito.titulo + '</b><span>' + (c.veredito.sub || "") + '</span></div>', sec) : null;
+  var seq = c.digitar; // [{texto, beat, riscar}]
+  ev("whoosh", c.t0 - 0.28);
+  seq.forEach(function (s) { for (var k = 0; k < s.texto.length; k += 3) ev("tique_agudo", B(c, s.beat) + k * 0.045); });
+  var rAt = B(c, c.resultadosBeat || 2.5);
+  cards.forEach(function (cd, i) { ev("pop", rAt + i * 0.25); });
+  if (vd) ev(c.veredito.tipo === "ruim" ? "impacto" : "chime", B(c, c.veredito.beat));
+  return function (t) {
+    if (lab) pop(lab, t, c.t0, { x: -60, y: 0, s: 0, ease: outExpo });
+    var pe = outExpo(cl((t - c.t0) / 0.55)); var sh = vd ? 1 - 0.24 * outExpo(cl((t - B(c, c.veredito.beat)) / 0.3)) : 1;
+    ph.style.transformOrigin = "50% 0"; ph.style.transform = "translate(0," + (700 * (1 - pe)) + "px) scale(" + sh + ")";
+    var html = "";
+    seq.forEach(function (s, i) {
+      var st = B(c, s.beat); if (t < st) return;
+      var n = Math.min(s.texto.length, Math.floor((t - st) / 0.045) + 1), txt = s.texto.slice(0, n);
+      var next = seq[i + 1];
+      if (next && t >= B(c, next.beat)) html = ""; else html = (s.riscar && n === s.texto.length && t > st + s.texto.length * 0.045 + 0.35) ? "<s>" + txt + "</s>" : txt;
+    });
+    q.innerHTML = html;
+    cards.forEach(function (cd, i) { pop(cd, t, rAt + i * 0.25, { y: 60, s: 0.05, ease: outExpo, d: 0.3 }); });
+    if (c.destaque != null && t >= B(c, c.destaqueBeat || 3.5)) { var cd = cards[c.destaque]; hl.style.left = (cd.offsetLeft + 28 - 10) + "px"; hl.style.top = (cd.offsetTop + res.offsetTop - 10) + "px"; hl.style.width = (cd.offsetWidth + 20) + "px"; hl.style.height = (cd.offsetHeight + 20) + "px"; hl.style.opacity = 1; } else hl.style.opacity = 0;
+    if (vd) pop(vd, t, B(c, c.veredito.beat), { y: 120, s: 0.2, d: 0.35 });
+  };
+};
+
+TIPOS.escada = function (sec, c) {
+  var eb = el('<div class="abs label" style="left:96px;top:' + (c.top || 600) + 'px">' + c.eyebrow + '</div>', sec);
+  var box = el('<div class="bars" style="top:' + ((c.top || 600) + 110) + 'px"></div>', sec);
+  var n = c.degraus.length;
+  var rows = c.degraus.map(function (d, i) { return { el: el('<div class="b"><div class="t"><b>' + d.nome + '</b><span>' + d.desc + '</span></div><i style="width:' + Math.round(28 + 72 * i / Math.max(1, n - 1)) + '%"></i></div>', box), at: B(c, 1 + i * (c.passo || 1.5)) }; });
+  var ends = el('<div class="ends"><span>' + (c.min || "") + '</span><span>' + (c.max || "") + '</span></div>', box);
+  rows.forEach(function (r) { ev("pop", r.at); }); ev("tique", c.t0);
+  var endsAt = rows[n - 1].at + BEAT;
+  ev("chime", endsAt);
+  return function (t) {
+    pop(eb, t, c.t0, { x: -60, y: 0, s: 0, ease: outExpo, d: 0.3 });
+    rows.forEach(function (r) { pop(r.el, t, r.at, { x: 0, y: 40, s: 0, ease: outExpo, d: 0.3 }); r.el.querySelector("i").style.transform = "scaleX(" + outExpo(cl((t - r.at) / 0.6)) + ")"; });
+    pop(ends, t, endsAt, { y: 30, s: 0, ease: outExpo });
+  };
+};
+
+// frase genérica riscada e reescrita com fatos, um par por vez
+TIPOS.reescrita = function (sec, c) {
+  var eb = el('<div class="abs label" style="left:96px;top:470px">' + c.eyebrow + '</div>', sec);
+  var num = el('<div class="abs serif" style="right:96px;top:450px;font-size:50px;color:#737373"></div>', sec);
+  var passo = (c.passo || 5) * BEAT, ini = B(c, c.inicio == null ? 1 : c.inicio);
+  var pares = c.pares.map(function (p, i) {
+    var a = el('<div class="abs" style="left:96px;right:96px;top:600px"><span class="serif cinza" style="font-size:72px;line-height:1.12;background-image:linear-gradient(#F5F5F3,#F5F5F3);background-repeat:no-repeat;background-position:0 58%;background-size:0% 6px;-webkit-box-decoration-break:clone;box-decoration-break:clone">' + p.antes + '</span></div>', sec);
+    var risco = a.firstChild;
+    var d = el('<div class="abs" style="left:96px;right:96px;top:0"><div class="label" style="margin-bottom:26px">Reescrito</div><div class="serif" style="font-size:92px;line-height:1.04">' + p.depois + '</div></div>', sec);
+    var at = ini + i * passo;
+    ev("pop", at); ev("whoosh_desce", at + 1.2 * BEAT); ev("pop", at + 1.9 * BEAT);
+    return { a: a, r: risco, d: d, at: at };
+  });
+  return function (t) {
+    pop(eb, t, c.t0, { x: -60, y: 0, s: 0, ease: outExpo, d: 0.3 });
+    var cur = 0; pares.forEach(function (p, i) { if (t >= p.at) cur = i; });
+    num.textContent = "0" + (cur + 1) + " / 0" + pares.length;
+    pares.forEach(function (p, i) {
+      var on = i === cur; p.a.style.display = p.d.style.display = on ? "block" : "none"; if (!on) return;
+      pop(p.a, t, p.at, { x: 300, y: 0, s: 0, ease: outExpo, d: 0.35 });
+      var h = p.a.offsetHeight;
+      p.r.style.backgroundSize = (100 * outExpo(cl((t - p.at - 1.2 * BEAT) / 0.45))) + "% 6px";
+      p.d.style.top = (600 + h + 90) + "px"; pop(p.d, t, p.at + 1.9 * BEAT, { y: 90, s: 0.15, d: 0.35 });
+    });
+  };
+};
+
+TIPOS.cta = function (sec, c) {
+  var wrap = el('<div class="abs" style="left:96px;right:96px;top:' + (c.top || 560) + 'px"></div>', sec);
+  var box = el('<div class="serif" style="font-size:' + (c.tamanho || 112) + 'px;line-height:1.04"></div>', wrap);
+  var ws = [], k = 0;
+  c.linhas.forEach(function (ln, li) { words(ln).forEach(function (o) { var s = document.createElement("span"); s.className = "w" + (o.c ? " cinza" : ""); s.textContent = o.w; box.appendChild(s); box.appendChild(document.createTextNode(" ")); ws.push({ el: s, at: B(c, k * 0.5) }); k++; }); if (li < c.linhas.length - 1) box.appendChild(document.createElement("br")); });
+  var sub = c.sub ? el('<div class="label" style="margin-top:50px">' + c.sub + '</div>', wrap) : null;
+  var logo = el('<div style="margin-top:110px;display:flex;align-items:center;gap:28px"><img src="../marca/solvix-simbolo' + (c.claro ? "-escuro" : "") + '.png" alt="" style="height:120px"><div style="font-size:62px;font-weight:500;line-height:1">SOLVIX<small style="display:block;font-size:16px;letter-spacing:0.42em;color:#A3A3A3;margin-top:14px;font-weight:400">SITES QUE POSICIONAM</small></div></div>', wrap);
+  ws.slice(0, 6).forEach(function (o) { ev("tique_agudo", o.at); });
+  var la = B(c, Math.min(k * 0.5, 3) + 0.5); ev("chime", la);
+  return function (t) {
+    ws.forEach(function (o) { pop(o.el, t, o.at, { y: 80, s: 0.3 }); });
+    if (sub) pop(sub, t, la - BEAT * 0.5, { x: -40, y: 0, s: 0, ease: outExpo });
+    pop(logo, t, la, { y: 60, s: 0.15, ease: outExpo, d: 0.4 });
+  };
+};
+
+/* ---------------- montagem ---------------- */
+var ANIMS = [];
+S.cenas.forEach(function (c, i) {
+  var sec = document.createElement("section"); sec.className = "scene" + (c.claro ? " light" : ""); cam.appendChild(sec);
+  bg(sec, i); sec.style.display = "block";
+  ANIMS.push({ c: c, sec: sec, anim: TIPOS[c.tipo](sec, c) });
+  sec.style.display = "none";
+  if (i > 0) ev("whoosh", c.t0 - 0.28);
+});
+// remove whoosh duplicados no mesmo instante
+EVENTS = EVENTS.filter(function (e, i, a) { return a.findIndex(function (x) { return x[0] === e[0] && Math.abs(x[1] - e[1]) < 0.05; }) === i && e[1] >= 0; }).sort(function (a, b) { return a[1] - b[1]; });
+window.EVENTS = EVENTS;
+window.ESTRUTURA = S.cenas.map(function (c) { return { tipo: c.tipo, compassos: c.compassos, claro: !!c.claro, energia: c.energia || (c.tipo === "palavras" && c.i === 0 ? "intro" : c.tipo === "cta" ? "final" : c.respiro ? "respiro" : "alta") }; });
+
+window.render = function (t) {
+  var cur = ANIMS[0];
+  ANIMS.forEach(function (a) { var on = t >= a.c.t0 && t < a.c.t0 + a.c.dur + (a.c.i === ANIMS.length - 1 ? 1 : 0); a.sec.style.display = on ? "block" : "none"; if (on) cur = a; });
+  var light = !!cur.c.claro;
+  $("stage").classList.toggle("inv", light);
+  $("logoImg").src = light ? "../marca/solvix-simbolo-escuro.png" : "../marca/solvix-simbolo.png";
+  $("progBar").style.width = (100 * t / DURATION) + "%";
+  $("stepLabel").textContent = "0" + (cur.c.i + 1) + " / 0" + ANIMS.length;
+  var zoom = 1 + 0.045 * inOut(cl((t - cur.c.t0) / 2.5));
+  var lastBeat = Math.floor(t / BEAT) * BEAT;
+  var punch = cur.c.respiro || (cur.c.i === 0 && cur.c.tipo === "palavras") ? 0 : 0.018 * Math.exp(-(t - lastBeat) / 0.09);
+  cam.style.transform = "scale(" + (zoom + punch) + ")";
+  cur.sec.querySelectorAll(".grid").forEach(function (g) { g.style.transform = "translate(" + (-(t * 26) % 120) + "px," + (-(t * 14) % 120) + "px)"; });
+  // varredura na entrada de cada cena
+  var w = $("wipe"); w.style.transform = "translateX(-130%) skewX(-12deg)";
+  ANIMS.forEach(function (a) { var x = a.c.t0; if (x > 0 && t >= x - 0.18 && t < x + 0.22) { var wp = cl((t - (x - 0.18)) / 0.4); w.style.transform = "translateX(" + (-130 + 260 * inOut(wp)) + "%) skewX(-12deg)"; w.style.background = a.c.claro ? "#F5F5F3" : "#1A1A1A"; } });
+  // flash curto nos impactos
+  var f = 0; EVENTS.forEach(function (e) { if (e[0] === "impacto" && t >= e[1] && t < e[1] + 0.25) f = Math.max(f, 0.3 * (1 - (t - e[1]) / 0.25)); });
+  $("flash").style.opacity = f;
+  cur.anim(t);
+};
+render(location.hash ? parseFloat(location.hash.slice(1)) || 0 : 0);
+</script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Motor de carrosséis · Solvix</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+Display:wght@300;400&display=swap">
+<style>
+/* Motor de carrosséis Solvix — slides de 1080×1350 a partir de window.CAR (carrosseis/roteiros/dXX.js).
+   Mesma linguagem do D02 e do Kaza: preto como base, no máximo um slide claro, serifada nos títulos,
+   linhas finas e grid. Abra com ?c=d05. Também gera os materiais em PDF (?c=checklist). */
+:root { --bg: #050505; --card: #141414; --line: #262626; --g5: #737373; --g4: #A3A3A3; --off: #F5F5F3;
+  --serif: "Noto Serif Display", Georgia, serif; --sans: "Inter", Arial, sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #222; display: grid; gap: 40px; padding: 40px; justify-content: center; }
+body.pdf { background: var(--bg); padding: 0; gap: 0; }
+.slide { width: 1080px; height: 1350px; background: var(--bg); color: var(--off); font-family: var(--sans); padding: 84px 92px; display: grid; grid-template-rows: auto 1fr auto; position: relative; overflow: hidden; isolation: isolate; }
+.slide::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse 80% 55% at 15% 0%, #1E1E1E 0%, #0B0B0B 55%, #050505 100%); }
+.slide::after { content: ""; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px); background-size: 108px 108px; }
+.slide.light { background: var(--off); color: #0A0A0A; }
+.slide.light::before { background: radial-gradient(ellipse 80% 55% at 85% 0%, #FFFFFF 0%, #F5F5F3 55%, #ECECE9 100%); }
+.slide.light::after { background-image: linear-gradient(rgba(0,0,0,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.045) 1px, transparent 1px); }
+.bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 26px; border-bottom: 1px solid var(--line); }
+.light .bar, .light .foot { border-color: #D6D6D3; }
+.logo { display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 500; letter-spacing: 0.01em; line-height: 1; }
+.logo img { height: 54px; display: block; }
+.logo small { display: block; font-size: 9px; letter-spacing: 0.42em; color: var(--g4); margin-top: 8px; font-weight: 400; }
+.light .logo small { color: var(--g5); }
+.count { font-size: 21px; letter-spacing: 0.18em; color: var(--g4); font-variant-numeric: tabular-nums; }
+.light .count { color: var(--g5); }
+.foot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 24px; border-top: 1px solid var(--line); font-size: 18px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--g5); }
+.body { display: grid; align-content: center; gap: 40px; padding-block: 40px; position: relative; }
+.eyebrow { font-size: 21px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--g4); font-weight: 500; }
+.light .eyebrow { color: var(--g5); }
+h1, h2, h3 { font-family: var(--serif); font-weight: 300; letter-spacing: -0.015em; }
+h1 { font-size: 104px; line-height: 1.0; }
+h2 { font-size: 84px; line-height: 1.02; }
+h1 em, h2 em, h3 em { font-style: normal; color: var(--g4); }
+.light h1 em, .light h2 em, .light h3 em { color: var(--g5); }
+.lead { font-size: 32px; line-height: 1.42; color: var(--g4); max-width: 30ch; }
+.light .lead { color: #4A4A4A; }
+.big { position: absolute; right: -30px; bottom: -70px; font-family: var(--serif); font-weight: 300; font-size: 760px; line-height: 0.8; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,0.16); z-index: -1; letter-spacing: -0.05em; }
+.light .big { -webkit-text-stroke-color: rgba(0,0,0,0.14); }
+.num { font-family: var(--serif); font-size: 44px; color: var(--g5); display: flex; gap: 22px; align-items: baseline; }
+.num i { font-style: normal; display: block; height: 1px; width: 120px; background: var(--g5); transform: translateY(-12px); }
+.ex { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.light .ex { border-color: #D6D6D3; }
+.ex div { padding: 22px 26px; display: grid; gap: 8px; }
+.ex div + div { border-top: 1px solid var(--line); }
+.light .ex div + div { border-top-color: #D6D6D3; }
+.ex span { font-size: 16px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--g5); }
+.ex p { font-size: 27px; line-height: 1.35; color: var(--g4); text-decoration: line-through; text-decoration-thickness: 1px; }
+.ex div.good { background: rgba(255,255,255,0.06); }
+.light .ex div.good { background: #FFFFFF; }
+.ex div.good p { color: inherit; text-decoration: none; }
+.card { border: 1px solid #3A3A3A; border-radius: 28px; padding: 56px 52px; display: grid; gap: 30px; background: rgba(20,20,20,0.6); }
+.light .card { border-color: #CFCFCB; background: rgba(255,255,255,0.6); }
+.card h2 { font-size: 76px; }
+.tags { display: flex; flex-wrap: wrap; gap: 14px; }
+.tags span { border: 1px solid #4A4A4A; border-radius: 999px; padding: 14px 26px; font-size: 23px; letter-spacing: 0.02em; color: var(--g4); }
+.light .tags span { border-color: #BDBDB9; color: #3A3A3A; }
+.btns { display: flex; gap: 18px; flex-wrap: wrap; }
+.btn { border-radius: 999px; padding: 26px 40px; font-size: 26px; letter-spacing: 0.02em; display: inline-flex; gap: 14px; align-items: center; }
+.btn.primary { background: var(--off); color: #050505; }
+.btn.ghost { border: 1.5px solid var(--g5); color: var(--off); }
+.light .btn.primary { background: #0A0A0A; color: var(--off); }
+.light .btn.ghost { color: #0A0A0A; }
+.palavra { display: inline-flex; align-items: center; gap: 22px; border: 1.5px solid var(--off); border-radius: 18px; padding: 24px 32px; font-size: 26px; letter-spacing: 0.04em; width: max-content; }
+.palavra b { font-family: var(--serif); font-weight: 400; font-size: 54px; letter-spacing: 0.02em; }
+.light .palavra { border-color: #0A0A0A; }
+.disc { font-size: 19px; line-height: 1.5; color: var(--g5); max-width: 52ch; }
+.rows { display: grid; }
+.rows .r { display: grid; grid-template-columns: 90px 1fr; gap: 10px; padding: 26px 0; border-top: 1px solid var(--line); align-items: baseline; }
+.light .rows .r { border-top-color: #D6D6D3; }
+.rows .r:last-child { border-bottom: 1px solid var(--line); }
+.light .rows .r:last-child { border-bottom-color: #D6D6D3; }
+.rows .r span { font-family: var(--serif); font-size: 32px; color: var(--g5); }
+.rows .r b { font-family: var(--serif); font-weight: 300; font-size: 50px; line-height: 1.08; }
+.rows .r p { grid-column: 2; font-size: 25px; line-height: 1.4; color: var(--g4); margin-top: 6px; }
+.light .rows .r p { color: #575757; }
+.rows.compacta .r { padding: 18px 0; }
+.rows.compacta .r b { font-size: 40px; }
+.rows.compacta .r p { font-size: 22px; }
+.tab { display: grid; border-top: 1px solid var(--line); }
+.light .tab { border-color: #D6D6D3; }
+.tab .tr { display: grid; grid-template-columns: 200px repeat(3, 1fr); gap: 18px; padding: 26px 0; border-bottom: 1px solid var(--line); font-size: 27px; line-height: 1.35; align-items: start; }
+.light .tab .tr { border-color: #D6D6D3; }
+.tab .tr.h { font-family: var(--serif); font-size: 38px; line-height: 1.05; padding-top: 0; }
+.tab .tr span:first-child { font-size: 17px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--g5); padding-top: 6px; }
+.bars { display: grid; gap: 34px; }
+.bars .b { display: grid; gap: 12px; }
+.bars .b .t { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; }
+.bars .b .t b { font-family: var(--serif); font-weight: 300; font-size: 54px; line-height: 1; }
+.bars .b .t span { font-size: 22px; color: var(--g4); text-align: right; }
+.bars .b i { display: block; height: 14px; border-radius: 7px; background: var(--off); }
+.bars .ends { display: flex; justify-content: space-between; font-size: 26px; letter-spacing: 0.06em; color: var(--g4); margin-top: 6px; }
+.check { display: grid; grid-template-columns: 44px 1fr; gap: 22px; padding: 22px 0; border-top: 1px solid var(--line); align-items: start; }
+.check:last-child { border-bottom: 1px solid var(--line); }
+.check i { width: 34px; height: 34px; border: 1.5px solid var(--off); border-radius: 7px; margin-top: 6px; }
+.check b { font-family: var(--serif); font-weight: 300; font-size: 40px; line-height: 1.1; display: block; }
+.check p { font-size: 22px; line-height: 1.45; color: var(--g4); margin-top: 6px; }
+.light .check { border-color: #D6D6D3; }
+.light .check i { border-color: #0A0A0A; }
+.light .check p { color: #575757; }
+
+/* mockups */
+.phone { width: 400px; height: 840px; border-radius: 58px; background: #0C0C0C; padding: 13px; box-shadow: 0 0 0 2px #2C2C2C, 30px 50px 100px rgba(0,0,0,0.55); position: relative; flex: none; }
+.light .phone { box-shadow: 0 0 0 2px #1A1A1A, 24px 40px 80px rgba(0,0,0,0.22); }
+.phone::before { content: ""; position: absolute; top: 26px; left: 50%; width: 112px; height: 30px; border-radius: 18px; background: #000; transform: translateX(-50%); z-index: 6; }
+.phone .scr { position: absolute; inset: 13px; border-radius: 46px; overflow: hidden; background: #F5F5F3; color: #0A0A0A; }
+.laptop { width: 860px; position: relative; }
+.laptop .scr { border: 14px solid #0D0D0D; border-bottom-width: 18px; border-radius: 22px 22px 6px 6px; background: #F5F5F3; overflow: hidden; box-shadow: 0 0 0 2px #2A2A2A; aspect-ratio: 16 / 10; position: relative; }
+.laptop .base { height: 20px; margin: 0 -7%; background: linear-gradient(180deg, #5A5A5A 0%, #2A2A2A 35%, #111 70%, #050505 100%); border-radius: 2px 2px 18px 18px; position: relative; }
+.laptop .base::before { content: ""; position: absolute; top: 0; left: 50%; width: 16%; height: 7px; transform: translateX(-50%); background: #111; border-radius: 0 0 8px 8px; }
+.laptop .sh { position: absolute; left: 4%; right: 4%; bottom: -40px; height: 50px; background: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 70%); filter: blur(6px); z-index: -1; }
+.sitem { font-family: var(--sans); padding: 70px 26px 26px; display: grid; gap: 16px; }
+.sitem .nav { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; }
+.sitem .nav i { width: 24px; height: 2px; background: #111; box-shadow: 0 7px 0 #111, 0 -7px 0 #111; display: block; margin-top: 6px; }
+.sitem h4 { font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1.06; }
+.sitem p { font-size: 15px; line-height: 1.45; color: #555; }
+.sitem .b { background: #0A0A0A; color: #F5F5F3; border-radius: 999px; padding: 15px; text-align: center; font-size: 15px; font-weight: 600; }
+.sitem .ph { height: 190px; border-radius: 14px; background: linear-gradient(140deg, #24413F 0%, #5E8580 55%, #C9D8D3 100%); }
+.sitem .mini { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #777; font-weight: 600; }
+.sitem .q { font-family: var(--serif); font-size: 19px; line-height: 1.3; }
+.sitem .ben { display: grid; grid-template-columns: 26px 1fr; font-size: 14px; padding: 8px 0; border-top: 1px solid #E4E4E1; }
+.sitem .ben b { font-family: var(--serif); font-weight: 400; color: #888; }
+.scr .sticky { position: absolute; left: 12px; right: 12px; bottom: 14px; background: #0A0A0A; color: #F5F5F3; border-radius: 999px; padding: 15px; text-align: center; font-size: 15px; font-weight: 600; box-shadow: 0 10px 24px rgba(0,0,0,0.25); }
+.sited { position: absolute; left: 0; top: 0; width: 1280px; height: 800px; transform: scale(0.525); transform-origin: 0 0; font-family: var(--sans); color: #0A0A0A; }
+.sited .nav { display: flex; justify-content: space-between; align-items: center; padding: 30px 64px; font-size: 17px; letter-spacing: 0.14em; font-weight: 700; border-bottom: 1px solid #E2E2DF; }
+.sited .nav span { display: flex; gap: 26px; font-weight: 500; letter-spacing: 0.04em; color: #555; }
+.sited .nav u { text-decoration: none; background: #0A0A0A; color: #F5F5F3; padding: 9px 16px; border-radius: 999px; letter-spacing: 0.04em; font-weight: 600; }
+.sited .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; padding: 64px 64px; align-items: center; }
+.sited h4 { font-family: var(--serif); font-weight: 400; font-size: 66px; line-height: 1.04; letter-spacing: -0.01em; }
+.sited p { font-size: 20px; line-height: 1.5; color: #555; margin-top: 14px; }
+.sited .b { display: inline-block; background: #0A0A0A; color: #F5F5F3; border-radius: 999px; padding: 18px 30px; font-size: 18px; font-weight: 600; margin-top: 18px; }
+.sited .ph { height: 400px; border-radius: 14px; background: linear-gradient(140deg, #24413F 0%, #5E8580 55%, #C9D8D3 100%); position: relative; overflow: hidden; }
+.sited .ph::before { content: ""; position: absolute; width: 220px; height: 220px; border-radius: 50%; right: -40px; top: -60px; background: rgba(255,255,255,0.22); }
+.sited .strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #E2E2DF; border-top: 1px solid #E2E2DF; }
+.sited .strip div { background: #F5F5F3; padding: 24px 64px; font-size: 17px; color: #555; }
+.sited .strip b { display: block; font-family: var(--serif); font-weight: 400; font-size: 30px; color: #0A0A0A; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<div id="out"></div>
+<script>
+(function () {
+  var c = new URLSearchParams(location.search).get("c") || "d05";
+  document.write('<script src="roteiros/' + c + '.js"><\/script>');
+})();
+</script>
+<script>
+var C = window.CAR, out = document.getElementById("out"), N = C.slides.length;
+if (C.pdf) document.body.classList.add("pdf");
+function rich(s) { return (s || "").replace(/\[([^\]]+)\]/g, "<em>$1</em>").replace(/\n/g, "<br>"); }
+var SITE_M = '<div class="sitem"><div class="nav">CLÍNICA SORRIR <i></i></div><h4>Implante dentário com avaliação em 24 horas.</h4><p>Para quem quer voltar a sorrir sem esperar meses.</p><div class="b">Agendar pelo WhatsApp</div><div class="ph"></div><div class="mini">Quem já passou por aqui</div><div class="q">“Marquei a avaliação no mesmo dia.”</div><div class="ben"><b>01</b>Avaliação em até 24 horas</div><div class="ben"><b>02</b>Valor e prazo antes de começar</div></div><div class="sticky">Agendar pelo WhatsApp</div>';
+var SITE_D = '<div class="sited"><div class="nav">CLÍNICA SORRIR<span>Tratamentos<span>Casos</span><span>Dúvidas</span></span><u>Agendar</u></div><div class="hero"><div><h4>Implante dentário com avaliação em 24 horas.</h4><p>Para quem quer voltar a sorrir sem esperar meses. Valor e prazo definidos antes de começar.</p><span class="b">Agendar pelo WhatsApp</span></div><div class="ph"></div></div><div class="strip"><div><b>24 h</b>para a avaliação</div><div><b>1 plano</b>com valor e prazo</div><div><b>WhatsApp</b>do início ao fim</div></div></div>';
+function phone(html, st, k) { if (k) html = '<div style="position:absolute;left:0;top:0;width:374px;height:814px;transform:scale(' + k + ');transform-origin:0 0">' + html + '</div>'; return '<div class="phone" style="' + (st || "") + '"><div class="scr">' + html + '</div></div>'; }
+function laptop(html, st) { return '<div class="laptop" style="' + (st || "") + '"><div class="scr">' + html + '</div><div class="base"></div><div class="sh"></div></div>'; }
+
+var T = {};
+T.capa = function (s) {
+  return (s.grande ? '<div class="big">' + s.grande + '</div>' : '') +
+    '<div class="body" style="align-content:' + (s.alinhar || "center") + '">' + (s.eyebrow ? '<p class="eyebrow">' + s.eyebrow + '</p>' : '') +
+    '<h1 style="font-size:' + (s.tamanho || 104) + 'px">' + rich(s.titulo) + '</h1>' + (s.sub ? '<p class="lead">' + rich(s.sub) + '</p>' : '') + '</div>';
+};
+T.item = function (s) {
+  return '<div class="body" style="gap:34px"><div class="num">' + s.num + '<i></i><span class="eyebrow" style="font-family:var(--sans)">' + (s.eyebrow || "") + '</span></div>' +
+    '<h2 style="font-size:' + (s.tamanho || 84) + 'px">' + rich(s.titulo) + '</h2>' + (s.texto ? '<p class="lead" style="max-width:34ch">' + rich(s.texto) + '</p>' : '') +
+    (s.emvez ? '<div class="ex" style="margin-top:10px"><div><span>Em vez de</span><p>' + s.emvez + '</p></div><div class="good"><span>Prefira</span><p>' + s.prefira + '</p></div></div>' : '') + '</div>';
+};
+T.card = function (s) {
+  return '<div class="big">' + s.num + '</div><div class="body"><div class="card"><div class="num">' + s.num + '<i></i></div><h2>' + rich(s.titulo) + '</h2>' +
+    '<p class="lead" style="max-width:none">' + rich(s.linha) + '</p><div class="tags">' + s.tags.map(function (t) { return '<span>' + t + '</span>'; }).join("") + '</div></div></div>';
+};
+T.frase = function (s) {
+  return '<div class="big">' + s.num + '</div><div class="body" style="gap:44px"><div class="num">' + s.num + '<i></i></div><h1 style="font-size:' + (s.tamanho || 112) + 'px">' + rich(s.titulo) + '</h1>' +
+    (s.apoio ? '<p class="lead">' + rich(s.apoio) + '</p>' : '') + '</div>';
+};
+T.linhas = function (s) {
+  return '<div class="body" style="gap:34px">' + (s.eyebrow ? '<p class="eyebrow">' + s.eyebrow + '</p>' : '') + (s.titulo ? '<h2 style="font-size:' + (s.tamanho || 76) + 'px">' + rich(s.titulo) + '</h2>' : '') +
+    '<div class="rows' + (s.compacta ? ' compacta' : '') + '">' + s.itens.map(function (it, i) { return '<div class="r"><span>' + (it.n || ("0" + (i + 1))) + '</span><b>' + rich(it.t) + '</b>' + (it.d ? '<p>' + rich(it.d) + '</p>' : '') + '</div>'; }).join("") + '</div>' +
+    (s.nota ? '<p class="disc">' + s.nota + '</p>' : '') + '</div>';
+};
+T.checks = function (s) {
+  return '<div class="body" style="gap:30px">' + (s.eyebrow ? '<p class="eyebrow">' + s.eyebrow + '</p>' : '') + (s.titulo ? '<h2 style="font-size:' + (s.tamanho || 64) + 'px">' + rich(s.titulo) + '</h2>' : '') +
+    '<div>' + s.itens.map(function (it) { return '<div class="check"><i></i><div><b>' + rich(it.t) + '</b>' + (it.d ? '<p>' + rich(it.d) + '</p>' : '') + '</div></div>'; }).join("") + '</div></div>';
+};
+T.tabela = function (s) {
+  return '<div class="body" style="gap:40px"><p class="eyebrow">' + s.eyebrow + '</p><div class="tab"><div class="tr h"><span></span>' + s.colunas.map(function (c) { return '<b style="font-weight:300">' + c + '</b>'; }).join("") + '</div>' +
+    s.linhas.map(function (l) { return '<div class="tr">' + l.map(function (v) { return '<span>' + v + '</span>'; }).join("") + '</div>'; }).join("") + '</div>' + (s.nota ? '<p class="disc">' + s.nota + '</p>' : '') + '</div>';
+};
+T.escada = function (s) {
+  var n = s.degraus.length;
+  return '<div class="body" style="gap:40px"><p class="eyebrow">' + s.eyebrow + '</p>' + (s.titulo ? '<h2 style="font-size:76px">' + rich(s.titulo) + '</h2>' : '') + '<div class="bars">' +
+    s.degraus.map(function (d, i) { return '<div class="b"><div class="t"><b>' + d.nome + '</b><span>' + d.desc + '</span></div><i style="width:' + Math.round(28 + 72 * i / Math.max(1, n - 1)) + '%"></i></div>'; }).join("") +
+    '<div class="ends"><span>' + s.min + '</span><span>' + s.max + '</span></div></div>' + (s.nota ? '<p class="disc">' + s.nota + '</p>' : '') + '</div>';
+};
+T.cta = function (s) {
+  return '<div class="body" style="gap:46px">' + (s.eyebrow ? '<p class="eyebrow">' + s.eyebrow + '</p>' : '') + '<h1 style="font-size:' + (s.tamanho || 96) + 'px">' + rich(s.titulo) + '</h1>' +
+    (s.palavra ? '<div class="palavra">Envie <b>' + s.palavra + '</b> na DM</div>' : '') + (s.sub ? '<p class="lead">' + rich(s.sub) + '</p>' : '') +
+    (s.botoes ? '<div class="btns">' + s.botoes.map(function (b, i) { return '<span class="btn ' + (i ? "ghost" : "primary") + '">' + b + (i ? "" : " →") + '</span>'; }).join("") + '</div>' : '') +
+    (s.disc ? '<p class="disc">' + s.disc + '</p>' : '') + '</div>';
+};
+T.mock = function (s) {
+  if (s.layout === "capa") return '<div class="body" style="align-content:start;gap:30px"><p class="eyebrow">' + s.eyebrow + '</p><h1 style="font-size:' + (s.tamanho || 84) + 'px">' + rich(s.titulo) + '</h1>' +
+    laptop(SITE_D, "position:absolute;left:0;top:440px;width:700px") + phone(SITE_M, "position:absolute;right:0;top:420px;width:260px;height:545px;border-radius:40px;padding:9px", 0.647) + '</div>';
+  return '<div class="body" style="grid-template-columns:1fr 400px;gap:56px;align-items:center"><div style="display:grid;gap:30px">' + (s.eyebrow ? '<p class="eyebrow">' + s.eyebrow + '</p>' : '') +
+    '<h2 style="font-size:' + (s.tamanho || 72) + 'px">' + rich(s.titulo) + '</h2>' + (s.texto ? '<p class="lead">' + rich(s.texto) + '</p>' : '') +
+    (s.itens ? '<div class="rows compacta">' + s.itens.map(function (it, i) { return '<div class="r" style="grid-template-columns:60px 1fr"><span>0' + (i + 1) + '</span><b style="font-size:34px">' + it + '</b></div>'; }).join("") + '</div>' : '') + '</div>' +
+    phone(s.site === "antes" ? '<div class="sitem"><div class="nav">CLÍNICA SORRIR <i></i></div><div class="ph" style="background:linear-gradient(135deg,#CFCFCC,#E2E2DF)"></div><h4>Bem-vindo à Clínica Sorrir</h4><p>Cuidando do seu sorriso com carinho e dedicação.</p><p>Somos uma clínica completa, com profissionais qualificados e estrutura moderna.</p></div>' : SITE_M) + '</div>';
+};
+
+C.slides.forEach(function (s, i) {
+  var sec = document.createElement("section");
+  sec.className = "slide" + (s.claro ? " light" : "");
+  var logo = s.claro ? "../marca/solvix-simbolo-escuro.png" : "../marca/solvix-simbolo.png";
+  var footL = s.rodape || (i === 0 ? "Arraste →" : "Solvix Agency"), footR = s.rodapeDir != null ? s.rodapeDir : (i === 0 ? "" : "Sites que posicionam");
+  sec.innerHTML = '<div class="bar"><span class="logo"><img src="' + logo + '" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="count">' + String(i + 1).padStart(2, "0") + ' / ' + String(N).padStart(2, "0") + '</span></div>' +
+    T[s.tipo](s) + '<div class="foot"><span>' + footL + '</span><span>' + footR + '</span></div>';
+  out.appendChild(sec);
+});
+window.PRONTO = true;
+</script>
+</body>
+</html>

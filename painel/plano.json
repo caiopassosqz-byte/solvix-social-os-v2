@@ -96,11 +96,10 @@
    "tema": "Redesign em público · ep. 1 (clínica)",
    "angulo": "Antes e depois de uma landing conceitual",
    "hook": "Mesma empresa. Mesmo serviço. Só mudamos a primeira tela.",
-   "ideia": "Timelapse do redesign da primeira dobra de uma clínica fictícia. Três decisões explicadas em uma frase cada: título, foto e botão.",
+   "ideia": "Redesign conceitual de uma clínica fictícia: o site antigo só dá boas-vindas e esconde o contato; uma linha revela a nova primeira tela e as três decisões entram uma a uma: promessa no título, botão na primeira tela e foto do resultado.",
    "objetivo": "Atrair pelo antes e depois",
    "cta": "Comente o segmento do próximo redesign.",
-   "metrica": "Retenção + comentários com segmento",
-   "requer": "Redesign conceitual pronto. Identificar no vídeo como conceito, não como cliente."
+   "metrica": "Retenção + comentários com segmento"
   },
   {
    "f": "C",
@@ -113,7 +112,7 @@
    "objetivo": "Gerar os primeiros contatos",
    "cta": "Envie CHECKLIST na DM.",
    "metrica": "Pedidos com CHECKLIST",
-   "requer": "PDF do checklist pronto antes da publicação."
+   "requer": "Revisar o PDF do checklist (materiais/checklist-landing-page.pdf) antes de publicar."
   },
   {
    "f": "A",
@@ -179,11 +178,11 @@
    "tema": "Quanto custa um site",
    "angulo": "Falar os números",
    "hook": "Um site pode custar R$1 mil ou R$35 mil. Aqui está a diferença.",
-   "ideia": "Landing page, site institucional, e-commerce e sistema. O que muda: páginas, integrações, conteúdo e estratégia.",
+   "ideia": "Os quatro tipos sobem como degraus, de R$1 mil a R$35 mil. Depois, o que muda o preço: páginas, integrações, conteúdo e estratégia.",
    "objetivo": "Qualificar leads pelo investimento",
    "cta": "Envie PREÇO na DM e receba o guia de investimento.",
    "metrica": "Pedidos com PREÇO + retenção até o número",
-   "requer": "Guia de investimento pronto."
+   "requer": "Revisar o guia de investimento (materiais/guia-de-investimento.pdf) antes de publicar."
   },
   {
    "f": "A",
@@ -227,7 +226,7 @@
    "objetivo": "Criar acompanhamento",
    "cta": "Siga para ver os próximos números.",
    "metrica": "Seguidores ganhos",
-   "requer": "Números reais do Insights até o D12."
+   "requer": "Números reais do Insights até o D12. O roteiro já está pronto em reels/roteiros/d13.js; preencho e gero o vídeo quando você mandar."
   },
   {
    "f": "A",
@@ -240,8 +239,7 @@
    "ideia": "Mesma estrutura do ep. 1, com outro segmento. Mostra que o método se repete.",
    "objetivo": "Atrair outro segmento de empresário",
    "cta": "Comente o próximo segmento.",
-   "metrica": "Comentários + envios",
-   "requer": "Redesign conceitual pronto e identificado como conceito."
+   "metrica": "Comentários + envios"
   },
   {
    "f": "Au",
@@ -321,8 +319,7 @@
    "ideia": "O site completo da clínica fictícia do redesign do D04, apresentado como case: capa com laptop, decisões de estrutura, destaque no celular e CTA. A legenda diz que não há empresa real por trás.",
    "objetivo": "Mostrar capacidade sem depender de cliente",
    "cta": "Quer ver isso com o nome da sua empresa? Fale com a Solvix.",
-   "metrica": "Salvamentos",
-   "requer": "Site conceitual da clínica pronto (o mesmo do D04)."
+   "metrica": "Salvamentos"
   },
   {
    "f": "A",
@@ -362,8 +359,7 @@
    "ideia": "Redesign conceitual de uma página de produto: foto, preço, frete, prova e botão.",
    "objetivo": "Atrair donos de e-commerce",
    "cta": "Comente o próximo segmento.",
-   "metrica": "Retenção + envios",
-   "requer": "Redesign conceitual pronto e identificado como conceito."
+   "metrica": "Retenção + envios"
   },
   {
    "f": "C",
@@ -377,7 +373,7 @@
    "objetivo": "Converter em análise e reunião",
    "cta": "Envie ANÁLISE na DM.",
    "metrica": "Pedidos → análises entregues → reuniões",
-   "requer": "Limite semanal de análises definido."
+   "requer": "Definir quantas análises cabem por semana e o prazo de entrega. Roteiro do vídeo em materiais/analise.md."
   },
   {
    "f": "R",
@@ -463,7 +459,7 @@
    "objetivo": "Fechar o ciclo com coerência",
    "cta": "Siga para acompanhar os próximos 30 dias.",
    "metrica": "Seguidores ganhos",
-   "requer": "Números reais do ciclo."
+   "requer": "Números reais do ciclo. O roteiro já está pronto em reels/roteiros/d30.js."
   }
  ],
  "hooks": [
