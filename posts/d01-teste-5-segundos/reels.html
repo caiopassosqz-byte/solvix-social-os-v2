@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>D01 · Teste dos 5 segundos (Reels)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+Display:wght@300;400&display=swap">
+<style>
+/* Reels D01 — palco 1080×1920. render(t) desenha o quadro do segundo t; export.js grava 30 quadros por segundo.
+   Zona segura do Instagram: texto entre y=280 e y=1460 e longe da coluna de botões à direita. */
+:root {
+  --bg: #050505; --card: #141414; --line: #262626; --g5: #737373; --g4: #A3A3A3; --off: #F5F5F3;
+  --serif: "Noto Serif Display", Georgia, serif;
+  --sans: "Inter", Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #222; }
+#stage { width: 1080px; height: 1920px; background: var(--bg); color: var(--off); font-family: var(--sans); position: relative; overflow: hidden; }
+.abs { position: absolute; }
+[data-in] { opacity: 0; will-change: opacity, transform; }
+
+.logo { left: 96px; top: 250px; font-size: 30px; font-weight: 500; line-height: 1; letter-spacing: 0.01em; }
+.logo small { display: block; font-size: 9px; letter-spacing: 0.42em; color: var(--g4); margin-top: 8px; font-weight: 400; }
+.rule { left: 96px; right: 96px; top: 320px; height: 1px; background: var(--line); }
+
+.scene { left: 96px; right: 120px; top: 540px; }
+.eyebrow { font-size: 26px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--g4); }
+.serif { font-family: var(--serif); font-weight: 300; letter-spacing: -0.015em; }
+
+/* Cena 1 */
+.h-a { font-size: 104px; line-height: 1.04; }
+.h-b { font-size: 60px; line-height: 1.1; color: var(--g4); margin-top: 72px; }
+.h-c { font-size: 150px; line-height: 0.95; margin-top: 8px; }
+.h-c span { display: block; font-size: 360px; line-height: 0.9; }
+.ticks { display: flex; gap: 14px; margin-top: 64px; }
+.ticks i { flex: 1; height: 6px; background: var(--line); position: relative; overflow: hidden; }
+.ticks i b { position: absolute; inset: 0; background: var(--off); transform-origin: left; transform: scaleX(0); }
+
+/* Cena 2 */
+.items { margin-top: 56px; display: grid; }
+.items div { display: grid; grid-template-columns: 96px 1fr; align-items: baseline; padding-block: 40px; border-top: 1px solid var(--line); }
+.items div:last-child { border-bottom: 1px solid var(--line); }
+.items span { font-family: var(--serif); font-size: 36px; color: var(--g4); }
+.items p { font-family: var(--serif); font-weight: 300; font-size: 88px; line-height: 1.05; }
+
+/* Cena 3 */
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 48px; }
+.slot { display: grid; gap: 22px; justify-items: start; }
+.timer { font-family: var(--serif); font-size: 64px; line-height: 1; font-variant-numeric: tabular-nums; }
+.timer small { font-family: var(--sans); font-size: 22px; letter-spacing: 0.2em; color: var(--g4); margin-left: 8px; }
+.phone { width: 400px; height: 790px; border: 2px solid var(--g5); border-radius: 48px; padding: 44px 22px 22px; position: relative; overflow: hidden; background: #0A0A0A; }
+.phone::before { content: ""; position: absolute; top: 16px; left: 50%; width: 80px; height: 8px; border-radius: 8px; background: var(--line); transform: translateX(-50%); }
+.site { background: #F5F5F3; color: #0A0A0A; border-radius: 14px; height: 100%; padding: 22px 20px; display: grid; align-content: start; gap: 16px; position: relative; overflow: hidden; }
+.site .nav { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; letter-spacing: 0.06em; }
+.site .nav i { display: block; width: 26px; height: 2px; background: #0A0A0A; box-shadow: 0 7px 0 #0A0A0A, 0 -7px 0 #0A0A0A; }
+.site h3 { font-family: var(--serif); font-weight: 400; font-size: 38px; line-height: 1.08; }
+.site p { font-size: 17px; line-height: 1.4; color: #575757; }
+.site .img { height: 210px; border-radius: 10px; background: #D6D6D3; }
+.site .img.dark { background: #262626; }
+.site .btn { background: #0A0A0A; color: #F5F5F3; border-radius: 999px; padding: 16px 18px; font-size: 17px; font-weight: 600; text-align: center; }
+.site .lines i { display: block; height: 10px; border-radius: 5px; background: #D6D6D3; margin-top: 10px; }
+.site .lines i:nth-child(2) { width: 80%; } .site .lines i:nth-child(3) { width: 60%; }
+.verdict { font-size: 30px; letter-spacing: 0.16em; text-transform: uppercase; display: flex; gap: 14px; align-items: center; }
+.verdict b { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--off); font-size: 26px; font-weight: 500; }
+.verdict.ok b { background: var(--off); color: var(--bg); }
+.verdict.no { color: var(--g4); }
+.verdict.no b { border-color: var(--g5); color: var(--g4); }
+.dim { position: absolute; inset: 0; background: rgba(5,5,5,0.55); border-radius: 46px; }
+
+/* Cena 4 e 5 */
+.big { font-size: 150px; line-height: 0.98; }
+.cta { font-size: 84px; line-height: 1.08; }
+.end-logo { font-size: 64px; font-weight: 500; letter-spacing: 0.01em; line-height: 1; }
+.end-logo small { display: block; font-size: 17px; letter-spacing: 0.42em; color: var(--g4); margin-top: 14px; font-weight: 400; }
+.pill { display: inline-block; border: 2px solid var(--off); border-radius: 999px; padding: 26px 40px; font-size: 32px; letter-spacing: 0.04em; margin-top: 56px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="abs logo">SOLVIX<small>AGENCY</small></div>
+  <div class="abs rule"></div>
+
+  <!-- 1 · Hook (0 – 4.2) -->
+  <div class="abs scene" data-in="-1" data-out="4.2">
+    <p class="serif h-a">Abra seu site no celular.</p>
+    <div data-in="0.9" data-out="4.2">
+      <p class="serif h-b">Você tem</p>
+      <p class="serif h-c"><span>5</span>segundos.</p>
+      <div class="ticks" id="ticks"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+    </div>
+  </div>
+
+  <!-- 2 · Critérios (4.4 – 10.6) -->
+  <div class="abs scene" data-in="4.4" data-out="10.6">
+    <p class="eyebrow">Nesses 5 segundos, quem chega precisa entender</p>
+    <div class="items">
+      <div data-in="5.3" data-out="10.6"><span>01</span><p>O que você faz.</p></div>
+      <div data-in="6.5" data-out="10.6"><span>02</span><p>Para quem.</p></div>
+      <div data-in="7.7" data-out="10.6"><span>03</span><p>Como falar com você.</p></div>
+    </div>
+  </div>
+
+  <!-- 3 · Teste ao vivo (10.8 – 18.2) -->
+  <div class="abs scene" data-in="10.8" data-out="18.2" style="top:440px">
+    <p class="eyebrow">Teste ao vivo · exemplos criados pela Solvix</p>
+    <div class="duo">
+      <div class="slot">
+        <p class="timer"><span id="tA">5,0</span><small>SEG</small></p>
+        <div class="phone">
+          <div class="site">
+            <div class="nav">LOGO <i></i></div>
+            <div class="img"></div>
+            <h3>Bem-vindo ao nosso site</h3>
+            <p>Soluções com qualidade e excelência para você.</p>
+            <div class="lines"><i></i><i></i><i></i></div>
+          </div>
+          <div class="dim" data-in="16.5" data-out="18.2"></div>
+        </div>
+        <p class="verdict no" data-in="16.5" data-out="18.2"><b>✕</b>Não passou</p>
+      </div>
+      <div class="slot">
+        <p class="timer"><span id="tB">5,0</span><small>SEG</small></p>
+        <div class="phone">
+          <div class="site">
+            <div class="nav">CLÍNICA <i></i></div>
+            <h3>Implante dentário com avaliação em 24 horas.</h3>
+            <p>Para quem quer voltar a sorrir sem esperar meses.</p>
+            <div class="btn">Agendar pelo WhatsApp</div>
+            <div class="img dark"></div>
+          </div>
+        </div>
+        <p class="verdict ok" data-in="16.5" data-out="18.2"><b>✓</b>Passou</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 · Virada (18.4 – 21.0) -->
+  <div class="abs scene" data-in="18.4" data-out="21.0" style="top:700px">
+    <p class="serif big">Agora abra o seu.</p>
+  </div>
+
+  <!-- 5 · CTA (21.2 – fim) -->
+  <div class="abs scene" data-in="21.2" style="top:640px">
+    <p class="serif cta">Envie para quem tem site e nunca fez esse teste.</p>
+    <span class="pill" data-in="21.8">Enviar →</span>
+  </div>
+  <div class="abs" data-in="22.2" style="left:96px; top:1330px">
+    <p class="end-logo">SOLVIX<small>SITES QUE POSICIONAM</small></p>
+  </div>
+</div>
+
+<script>
+var DURATION = 24;
+var FADE = 0.38;
+var els = Array.prototype.slice.call(document.querySelectorAll("[data-in]"));
+function clamp(x) { return Math.max(0, Math.min(1, x)); }
+function ease(x) { return 1 - Math.pow(1 - x, 3); }
+function fmt(s) { return s.toFixed(1).replace(".", ","); }
+window.render = function (t) {
+  els.forEach(function (el) {
+    var a = ease(clamp((t - parseFloat(el.dataset.in)) / FADE));
+    var out = el.dataset.out ? clamp((parseFloat(el.dataset.out) - t) / 0.3) : 1;
+    el.style.opacity = Math.min(a, out);
+    el.style.transform = "translateY(" + ((1 - a) * 28).toFixed(2) + "px)";
+  });
+  // Cena 1: as 5 barras enchem entre 1.3s e 4.0s
+  var bars = document.querySelectorAll("#ticks b");
+  for (var i = 0; i < 5; i++) {
+    var s = 1.3 + i * 0.54;
+    bars[i].style.transform = "scaleX(" + clamp((t - s) / 0.54) + ")";
+  }
+  // Cena 3: cronômetro de 5 segundos entre 11.4s e 16.4s
+  var left = 5 - clamp((t - 11.4) / 5) * 5;
+  document.getElementById("tA").textContent = fmt(left);
+  document.getElementById("tB").textContent = fmt(left);
+};
+window.DURATION = DURATION;
+render(location.hash === "#capa" ? 2.6 : 0);
+</script>
+</body>
+</html>
