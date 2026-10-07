@@ -123,7 +123,7 @@ body { background: #222; }
     </section>
 
     <!-- 4 · Critérios (8 – 12), fundo claro -->
-    <section class="scene light" id="c4" data-from="8" data-to="12">
+    <section class="scene" id="c4" data-from="8" data-to="12">
       <div class="grid"></div><div class="glow" style="left:-400px; top:-200px"></div>
       <div class="abs label" id="k0" style="left:96px; top:600px">Em 5 segundos, ele precisa entender</div>
       <div class="abs" style="left:96px; right:96px; top:700px; display:grid; gap:56px">
@@ -131,7 +131,7 @@ body { background: #222; }
         <div id="k2" style="display:grid; grid-template-columns:110px 1fr; align-items:baseline"><span class="serif" style="font-size:54px; color:#737373">02</span><span class="serif" style="font-size:104px; line-height:1; font-weight:300">Para quem.</span></div>
         <div id="k3" style="display:grid; grid-template-columns:110px 1fr; align-items:baseline"><span class="serif" style="font-size:54px; color:#737373">03</span><span class="serif" style="font-size:104px; line-height:1; font-weight:300">Como te chamar.</span></div>
       </div>
-      <div class="abs" id="kline" style="left:206px; top:0; height:6px; background:#0A0A0A"></div>
+      <div class="abs" id="kline" style="left:206px; top:0; height:6px; background:#F5F5F3"></div>
     </section>
 
     <!-- 5 · Teste 2 (12 – 16) -->
@@ -160,7 +160,7 @@ body { background: #222; }
     </section>
 
     <!-- 6 · Virada (16 – 18), fundo claro -->
-    <section class="scene light" id="c6" data-from="16" data-to="18">
+    <section class="scene" id="c6" data-from="16" data-to="18">
       <div class="grid"></div><div class="glow" style="left:0; top:300px"></div>
       <div class="abs serif" style="left:96px; right:96px; top:600px; font-size:200px; line-height:0.98; font-weight:300">
         <span class="w" id="a1">Agora</span><br><span class="w" id="a2">abre</span> <span class="w" id="a3">o seu.</span>
@@ -213,7 +213,7 @@ window.render = function (t) {
   document.querySelectorAll(".scene").forEach(function (s) {
     s.style.display = (t >= +s.dataset.from && t < +s.dataset.to) ? "block" : "none";
   });
-  var light = (t >= 2 && t < 4) || (t >= 8 && t < 12) || (t >= 16 && t < 18);
+  var light = (t >= 2 && t < 4);
   $("stage").classList.toggle("inv", light);
   $("logoImg").src = light ? "../../marca/solvix-simbolo-escuro.png" : "../../marca/solvix-simbolo.png";
   $("progBar").style.width = (100 * t / DURATION) + "%";
@@ -231,7 +231,7 @@ window.render = function (t) {
 
   // varredura e flash nas viradas
   var wipeT = [2, 8, 16, 18].filter(function (x) { return t >= x - 0.18 && t < x + 0.22; })[0];
-  if (wipeT != null) { var wp = cl((t - (wipeT - 0.18)) / 0.4); $("wipe").style.transform = "translateX(" + (-130 + 260 * inOut(wp)) + "%) skewX(-12deg)"; $("wipe").style.background = wipeT === 18 ? "#050505" : "#F5F5F3"; }
+  if (wipeT != null) { var wp = cl((t - (wipeT - 0.18)) / 0.4); $("wipe").style.transform = "translateX(" + (-130 + 260 * inOut(wp)) + "%) skewX(-12deg)"; $("wipe").style.background = wipeT === 2 ? "#F5F5F3" : "#1A1A1A"; }
   else $("wipe").style.transform = "translateX(-130%) skewX(-12deg)";
   $("flash").style.opacity = (t >= 7 && t < 7.25 ? 0.35 * (1 - (t - 7) / 0.25) : 0) + (t >= 14.5 && t < 14.7 ? 0.25 * (1 - (t - 14.5) / 0.2) : 0);
 
@@ -271,7 +271,7 @@ window.render = function (t) {
     pop("k0", t, 8.0, { x: -60, y: 0, s: 0, ease: outExpo, d: 0.3 });
     [["k1", 8.5], ["k2", 9.5], ["k3", 10.5]].forEach(function (k, i, arr) {
       pop(k[0], t, k[1], { x: 420, y: 0, s: 0, ease: outExpo, d: 0.38 });
-      var next = arr[i + 1]; $(k[0]).style.color = next && t >= next[1] ? "#A3A3A3" : "#0A0A0A";
+      var next = arr[i + 1]; $(k[0]).style.color = next && t >= next[1] ? "#5E5E5E" : "#F5F5F3";
     });
     var cur = t >= 10.5 ? 2 : t >= 9.5 ? 1 : 0, ck = [8.5, 9.5, 10.5][cur];
     var row = $(["k1", "k2", "k3"][cur]); var top = row.offsetTop + 700 + row.offsetHeight + 6;
@@ -310,7 +310,7 @@ window.render = function (t) {
   }
 };
 window.DURATION = DURATION;
-render(location.hash === "#capa" ? 3.4 : 0);
+render(location.hash === "#capa" ? 1.6 : 0);
 </script>
 </body>
 </html>

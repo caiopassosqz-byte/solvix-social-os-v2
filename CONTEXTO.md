@@ -43,6 +43,7 @@ Valores: Sofisticação · Confiança · Foco em resultados · Precisão · Parc
 ## Regras visuais dos posts
 
 - Fundo Black 950 `#050505` ou Black 800 `#141414`; texto Off White `#F5F5F3`; cinzas para hierarquia.
+- **O preto domina.** O off-white é secundário, só para contraste elegante: no máximo um momento claro por peça (uma cena num Reels, um slide num carrossel) e poucas peças claras no feed. Telas de site dentro de mockups podem ser claras.
 - Títulos em Noto Serif Display; apoio em Inter (Regular, Medium, Bold). No máximo duas famílias.
 - Linhas finas, grid rígido, molduras discretas. A cor entra só pelos projetos do portfólio.
 - Imagens: arquitetura, tecnologia, materiais, luz e sombra, pessoas em contexto profissional, mockups realistas.

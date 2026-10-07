@@ -2,7 +2,7 @@
 
 - **Linha:** editorial (formato "projeto" do briefing de referência) · **fixar no topo do perfil**
 - **Função:** Autoridade
-- **Formato:** carrossel, 6 slides de 1080×1350 (`slide-01.png` a `slide-06.png`), alternando cena escura e off-white
+- **Formato:** carrossel, 6 slides de 1080×1350 (`slide-01.png` a `slide-06.png`), em cena escura; só o slide do desafio é off-white
 - **Métrica:** salvamentos + cliques no link da bio
 - **Fonte editável:** `slides.html` · telas capturadas do site em `telas/`
 
@@ -15,7 +15,7 @@
 | 01 | Site imobiliário premium | **Kaza Negócios** · Curadoria de endereços, arquitetura e patrimônio. | Laptop com a abertura do site e celular ao lado, cena escura |
 | 02 | 01 · O desafio | Quem procura um imóvel de alto padrão *julga a imobiliária antes de ligar.* · O site precisava transmitir curadoria e confiança já na primeira tela. | Fundo off-white com textura de pedra, só tipografia |
 | 03 | 02 · A solução | O site conduz *como uma visita guiada.* · Endereço, arquitetura, patrimônio e experiência, um capítulo de cada vez. | Laptop com a seção "O que escolhemos revela como olhamos" |
-| 04 | 03 · Destaque | Cada endereço é apresentado. *Nenhum é listado.* | Laptop com a seção "Dois endereços. Um critério.", fundo off-white |
+| 04 | 03 · Destaque | Cada endereço é apresentado. *Nenhum é listado.* | Laptop com a seção "Dois endereços. Um critério.", cena escura |
 | 05 | 04 · No celular | A mesma experiência *na palma da mão.* | Dois celulares com seções do site |
 | 06 | CTA | Seu negócio merece uma presença *à altura do que ele entrega.* · Falar no WhatsApp → · Ver projetos → | Fundo escuro + aviso de projeto demonstrativo |
 

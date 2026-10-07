@@ -4,6 +4,7 @@
 - **Formato:** Carrossel, 9 slides de 1080×1350 (`slide-01.png` a `slide-09.png`)
 - **Métrica:** salvamentos ÷ alcance
 - **Fonte editável:** `slides.html`
+- **Fundo:** preto em todos os slides; o branco aparece só na tela do celular
 
 ## Legenda
 

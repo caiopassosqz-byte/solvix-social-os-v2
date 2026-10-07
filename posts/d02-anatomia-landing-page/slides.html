@@ -91,8 +91,8 @@ h1 em, h2 em { font-style: normal; color: var(--g4); }
 /* Capa e final */
 .cover h1 { font-size: 104px; line-height: 1.0; }
 .checks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; }
-.checks li { display: flex; gap: 20px; align-items: center; font-size: 31px; padding-block: 19px; border-top: 1px solid #D6D6D3; }
-.checks li b { display: inline-block; width: 30px; height: 30px; border: 1.5px solid #0A0A0A; border-radius: 6px; flex: none; }
+.checks li { display: flex; gap: 20px; align-items: center; font-size: 31px; padding-block: 19px; border-top: 1px solid var(--line); }
+.checks li b { display: inline-block; width: 30px; height: 30px; border: 1.5px solid var(--off); border-radius: 6px; flex: none; }
 .checks li span { font-family: var(--serif); color: var(--g5); font-size: 25px; width: 34px; }
 </style>
 </head>
@@ -115,8 +115,8 @@ h1 em, h2 em { font-style: normal; color: var(--g4); }
 <div id="parts"></div>
 
 <!-- 09 · Final -->
-<section class="slide light" id="s9">
-  <div class="bar"><span class="logo"><img src="../../marca/solvix-simbolo-escuro.png" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="count">09 / 09</span></div>
+<section class="slide" id="s9">
+  <div class="bar"><span class="logo"><img src="../../marca/solvix-simbolo.png" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="count">09 / 09</span></div>
   <div style="display:grid; align-content:center; gap:56px">
     <h1 style="font-size:96px; line-height:1.02">Quantas das 7 <em>a sua página tem?</em></h1>
     <ul class="checks">
@@ -194,7 +194,7 @@ var PARTS = [
 ];
 function pad(n) { return (n < 10 ? "0" : "") + n; }
 document.getElementById("parts").outerHTML = PARTS.map(function (p, i) {
-  var light = i % 2 === 0, flip = i % 2 === 1;
+  var light = false, flip = i % 2 === 1;
   return '<section class="slide' + (light ? " light" : "") + '" id="s' + (i + 2) + '">' +
     '<div class="bar"><span class="logo"><img src="../../marca/solvix-simbolo' + (light ? "-escuro" : "") + '.png" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="count">' + pad(i + 2) + ' / 09</span></div>' +
     '<div class="part' + (flip ? " flip" : "") + '"><div class="txt">' +

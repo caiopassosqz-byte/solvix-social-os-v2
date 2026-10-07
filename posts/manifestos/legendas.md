@@ -1,6 +1,6 @@
 # Manifestos · linha editorial (v2)
 
-Imagem única de 1080×1350. Frase em Noto Serif Display, destaque só por contraste (a última frase em cor plena, o resto em cinza), grid fino ao fundo, microtextos nos cantos. Fonte editável: `manifestos.html`. As frases falam da dor do empresário, não de design.
+Imagem única de 1080×1350. O preto é a base; só o D09 usa fundo off-white, como contraste. Frase em Noto Serif Display, destaque só por contraste (a última frase em cor plena, o resto em cinza), grid fino ao fundo, microtextos nos cantos. Fonte editável: `manifestos.html`. As frases falam da dor do empresário, não de design.
 
 ## D09 · Bonito não paga a conta. Claro paga. (`manifesto-d09.png`, fundo claro)
 
@@ -30,7 +30,7 @@ Conheça os projetos no destaque Projetos.
 
 #SolvixAgency #CriacaoDeSites #WebDesign #PresencaDigital #Posicionamento
 
-## D27 · Ninguém compra o que não entende. (`manifesto-d27.png`, fundo claro)
+## D27 · Ninguém compra o que não entende. (`manifesto-d27.png`, fundo escuro)
 
 **Legenda**
 
