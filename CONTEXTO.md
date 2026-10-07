@@ -24,6 +24,13 @@ Se algo aqui conflitar com o manual, o manual vence.
 - Link 1 da bio: WhatsApp com mensagem pronta — https://wa.me/5599981726563?text=Oi!%20Vim%20pelo%20Instagram%20da%20Solvix.
 - Link 2 da bio: site — https://solvixagency.vercel.app
 
+### O site da Solvix (07/10/2026)
+
+- Título: "Presença por fora. Estrutura por dentro." · Design, código e publicação em uma só operação.
+- Serviços: 01 Sites e Landing Pages · 02 Painéis Administrativos · 03 E-commerce · 04 Google Meu Negócio.
+- Projetos (ambos marcados como projeto conceitual): Grupo Kaza (imobiliário) e Sushi Club (restaurante).
+- Sobre: Caio Passos. Contato por formulário que abre o WhatsApp, e e-mail.
+
 ## Posicionamento
 
 > Mais que presença digital. Clareza, estrutura e resultado.
