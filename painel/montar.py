@@ -65,7 +65,7 @@ PECAS = {
 
 PENDENCIAS = [
     {"id": "publicacao", "titulo": "Conectar a publicação automática",
-     "detalhe": "Crie uma conta no Postiz, conecte o Instagram da Solvix (conta profissional ligada a uma página do Facebook) e me envie a chave da API para eu configurar neste ambiente. Até lá, os posts aprovados ficam prontos para você subir manualmente."},
+     "detalhe": "Crie uma conta no Postiz e conecte o Instagram da Solvix (conta profissional ligada a uma página do Facebook). Depois, adicione a chave da API nas configurações do ambiente do Claude com o nome POSTIZ_API_KEY. Não cole a chave no chat. Até lá, os posts aprovados ficam prontos para você subir manualmente."},
     {"id": "arroba", "titulo": "Confirmar o @ da agência", "detalhe": "Usei @solvixagency nas prévias e na bio sugerida."},
     {"id": "link", "titulo": "Enviar o link da bio", "detalhe": "Ele entra na bio e nos botões \"Ver projetos\"."},
     {"id": "horario", "titulo": "Definir o horário de publicação", "detalhe": "Escolha em Estratégia › Ajustes do ciclo. Vale para todos os posts até você mudar."},
