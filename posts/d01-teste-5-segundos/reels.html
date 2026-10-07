@@ -90,17 +90,17 @@ body { background: #222; }
   </div>
 
   <!-- 2 · Critérios (4.4 – 10.6) -->
-  <div class="abs scene" data-in="4.4" data-out="10.6">
+  <div class="abs scene" data-in="4.27" data-out="10.55">
     <p class="eyebrow">Nesses 5 segundos, quem chega precisa entender</p>
     <div class="items">
-      <div data-in="5.3" data-out="10.6"><span>01</span><p>O que você faz.</p></div>
-      <div data-in="6.5" data-out="10.6"><span>02</span><p>Para quem.</p></div>
-      <div data-in="7.7" data-out="10.6"><span>03</span><p>Como falar com você.</p></div>
+      <div data-in="5.33" data-out="10.55"><span>01</span><p>O que você faz.</p></div>
+      <div data-in="6.4" data-out="10.55"><span>02</span><p>Para quem.</p></div>
+      <div data-in="7.47" data-out="10.55"><span>03</span><p>Como falar com você.</p></div>
     </div>
   </div>
 
   <!-- 3 · Teste ao vivo (10.8 – 18.2) -->
-  <div class="abs scene" data-in="10.8" data-out="18.2" style="top:440px">
+  <div class="abs scene" data-in="10.67" data-out="19.1" style="top:440px">
     <p class="eyebrow">Teste ao vivo · exemplos criados pela Solvix</p>
     <div class="duo">
       <div class="slot">
@@ -113,9 +113,9 @@ body { background: #222; }
             <p>Soluções com qualidade e excelência para você.</p>
             <div class="lines"><i></i><i></i><i></i></div>
           </div>
-          <div class="dim" data-in="16.5" data-out="18.2"></div>
+          <div class="dim" data-in="17.07" data-out="19.1"></div>
         </div>
-        <p class="verdict no" data-in="16.5" data-out="18.2"><b>✕</b>Não passou</p>
+        <p class="verdict no" data-in="17.07" data-out="19.1"><b>✕</b>Não passou</p>
       </div>
       <div class="slot">
         <p class="timer"><span id="tB">5,0</span><small>SEG</small></p>
@@ -128,29 +128,30 @@ body { background: #222; }
             <div class="img dark"></div>
           </div>
         </div>
-        <p class="verdict ok" data-in="16.5" data-out="18.2"><b>✓</b>Passou</p>
+        <p class="verdict ok" data-in="17.07" data-out="19.1"><b>✓</b>Passou</p>
       </div>
     </div>
   </div>
 
   <!-- 4 · Virada (18.4 – 21.0) -->
-  <div class="abs scene" data-in="18.4" data-out="21.0" style="top:700px">
+  <div class="abs scene" data-in="19.2" data-out="21.25" style="top:700px">
     <p class="serif big">Agora abra o seu.</p>
   </div>
 
   <!-- 5 · CTA (21.2 – fim) -->
-  <div class="abs scene" data-in="21.2" style="top:640px">
+  <div class="abs scene" data-in="21.33" style="top:640px">
     <p class="serif cta">Envie para quem tem site e nunca fez esse teste.</p>
-    <span class="pill" data-in="21.8">Enviar →</span>
+    <span class="pill" data-in="21.87">Enviar →</span>
   </div>
-  <div class="abs" data-in="22.2" style="left:96px; top:1330px">
+  <div class="abs" data-in="22.4" style="left:96px; top:1330px">
     <p class="end-logo">SOLVIX<small>SITES QUE POSICIONAM</small></p>
   </div>
 </div>
 
 <script>
-var DURATION = 24;
+var DURATION = 25.6; // 12 compassos a 112,5 BPM (ver trilha.py)
 var FADE = 0.38;
+var BEAT = 60 / 112.5;
 var els = Array.prototype.slice.call(document.querySelectorAll("[data-in]"));
 function clamp(x) { return Math.max(0, Math.min(1, x)); }
 function ease(x) { return 1 - Math.pow(1 - x, 3); }
@@ -162,14 +163,14 @@ window.render = function (t) {
     el.style.opacity = Math.min(a, out);
     el.style.transform = "translateY(" + ((1 - a) * 28).toFixed(2) + "px)";
   });
-  // Cena 1: as 5 barras enchem entre 1.3s e 4.0s
+  // Cena 1: uma barra por tempo, do tempo 2 ao 6 (batem com os ticks da trilha)
   var bars = document.querySelectorAll("#ticks b");
   for (var i = 0; i < 5; i++) {
-    var s = 1.3 + i * 0.54;
-    bars[i].style.transform = "scaleX(" + clamp((t - s) / 0.54) + ")";
+    var s = (2 + i) * BEAT;
+    bars[i].style.transform = "scaleX(" + clamp((t - s) / BEAT) + ")";
   }
-  // Cena 3: cronômetro de 5 segundos entre 11.4s e 16.4s
-  var left = 5 - clamp((t - 11.4) / 5) * 5;
+  // Cena 3: cronômetro de 5 segundos entre 12.0s e 17.0s; o veredito entra no compasso 8
+  var left = 5 - clamp((t - 12.0) / 5) * 5;
   document.getElementById("tA").textContent = fmt(left);
   document.getElementById("tB").textContent = fmt(left);
 };
