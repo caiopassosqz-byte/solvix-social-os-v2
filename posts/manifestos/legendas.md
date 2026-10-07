@@ -1,51 +1,46 @@
-# Manifestos · linha editorial
+# Manifestos · linha editorial (v2)
 
-Imagem única de 1080×1350. Frase em Noto Serif Display, destaque só por contraste (a última linha em cor plena, o resto em cinza), grid fino ao fundo, microtextos nos cantos. Fonte editável: `manifestos.html`.
+Imagem única de 1080×1350. Frase em Noto Serif Display, destaque só por contraste (a última frase em cor plena, o resto em cinza), grid fino ao fundo, microtextos nos cantos. Fonte editável: `manifestos.html`. As frases falam da dor do empresário, não de design.
 
-## D09 · Menos ornamento. Mais resultado. (`manifesto-d09.png`, fundo claro)
+## D09 · Bonito não paga a conta. Claro paga. (`manifesto-d09.png`, fundo claro)
 
 **Legenda**
 
-Menos ornamento.
-Mais resultado.
+Bonito não paga a conta.
+Claro paga.
 
-Um site bonito chama atenção. Um site bem estruturado gera conversa: diz o que você faz, para quem, e como falar com você.
+Seu site precisa dizer em segundos o que você faz, para quem e como falar com você. Se ele não diz, o cliente volta para a busca.
 
 Estrutura antes de efeito.
 
-Se faz sentido, envie para quem está pensando em refazer o site.
+Envie para quem está pensando em refazer o site.
 
 #SolvixAgency #CriacaoDeSites #WebDesign #PresencaDigital #LandingPage
 
-## D25 · Sites que posicionam. (`manifesto-d25.png`, fundo escuro · fixar no topo do perfil)
+## D25 · Seu cliente decide em segundos. Seu site decide por você. (`manifesto-d25.png`, fundo escuro · fixar no topo do perfil)
 
 **Legenda**
 
-Sites que posicionam.
+Seu cliente decide em segundos.
+Seu site decide por você.
 
-Antes do primeiro contato, seu site já disse quem você é. A pergunta é se disse o que você queria.
-
-Presença não é estar online. É ser percebido como você realmente é.
+Antes do primeiro contato, ele já disse quem você é. A pergunta é se disse a coisa certa.
 
 Conheça os projetos no destaque Projetos.
 
 #SolvixAgency #CriacaoDeSites #WebDesign #PresencaDigital #Posicionamento
 
-## D27 · Contraste alto. Ruído baixo. Presença forte. (`manifesto-d27.png`, fundo claro)
+## D27 · Ninguém compra o que não entende. (`manifesto-d27.png`, fundo claro)
 
 **Legenda**
 
-Contraste alto.
-Ruído baixo.
-Presença forte.
+Ninguém compra o que não entende.
 
-Sofisticação vem de proporção, ritmo e clareza. Nunca de excesso.
+Clareza vende mais que efeito. Seu site precisa ser entendido antes de ser admirado.
 
-É assim que pensamos cada site, sistema e perfil que entregamos.
+Envie para quem cuida do site da sua empresa.
 
-Envie para quem cuida da marca da sua empresa.
-
-#SolvixAgency #CriacaoDeSites #WebDesign #PresencaDigital #Design
+#SolvixAgency #CriacaoDeSites #WebDesign #PresencaDigital #Marketing
 
 ## Prompt de imagem (variação com foto, opcional)
 

@@ -2,11 +2,12 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<title>D02 · Anatomia de uma landing page</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+Display:wght@300;400&display=swap">
+<title>D02 · Anatomia de uma landing page · v2</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+Display:wght@300;400&display=swap">
 <style>
-/* Carrossel D02 — 9 slides de 1080×1350 no padrão do manual Solvix 2026.
-   Exportar: cada .slide vira um PNG (ver export.js). */
+/* Carrossel D02 v2 — 9 slides de 1080×1350. Cada parte mostra uma landing page de exemplo (clínica fictícia)
+   dentro do celular, rolada até a seção da vez, com a seção acesa e o resto apagado.
+   Slides alternam fundo preto e off-white; o celular troca de lado a cada slide. */
 :root {
   --bg: #050505; --card: #141414; --line: #262626; --g5: #737373; --g4: #A3A3A3; --off: #F5F5F3;
   --serif: "Noto Serif Display", Georgia, serif;
@@ -14,115 +15,110 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: #222; display: grid; gap: 40px; padding: 40px; justify-content: center; }
-.slide {
-  width: 1080px; height: 1350px; background: var(--bg); color: var(--off); font-family: var(--sans);
-  padding: 88px 96px; display: grid; grid-template-rows: auto 1fr auto; position: relative; overflow: hidden;
-}
-.bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
-.logo { font-size: 34px; font-weight: 500; letter-spacing: 0.01em; line-height: 1; }
-.logo { display: flex; align-items: center; gap: 18px; }
-.logo img { height: 60px; width: auto; display: block; }
-.logo > span { display: block; }
-.logo small { display: block; font-size: 10px; letter-spacing: 0.42em; color: var(--g4); margin-top: 8px; font-weight: 400; }
-.count { font-size: 22px; letter-spacing: 0.18em; color: var(--g4); font-variant-numeric: tabular-nums; }
-.foot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 28px; border-top: 1px solid var(--line); font-size: 20px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--g5); }
+.slide { width: 1080px; height: 1350px; background: var(--bg); color: var(--off); font-family: var(--sans); padding: 84px 92px; display: grid; grid-template-rows: auto 1fr auto; position: relative; overflow: hidden; }
+.slide.light { background: var(--off); color: #0A0A0A; }
+.bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 26px; border-bottom: 1px solid var(--line); }
+.light .bar, .light .foot { border-color: #D6D6D3; }
+.logo { display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 500; letter-spacing: 0.01em; line-height: 1; }
+.logo img { height: 54px; display: block; }
+.logo small { display: block; font-size: 9px; letter-spacing: 0.42em; color: var(--g4); margin-top: 8px; font-weight: 400; }
+.light .logo small { color: var(--g5); }
+.count { font-size: 21px; letter-spacing: 0.18em; color: var(--g4); font-variant-numeric: tabular-nums; }
+.light .count { color: var(--g5); }
+.foot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 24px; border-top: 1px solid var(--line); font-size: 18px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--g5); }
+.eyebrow { font-size: 21px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--g4); }
+.light .eyebrow { color: var(--g5); }
+h1, h2 { font-family: var(--serif); font-weight: 300; letter-spacing: -0.015em; }
+h1 em, h2 em { font-style: normal; color: var(--g4); }
+.light h1 em, .light h2 em { color: var(--g5); }
 
-.eyebrow { font-size: 22px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--g4); }
-h1, h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.015em; }
-
-/* Capa */
-.cover-main { display: grid; align-content: space-between; gap: 48px; padding-block: 64px 48px; }
-.cover-main h1 { font-size: 92px; line-height: 1.02; font-weight: 300; }
-.cover-main h1 em { font-style: normal; color: var(--g4); }
-.compare { display: grid; grid-template-columns: auto auto 1fr; gap: 56px; align-items: end; }
-.compare .lbl { margin-top: 18px; font-size: 20px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--g4); }
-
-/* Parte */
-.part { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 72px; padding-block: 72px 56px; align-items: start; }
-.part .txt { display: grid; gap: 36px; align-content: start; }
-.part h2 { font-size: 92px; line-height: 1.02; }
-.part .num { font-family: var(--serif); font-size: 26px; color: var(--g4); }
-.part p.lead { font-size: 36px; line-height: 1.38; color: var(--off); }
-.ex { border: 1px solid var(--line); background: var(--card); }
-.ex div { padding: 24px 28px; display: grid; gap: 8px; }
+/* Corpo de uma parte: texto + celular, lados alternados */
+.part { display: grid; grid-template-columns: minmax(0, 1fr) 430px; gap: 60px; align-items: center; padding-block: 40px; }
+.part.flip { grid-template-columns: 430px minmax(0, 1fr); }
+.part.flip .phone { order: -1; }
+.txt { display: grid; gap: 30px; align-content: center; }
+.txt h2 { font-size: 84px; line-height: 1.02; }
+.txt .lead { font-size: 31px; line-height: 1.4; }
+.light .txt .lead { color: #2A2A2A; }
+.ex { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.light .ex { border-color: #D6D6D3; }
+.ex div { padding: 20px 24px; display: grid; gap: 6px; }
 .ex div + div { border-top: 1px solid var(--line); }
-.ex span { font-size: 18px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--g5); }
-.ex p { font-size: 28px; line-height: 1.35; color: var(--g4); }
-.ex div.good p { color: var(--off); }
+.light .ex div + div { border-top-color: #D6D6D3; }
+.ex span { font-size: 16px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--g5); }
+.ex p { font-size: 25px; line-height: 1.35; color: var(--g4); text-decoration: line-through; text-decoration-thickness: 1px; }
+.ex div.good { background: rgba(255,255,255,0.06); }
+.light .ex div.good { background: #FFFFFF; }
+.ex div.good p { color: inherit; text-decoration: none; }
 
-/* Wireframe de celular */
-.phone { width: 300px; height: 610px; border: 1.5px solid var(--g5); border-radius: 40px; padding: 34px 20px 24px; display: grid; gap: 10px; align-content: start; position: relative; }
-.phone::before { content: ""; position: absolute; top: 14px; left: 50%; width: 64px; height: 6px; border-radius: 6px; background: var(--line); transform: translateX(-50%); }
-.phone.small { width: 210px; height: 430px; border-radius: 30px; padding: 26px 14px 16px; gap: 7px; }
-.blk { border: 1px solid var(--line); border-radius: 6px; padding: 10px; display: grid; gap: 6px; align-content: start; }
-.blk i { display: block; height: 6px; border-radius: 3px; background: var(--line); }
-.blk i.s { width: 60%; } .blk i.m { width: 80%; }
-.blk.h1 { height: 120px; } .blk.h2 { height: 58px; } .blk.h3 { height: 86px; } .blk.h4 { height: 70px; } .blk.h5 { height: 62px; } .blk.h6 { height: 40px; } .blk.h7 { height: 50px; }
-.small .blk { padding: 7px; gap: 4px; } .small .blk i { height: 4px; }
-.small .h1 { height: 84px; } .small .h2 { height: 40px; } .small .h3 { height: 58px; } .small .h4 { height: 48px; } .small .h5 { height: 42px; } .small .h6 { height: 28px; } .small .h7 { height: 34px; }
-.blk.on { background: var(--off); border-color: var(--off); }
-.blk.on i { background: #BDBDBA; }
-.blk.pill { border-radius: 999px; }
-.blk.gone { border-style: dashed; border-color: #1c1c1c; }
-.blk.gone i { background: transparent; }
+/* Celular com a landing de exemplo */
+.phone { width: 430px; height: 900px; border-radius: 60px; background: #0C0C0C; padding: 14px; box-shadow: 0 0 0 2px #2C2C2C, 0 50px 100px rgba(0,0,0,0.45); position: relative; }
+.light .phone { box-shadow: 0 0 0 2px #1A1A1A, 0 40px 80px rgba(0,0,0,0.22); }
+.phone::before { content: ""; position: absolute; top: 28px; left: 50%; width: 120px; height: 32px; border-radius: 20px; background: #000; transform: translateX(-50%); z-index: 5; }
+.screen { position: absolute; inset: 14px; border-radius: 48px; overflow: hidden; background: #FAFAF8; }
+.page { position: absolute; left: 0; right: 0; top: 0; color: #111; font-family: var(--sans); }
+.sec { padding: 26px 26px; position: relative; transition: none; }
+.sec + .sec { border-top: 1px solid #EAEAE7; }
+.page.focus .sec { opacity: 0.22; }
+.page.focus .sec.on { opacity: 1; box-shadow: inset 0 0 0 4px #0A0A0A; border-radius: 6px; background: #FFFFFF; }
+.tagsec { position: absolute; top: 10px; right: 12px; background: #0A0A0A; color: #F5F5F3; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; display: none; }
+.sec.on .tagsec { display: block; }
+.nav { display: flex; justify-content: space-between; align-items: center; padding: 74px 26px 14px; font-size: 15px; font-weight: 700; letter-spacing: 0.14em; }
+.nav i { width: 26px; height: 2px; background: #111; box-shadow: 0 8px 0 #111, 0 -8px 0 #111; display: block; }
+.h { font-family: var(--serif); font-size: 36px; line-height: 1.06; letter-spacing: -0.01em; }
+.p { font-size: 16px; line-height: 1.45; color: #555; margin-top: 10px; }
+.b { display: block; background: #0A0A0A; color: #F5F5F3; border-radius: 999px; padding: 15px; text-align: center; font-size: 16px; font-weight: 600; margin-top: 16px; }
+.b.ghost { background: transparent; color: #0A0A0A; box-shadow: inset 0 0 0 1.5px #0A0A0A; }
+.ph { height: 150px; border-radius: 12px; background: linear-gradient(135deg, #2B2B2B, #555 70%, #777); margin-top: 16px; }
+.mini { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #777; margin-bottom: 10px; font-weight: 600; }
+.quote { font-family: var(--serif); font-size: 21px; line-height: 1.3; }
+.who { font-size: 13px; color: #777; margin-top: 8px; }
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+.duo div { height: 74px; border-radius: 10px; background: linear-gradient(135deg, #BDBDBA, #DCDCD9); }
+.ben { display: grid; grid-template-columns: 30px 1fr; gap: 10px; padding: 9px 0; border-top: 1px solid #EEE; font-size: 16px; }
+.ben:first-of-type { border-top: 0; }
+.ben b { font-family: var(--serif); font-weight: 400; color: #777; }
+.faq { padding: 11px 0; border-top: 1px solid #EEE; font-size: 16px; display: flex; justify-content: space-between; }
+.faq:first-of-type { border-top: 0; }
+.offer { border-radius: 16px; background: #0A0A0A; color: #F5F5F3; padding: 18px; }
+.offer .h { font-size: 26px; }
+.offer .p { color: #BBB; }
+.offer .b { background: #F5F5F3; color: #0A0A0A; }
+.field { border: 1.5px solid #DDD; border-radius: 10px; padding: 12px; font-size: 14px; color: #999; margin-top: 8px; }
+.sticky { position: absolute; left: 12px; right: 12px; bottom: 14px; background: #0A0A0A; color: #F5F5F3; border-radius: 999px; padding: 15px; text-align: center; font-size: 15px; font-weight: 600; z-index: 4; box-shadow: 0 10px 24px rgba(0,0,0,0.25); }
+.sticky.hl { box-shadow: 0 0 0 4px #FAFAF8, 0 0 0 8px #0A0A0A; }
 
-/* Final */
-.final { display: grid; align-content: space-between; padding-block: 72px 56px; }
-.final h1 { font-size: 96px; line-height: 1.04; font-weight: 300; }
-.checks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
-.checks li { display: flex; gap: 22px; align-items: center; font-size: 32px; padding-block: 20px; border-top: 1px solid var(--line); }
-.checks li b { display: inline-block; width: 30px; height: 30px; border: 1.5px solid var(--g4); flex: none; }
-.checks li span { font-family: var(--serif); color: var(--g4); font-size: 26px; width: 34px; }
-.cta { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-.cta p { font-family: var(--serif); font-size: 52px; line-height: 1.1; }
-.cta .btn { border: 1.5px solid var(--off); border-radius: 999px; padding: 22px 34px; font-size: 24px; letter-spacing: 0.06em; white-space: nowrap; }
+/* Capa e final */
+.cover h1 { font-size: 104px; line-height: 1.0; }
+.checks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; }
+.checks li { display: flex; gap: 20px; align-items: center; font-size: 31px; padding-block: 19px; border-top: 1px solid #D6D6D3; }
+.checks li b { display: inline-block; width: 30px; height: 30px; border: 1.5px solid #0A0A0A; border-radius: 6px; flex: none; }
+.checks li span { font-family: var(--serif); color: var(--g5); font-size: 25px; width: 34px; }
 </style>
 </head>
 <body>
 
-<!-- 01 Capa -->
+<!-- 01 · Capa -->
 <section class="slide" id="s1">
   <div class="bar"><span class="logo"><img src="../../marca/solvix-simbolo.png" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="count">01 / 09</span></div>
-  <div class="cover-main">
-    <h1>Uma landing page que converte tem 7&nbsp;partes. <em>A maioria tem&nbsp;3.</em></h1>
-    <div class="compare">
-      <div>
-        <div class="phone small">
-          <div class="blk h1 on"><i class="m"></i><i class="s"></i></div>
-          <div class="blk h2 gone"></div>
-          <div class="blk h3 on"><i></i><i class="m"></i></div>
-          <div class="blk h4 gone"></div>
-          <div class="blk h5 gone"></div>
-          <div class="blk h6 gone pill"></div>
-          <div class="blk h7 on"><i class="s"></i></div>
-        </div>
-        <p class="lbl">A maioria</p>
-      </div>
-      <div>
-        <div class="phone small">
-          <div class="blk h1 on"><i class="m"></i><i class="s"></i></div>
-          <div class="blk h2 on"><i class="s"></i></div>
-          <div class="blk h3 on"><i></i><i class="m"></i></div>
-          <div class="blk h4 on"><i class="m"></i></div>
-          <div class="blk h5 on"><i class="s"></i></div>
-          <div class="blk h6 on pill"></div>
-          <div class="blk h7 on"><i class="s"></i></div>
-        </div>
-        <p class="lbl">A que converte</p>
-      </div>
+  <div class="cover" style="position:relative; padding-top:56px">
+    <div class="txt" style="gap:26px">
+      <p class="eyebrow">Anatomia de uma landing page</p>
+      <h1 style="font-size:96px">Uma landing page que converte tem 7&nbsp;partes. <em>Quantas a sua&nbsp;tem?</em></h1>
+      <p class="lead" style="color:var(--g4); max-width:15ch; font-size:30px">Arraste e confira uma por uma, numa página de exemplo.</p>
     </div>
+    <div class="phone" data-part="0" style="position:absolute; right:10px; top:520px; transform:rotate(-7deg) scale(0.86); transform-origin:50% 0"></div>
   </div>
-  <div class="foot"><span>Anatomia de uma landing page</span><span>Arraste →</span></div>
+  <div class="foot"><span>Arraste para ver as 7 →</span><span></span></div>
 </section>
 
-<!-- PARTES (geradas abaixo) -->
 <div id="parts"></div>
 
-<!-- 09 Final -->
-<section class="slide" id="s9">
-  <div class="bar"><span class="logo"><img src="../../marca/solvix-simbolo.png" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="count">09 / 09</span></div>
-  <div class="final">
-    <h1>Quantas das 7 a sua página tem?</h1>
+<!-- 09 · Final -->
+<section class="slide light" id="s9">
+  <div class="bar"><span class="logo"><img src="../../marca/solvix-simbolo-escuro.png" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="count">09 / 09</span></div>
+  <div style="display:grid; align-content:center; gap:56px">
+    <h1 style="font-size:96px; line-height:1.02">Quantas das 7 <em>a sua página tem?</em></h1>
     <ul class="checks">
       <li><b></b><span>01</span>Promessa clara</li>
       <li><b></b><span>05</span>Oferta</li>
@@ -133,46 +129,97 @@ h1, h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.015em; 
       <li><b></b><span>04</span>Objeções</li>
       <li></li>
     </ul>
-    <div class="cta"><p>Salve antes de criar a sua.</p><span class="btn">Salvar ↓</span></div>
+    <p style="font-family:var(--serif); font-size:52px; line-height:1.1">Salve este post e revise a sua <em>antes de investir em anúncio.</em></p>
   </div>
   <div class="foot"><span>Solvix Agency</span><span>Sites que posicionam</span></div>
 </section>
 
+<template id="landing">
+  <div class="page">
+    <div class="nav">SORRISO <i></i></div>
+    <div class="sec" data-s="1"><span class="tagsec">01 · Promessa</span>
+      <div class="h">Implante dentário com avaliação em 24 horas.</div>
+      <div class="p">Para quem quer voltar a sorrir sem esperar meses.</div>
+      <span class="b">Agendar avaliação pelo WhatsApp</span>
+      <div class="ph"></div>
+    </div>
+    <div class="sec" data-s="2"><span class="tagsec">02 · Prova</span>
+      <div class="mini">Quem já passou por aqui</div>
+      <div class="quote">"Marquei a avaliação no mesmo dia e saí com o plano completo."</div>
+      <div class="who">Depoimento de paciente</div>
+      <div class="duo"><div></div><div></div></div>
+      <div class="who" style="margin-top:6px">Antes e depois de casos reais</div>
+    </div>
+    <div class="sec" data-s="3"><span class="tagsec">03 · Benefícios</span>
+      <div class="mini">O que muda para você</div>
+      <div class="ben"><b>01</b>Avaliação em até 24 horas</div>
+      <div class="ben"><b>02</b>Valor e prazo definidos antes de começar</div>
+      <div class="ben"><b>03</b>Acompanhamento depois do implante</div>
+    </div>
+    <div class="sec" data-s="4"><span class="tagsec">04 · Objeções</span>
+      <div class="mini">Perguntas frequentes</div>
+      <div class="faq">Quanto custa? <span>+</span></div>
+      <div class="faq">Dói? <span>+</span></div>
+      <div class="faq">Quanto tempo leva? <span>+</span></div>
+      <div class="faq">Aceitam parcelamento? <span>+</span></div>
+    </div>
+    <div class="sec" data-s="5"><span class="tagsec">05 · Oferta</span>
+      <div class="offer"><div class="mini" style="color:#999">Primeiro passo</div><div class="h">Avaliação gratuita em 15 minutos.</div><div class="p">Por vídeo ou presencial, sem compromisso.</div><span class="b">Quero minha avaliação</span></div>
+    </div>
+    <div class="sec" data-s="6"><span class="tagsec">06 · Chamada</span>
+      <div class="h" style="font-size:28px">Pronto para voltar a sorrir?</div>
+      <span class="b">Agendar pelo WhatsApp</span>
+      <span class="b ghost">Ver casos</span>
+    </div>
+    <div class="sec" data-s="7" style="padding-bottom:110px"><span class="tagsec">07 · Contato</span>
+      <div class="mini">Fale com a clínica</div>
+      <span class="b">Chamar no WhatsApp</span>
+      <div class="field">Seu nome</div>
+      <div class="field">Seu WhatsApp</div>
+      <div class="field">Melhor horário</div>
+    </div>
+  </div>
+  <div class="sticky">Agendar pelo WhatsApp</div>
+</template>
+
 <script>
 var PARTS = [
-  { t: "Promessa clara", lead: "Em uma frase: o que você faz, para quem e qual resultado entrega.",
-    a: "Soluções de qualidade para sua empresa.", b: "Sites para clínicas que transformam visita em consulta marcada." },
-  { t: "Prova", lead: "Mostre que funciona antes de pedir confiança.",
-    a: "Somos referência no mercado.", b: "Depoimentos reais, portfólio e números que você pode comprovar." },
-  { t: "Benefícios", lead: "Fale do resultado para o cliente, não da ferramenta.",
-    a: "Site 100% responsivo.", b: "Seu cliente agenda pelo celular, sem travar e sem zoom." },
-  { t: "Objeções respondidas", lead: "Responda antes que perguntem: preço, prazo, garantia e como funciona.",
-    a: "Dúvidas? Entre em contato.", b: "Quanto custa, em quanto tempo fica pronto e o que acontece depois." },
-  { t: "Oferta", lead: "Diga exatamente o que a pessoa recebe ao dar o próximo passo.",
-    a: "Solicite um orçamento.", b: "Avaliação gratuita em 15 minutos, por vídeo, sem compromisso." },
-  { t: "Chamada repetida", lead: "O botão aparece no início, no meio e no fim. No celular, fica fixo na tela.",
-    a: "Um botão no rodapé.", b: "Um botão por dobra e uma barra fixa no celular." },
-  { t: "Contato sem atrito", lead: "Quanto menos esforço para falar com você, mais gente fala.",
-    a: "Formulário com 9 campos obrigatórios.", b: "WhatsApp com mensagem pronta ou formulário de 3 campos." }
+  { t: "Promessa clara", lead: "Em uma frase: o que você faz, para quem e qual resultado entrega.", a: "Soluções de qualidade para sua empresa.", b: "Implante dentário com avaliação em 24 horas." },
+  { t: "Prova", lead: "Mostre que funciona antes de pedir confiança.", a: "Somos referência no mercado.", b: "Depoimentos reais, casos e portfólio que dá para conferir." },
+  { t: "Benefícios", lead: "Fale do que muda para o cliente, não da ferramenta.", a: "Equipamentos de última geração.", b: "Valor e prazo definidos antes de começar." },
+  { t: "Objeções respondidas", lead: "Responda antes que perguntem: preço, prazo, dor, pagamento.", a: "Dúvidas? Entre em contato.", b: "Quanto custa, quanto tempo leva e como pagar, na própria página." },
+  { t: "Oferta", lead: "Diga exatamente o que a pessoa recebe no próximo passo.", a: "Solicite um orçamento.", b: "Avaliação gratuita em 15 minutos, sem compromisso." },
+  { t: "Chamada repetida", lead: "O botão aparece no começo, no meio e no fim. No celular, fica fixo na tela.", a: "Um botão escondido no rodapé.", b: "Um botão por seção e uma barra fixa embaixo." },
+  { t: "Contato sem atrito", lead: "Quanto menos esforço para falar com você, mais gente fala.", a: "Formulário com 9 campos obrigatórios.", b: "WhatsApp com mensagem pronta ou 3 campos." }
 ];
-var SIZES = ["h1", "h2", "h3", "h4", "h5", "h6", "h7"];
-var LINES = ['<i class="m"></i><i class="s"></i>', '<i class="s"></i>', '<i></i><i class="m"></i>', '<i class="m"></i>', '<i class="s"></i>', '', '<i class="s"></i>'];
 function pad(n) { return (n < 10 ? "0" : "") + n; }
 document.getElementById("parts").outerHTML = PARTS.map(function (p, i) {
-  var phone = SIZES.map(function (s, j) {
-    return '<div class="blk ' + s + (j === 5 ? " pill" : "") + (j === i ? " on" : "") + '">' + LINES[j] + "</div>";
-  }).join("");
-  return '<section class="slide" id="s' + (i + 2) + '">' +
-    '<div class="bar"><span class="logo"><img src="../../marca/solvix-simbolo.png" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="count">' + pad(i + 2) + ' / 09</span></div>' +
-    '<div class="part"><div class="txt">' +
-      '<p class="eyebrow">Parte ' + pad(i + 1) + ' de 07</p>' +
-      '<h2>' + p.t + '</h2>' +
-      '<p class="lead">' + p.lead + '</p>' +
+  var light = i % 2 === 0, flip = i % 2 === 1;
+  return '<section class="slide' + (light ? " light" : "") + '" id="s' + (i + 2) + '">' +
+    '<div class="bar"><span class="logo"><img src="../../marca/solvix-simbolo' + (light ? "-escuro" : "") + '.png" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="count">' + pad(i + 2) + ' / 09</span></div>' +
+    '<div class="part' + (flip ? " flip" : "") + '"><div class="txt">' +
+      '<p class="eyebrow">Parte ' + pad(i + 1) + ' de 07</p><h2>' + p.t + '</h2><p class="lead">' + p.lead + '</p>' +
       '<div class="ex"><div><span>Em vez de</span><p>' + p.a + '</p></div><div class="good"><span>Prefira</span><p>' + p.b + '</p></div></div>' +
-    '</div><div class="phone">' + phone + '</div></div>' +
-    '<div class="foot"><span>Anatomia de uma landing page</span><span>' + (i === 6 ? "Última →" : "Arraste →") + '</span></div>' +
-  '</section>';
+    '</div><div class="phone" data-part="' + (i + 1) + '"></div></div>' +
+    '<div class="foot"><span>Exemplo: clínica fictícia</span><span>' + (i === 6 ? "Última →" : "Arraste →") + '</span></div></section>';
 }).join("");
+
+// monta a landing em cada celular e rola até a seção da vez
+document.querySelectorAll(".phone").forEach(function (ph) {
+  var part = +ph.dataset.part;
+  var scr = document.createElement("div"); scr.className = "screen";
+  scr.appendChild(document.getElementById("landing").content.cloneNode(true));
+  ph.appendChild(scr);
+  var page = scr.querySelector(".page");
+  if (part === 0) return;
+  page.classList.add("focus");
+  var sec = page.querySelector('.sec[data-s="' + part + '"]');
+  sec.classList.add("on");
+  if (part === 6) scr.querySelector(".sticky").classList.add("hl");
+  var target = Math.max(0, sec.offsetTop - (scr.clientHeight - sec.offsetHeight) / 2 + 20);
+  target = Math.min(target, page.offsetHeight - scr.clientHeight);
+  page.style.top = -target + "px";
+});
 </script>
 </body>
 </html>

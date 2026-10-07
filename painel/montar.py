@@ -44,6 +44,7 @@ def legendas():
     out["D01"] = secao(ler("posts/d01-teste-5-segundos/roteiro.md"), "## Legenda")
     out["D02"] = secao(ler("posts/d02-anatomia-landing-page/legenda.md"), "## Legenda")
     out["D12"] = secao(ler("posts/kaza-projeto/legenda.md"), "## Legenda")
+    out["D03"] = secao(ler("posts/d03-por-que-a-solvix-existe/roteiro.md"), "## Legenda")
     m = ler("posts/manifestos/legendas.md")
     for d in ("D09", "D25", "D27"):
         bloco = m[m.index("## " + d):]
@@ -54,7 +55,7 @@ def legendas():
 
 
 PECAS = {
-    "D01": {"slides": ["posts/d01-teste-5-segundos/capa.png"], "video": "posts/d01-teste-5-segundos/reels-d01-com-trilha.mp4",
+    "D01": {"slides": ["posts/d01-teste-5-segundos/capa-v2.png"], "video": "posts/d01-teste-5-segundos/reels-d01-v2.mp4",
             "pasta": "posts/d01-teste-5-segundos/"},
     "D02": {"slides": [f"posts/d02-anatomia-landing-page/slide-{i:02d}.png" for i in range(1, 10)], "pasta": "posts/d02-anatomia-landing-page/"},
     "D09": {"slides": ["posts/manifestos/manifesto-d09.png"], "pasta": "posts/manifestos/"},
@@ -112,6 +113,8 @@ def dados():
             p.update(PECAS[pid])
         if pid in leg:
             p["legenda"] = leg[pid]
+        if pid == "D03":
+            p["pasta"] = "posts/d03-por-que-a-solvix-existe/"
         if p["fmt"] == "Reels" and pid in trs:
             p["trilha"] = trs[pid]
         p["statusInicial"] = "revisao" if pid in PECAS else "planejado"

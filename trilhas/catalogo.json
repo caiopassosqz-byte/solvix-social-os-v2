@@ -3,17 +3,18 @@
   "id": "D01",
   "hook": "Abra seu site no celular. Você tem 5 segundos.",
   "variacao": "pulso",
-  "status": "aprovada",
-  "arquivo": "posts/d01-teste-5-segundos/trilha-d01.wav",
+  "status": "rascunho",
+  "arquivo": "posts/d01-teste-5-segundos/trilha-d01-v2.wav",
   "tom": 9,
   "modo": "menor",
-  "bpm": 112.5,
+  "bpm": 120,
   "progressao": [
    0,
    5,
    2,
    6
-  ]
+  ],
+  "nota": "v2 com efeitos sonoros; a v1 (aprovada) segue em trilha-d01.wav"
  },
  {
   "id": "D03",

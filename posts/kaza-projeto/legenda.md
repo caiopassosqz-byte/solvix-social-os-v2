@@ -13,8 +13,8 @@
 | # | Rótulo | Texto da arte | Imagem |
 |---|---|---|---|
 | 01 | Site imobiliário premium | **Kaza Negócios** · Curadoria de endereços, arquitetura e patrimônio. | Laptop com a abertura do site e celular ao lado, cena escura |
-| 02 | 01 · O desafio | Reduzir a distância entre o valor real *e o valor percebido.* · No mercado premium, o site é a primeira visita ao imóvel. | Fundo off-white, só tipografia |
-| 03 | 02 · A solução | Uma narrativa editorial *em nove capítulos.* · Endereço, arquitetura, patrimônio e experiência, nessa ordem. | Laptop com a seção "O que escolhemos revela como olhamos" |
+| 02 | 01 · O desafio | Quem procura um imóvel de alto padrão *julga a imobiliária antes de ligar.* · O site precisava transmitir curadoria e confiança já na primeira tela. | Fundo off-white com textura de pedra, só tipografia |
+| 03 | 02 · A solução | O site conduz *como uma visita guiada.* · Endereço, arquitetura, patrimônio e experiência, um capítulo de cada vez. | Laptop com a seção "O que escolhemos revela como olhamos" |
 | 04 | 03 · Destaque | Cada endereço é apresentado. *Nenhum é listado.* | Laptop com a seção "Dois endereços. Um critério.", fundo off-white |
 | 05 | 04 · No celular | A mesma experiência *na palma da mão.* | Dois celulares com seções do site |
 | 06 | CTA | Seu negócio merece uma presença *à altura do que ele entrega.* · Falar no WhatsApp → · Ver projetos → | Fundo escuro + aviso de projeto demonstrativo |
@@ -23,7 +23,7 @@
 
 Para quem procura um imóvel premium, o site é a primeira visita.
 
-Criamos para a Kaza Negócios uma experiência editorial em nove capítulos: endereço, arquitetura, patrimônio e experiência, nessa ordem. Cada imóvel é apresentado com espaço, foto e contexto, do computador ao celular.
+Criamos para a Kaza Negócios um site que conduz como uma visita guiada: endereço, arquitetura, patrimônio e experiência, um capítulo de cada vez. Cada imóvel é apresentado com espaço, foto e contexto, do computador ao celular.
 
 Curadoria também se mostra no digital.
 

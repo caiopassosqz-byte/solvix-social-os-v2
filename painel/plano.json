@@ -55,7 +55,7 @@
    "tema": "Teste dos 5 segundos",
    "angulo": "O espectador se diagnostica na hora",
    "hook": "Abra seu site no celular. Você tem 5 segundos.",
-   "ideia": "Em 5 segundos o visitante precisa entender o que a empresa faz, para quem e como falar com ela. Gravação de tela de duas landing pages criadas pela Solvix: uma passa no teste, outra falha.",
+   "ideia": "Versão 2, com movimento: o hook entra palavra por palavra, um 5 gigante bate na tela, um site genérico carrega e o visitante sai quando o contador zera; um site claro carrega e ele chama no WhatsApp. Cortes na batida, efeitos sonoros em cada movimento.",
    "objetivo": "Alcançar donos de negócio fora da base",
    "cta": "Envie para quem tem site e nunca fez esse teste.",
    "metrica": "% de alcance em não seguidores + envios"
@@ -68,8 +68,8 @@
    "p": "P1",
    "tema": "Anatomia de uma landing page",
    "angulo": "Dissecar seção por seção",
-   "hook": "Uma landing page que converte tem 7 partes. A maioria tem 3.",
-   "ideia": "Promessa clara, prova, benefícios, objeções respondidas, oferta, chamada repetida e contato. Um slide por parte, usando uma landing demonstrativa da Solvix como exemplo.",
+   "hook": "Uma landing page que converte tem 7 partes. Quantas a sua tem?",
+   "ideia": "Uma parte por slide. Cada slide mostra um celular com a landing page de uma clínica fictícia, rolada até a parte explicada e com ela em destaque, e um quadro \"Em vez de / Prefira\". Fundo e lado do celular alternam a cada slide.",
    "objetivo": "Mostrar método e domínio técnico",
    "cta": "Salve antes de criar a sua.",
    "metrica": "Salvamentos ÷ alcance"
@@ -85,7 +85,8 @@
    "ideia": "Nasceu para fazer site que trabalha: clareza, estrutura e resultado. Quem está por trás, como trabalha e o que recusa fazer.",
    "objetivo": "Dar rosto e posição à agência",
    "cta": "Siga para acompanhar a construção da Solvix.",
-   "metrica": "Seguidores vindos do post + comentários"
+   "metrica": "Seguidores vindos do post + comentários",
+   "requer": "Gravação sua (rosto e voz). Roteiro para teleprompter e guia de gravação em posts/d03-por-que-a-solvix-existe/roteiro.md; a edição fica comigo."
   },
   {
    "f": "A",
@@ -161,10 +162,10 @@
    "estilo": "Editorial",
    "fundo": "Claro",
    "fio": "Linha editorial",
-   "tema": "Manifesto · Menos ornamento",
-   "angulo": "Frase de contraste em duas linhas; destaque só por contraste, sem cor",
-   "hook": "Menos ornamento. Mais resultado.",
-   "ideia": "Fundo off-white com grid fino. Linha de apoio: \"Um site bonito chama atenção. Um site bem estruturado gera conversa.\"",
+   "tema": "Manifesto · Bonito não paga a conta",
+   "angulo": "Contraste entre estética e resultado, destaque só por contraste",
+   "hook": "Bonito não paga a conta. Claro paga.",
+   "ideia": "Fundo off-white com grid fino. Linha de apoio: \"Seu site precisa dizer em segundos o que você faz, para quem e como falar com você.\"",
    "objetivo": "Posicionar a marca e gerar identificação",
    "cta": "Na legenda: envie para quem está pensando em refazer o site.",
    "metrica": "Envios + salvamentos",
@@ -386,10 +387,10 @@
    "fixado": true,
    "fundo": "Escuro",
    "fio": "Linha editorial",
-   "tema": "Manifesto · Sites que posicionam",
-   "angulo": "Frase-assinatura da marca, destaque só por contraste",
-   "hook": "Sites que posicionam.",
-   "ideia": "Fundo preto com grid fino. Linha de apoio: \"Antes do primeiro contato, seu site já disse quem você é.\"",
+   "tema": "Manifesto · O site decide por você",
+   "angulo": "Tensão de negócio em duas frases; a segunda em destaque",
+   "hook": "Seu cliente decide em segundos. Seu site decide por você.",
+   "ideia": "Fundo preto com grid fino. Linha de apoio: \"Antes do primeiro contato, ele já disse quem você é. Faça ele dizer a coisa certa.\"",
    "objetivo": "Fixar a frase-assinatura da Solvix",
    "cta": "Na legenda: conheça os projetos no destaque Projetos.",
    "metrica": "Envios + visitas ao perfil",
@@ -414,10 +415,10 @@
    "estilo": "Editorial",
    "fundo": "Claro",
    "fio": "Linha editorial",
-   "tema": "Manifesto · Contraste alto",
-   "angulo": "Frase do manual em três linhas, destaque na última",
-   "hook": "Contraste alto. Ruído baixo. Presença forte.",
-   "ideia": "Fundo off-white com grid fino. Linha de apoio: \"Sofisticação vem de proporção, ritmo e clareza. Nunca de excesso.\"",
+   "tema": "Manifesto · Clareza vende",
+   "angulo": "Frase curta sobre clareza, destaque na segunda linha",
+   "hook": "Ninguém compra o que não entende.",
+   "ideia": "Fundo off-white com grid fino. Linha de apoio: \"Clareza vende mais que efeito. Seu site precisa ser entendido antes de ser admirado.\"",
    "objetivo": "Reforçar o posicionamento visual da marca",
    "cta": "Na legenda: envie para quem cuida da marca da sua empresa.",
    "metrica": "Envios + salvamentos",
@@ -474,8 +475,8 @@
      6
     ],
     [
-     "Mais páginas não deixam seu site melhor. Deixam mais confuso.",
-     0
+     "Bonito não paga a conta. Claro paga.",
+     9
     ],
     [
      "O site de R$300 costuma custar duas vezes.",
@@ -504,7 +505,7 @@
    "m": "Curiosidade",
    "itens": [
     [
-     "Uma landing page que converte tem 7 partes. A maioria tem 3.",
+     "Uma landing page que converte tem 7 partes. Quantas a sua tem?",
      2
     ],
     [
@@ -633,6 +634,14 @@
     [
      "O site traz o contato. O que acontece depois?",
      0
+    ],
+    [
+     "Seu cliente decide em segundos. Seu site decide por você.",
+     25
+    ],
+    [
+     "Ninguém compra o que não entende.",
+     27
     ]
    ]
   }

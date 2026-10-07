@@ -217,205 +217,46 @@ def nome_acorde(f, grau):
     return NOTAS[r] + q
 
 
-def onda(tipo, freq, n, fase=0.0):
-    t = np.arange(n) / SR
-    if tipo == "triangulo":
-        return 2 * np.abs(2 * ((freq * t + fase) % 1) - 1) - 1
-    if tipo == "serra-suave":
-        s = np.zeros(n)
-        for k in range(1, 9):
-            s += np.sin(2 * np.pi * k * freq * t + fase * k) / k ** 1.3
-        return 0.6 * s
-    trem = 1 + 0.25 * np.sin(2 * np.pi * 4.2 * t + fase)
-    return (np.sin(2 * np.pi * freq * t) + 0.3 * np.sin(4 * np.pi * freq * t)) * trem * 0.8
-
-
-def nota_tocada(tipo, m, dur, vel=1.0):
-    n = int(dur * SR)
-    t = np.arange(n) / SR
-    f = hz(m)
-    if tipo == "sino":
-        s = np.sin(2 * np.pi * f * t) + 0.35 * np.sin(2 * np.pi * f * 2.76 * t) * np.exp(-t / 0.1) + 0.15 * np.sin(2 * np.pi * f * 5.4 * t) * np.exp(-t / 0.05)
-        env = np.exp(-t / 0.35)
-    elif tipo == "piano":
-        s = np.sin(2 * np.pi * f * t) + 0.5 * np.sin(4 * np.pi * f * t) * np.exp(-t / 0.4) + 0.25 * np.sin(6 * np.pi * f * t) * np.exp(-t / 0.2) + 0.1 * np.sin(8 * np.pi * f * t) * np.exp(-t / 0.1)
-        env = np.exp(-t / 0.9)
-    else:  # pluck
-        s = np.sin(2 * np.pi * f * t) + 0.3 * np.sin(4 * np.pi * f * t) + 0.08 * np.sin(6 * np.pi * f * t)
-        env = np.exp(-t / 0.13)
-    return vel * s * env * np.minimum(1, t / 0.004)
-
-
-def coloca(buf, sig, inicio):
-    i = int(inicio * SR)
-    j = min(len(buf), i + len(sig))
-    if j > i:
-        buf[i:j] += sig[: j - i]
-
-
-def bumbo_sig(ganho, grave):
-    n = int(0.45 * SR)
-    t = np.arange(n) / SR
-    fr = grave + 85 * np.exp(-t / 0.035)
-    return ganho * 0.6 * np.sin(2 * np.pi * np.cumsum(fr) / SR) * np.exp(-t / 0.16)
-
-
-def sintetizar(f):
-    rng = np.random.default_rng(f["semente"])
+def ficha(f):
+    """Converte uma faixa do catálogo na ficha do arranjo (motor novo)."""
+    v = f["variacao"]
+    compassos = []
+    efeitos = []
     beat = 60 / f["bpm"]
     bar = 4 * beat
-    total = sum(s[1] for s in f["secoes"])
-    dur = total * bar
-    N = int(dur * SR) + 2 * SR
-    camadas = {k: np.zeros(N) for k in ("arpejo", "melodia", "bumbo", "chimbal", "caixa", "baixo", "fx")}
-    pad = np.zeros((N, 2))
-    batidas = []
-    prog = f["progressao"]
-    escala = MODOS[f["modo"]]
-    grave = 40 + rng.integers(0, 14)
-    timbre = f.get("timbre_arpejo", "pluck")
-    padrao = ARPEJOS[f.get("arpejo", 0)]
-    passo = 0.25 if f["variacao"] == "construcao" else 0.5
-    # motivo de melodia: 2 compassos, 5 notas, registro agudo
-    pos = sorted(rng.choice(16, size=5, replace=False).tolist())
-    motivo = [(p * 0.5, int(rng.integers(0, 4))) for p in pos]
-
     c = 0
     for nome, ncomp, cams in f["secoes"]:
-        cams = set(cams)
         for k in range(ncomp):
-            t0 = (c + k) * bar
-            grau = prog[(c + k) % len(prog)]
-            notas = [dobrar(n, 52, 76) for n in acorde(f, grau)]
-            raiz = dobrar(nota_grau(f["tom"], escala, grau), 36, 48)
-            ultimo = k == ncomp - 1
-            if "pad" in cams:
-                ln = bar + 0.6
-                n = int(ln * SR)
-                t = np.arange(n) / SR
-                env = np.minimum(1, t / 0.45) * np.clip((ln - t) / 0.6, 0, 1)
-                for m in notas:
-                    for ch, cents in ((0, -6), (1, 6)):
-                        coloca(pad[:, ch], 0.11 * env * onda(f["pad"], hz(m) * 2 ** (cents / 1200), n, rng.random()), t0)
-            if "arpejo" in cams:
-                tons = sorted(notas)
-                passos = int(4 / passo)
-                for s in range(passos):
-                    idx = padrao[s % len(padrao)]
-                    if idx is None:
-                        continue
-                    m = tons[idx % len(tons)] + 12 * (1 + idx // len(tons))
-                    vel = 0.9 if s % 2 == 0 else 0.6
-                    amp = 0.25 if timbre == "piano" else 0.2
-                    coloca(camadas["arpejo"], amp * nota_tocada(timbre, m, 1.4 if timbre == "piano" else 0.6, vel), t0 + s * passo * beat)
-            if "melodia" in cams:
-                tons = sorted(dobrar(n, 72, 86) for n in notas)
-                for (b, i) in motivo:
-                    tb = b - 4 * ((c + k) % 2)
-                    if 0 <= tb < 4:
-                        coloca(camadas["melodia"], 0.09 * nota_tocada("sino", tons[i % len(tons)], 1.2), t0 + tb * beat)
-            if "bumbo" in cams or "bumbo_leve" in cams:
-                pat = BUMBOS[f["bumbo"]] if "bumbo" in cams else [0]
-                g = 1.0 if "bumbo" in cams else 0.45
-                for b in pat:
-                    coloca(camadas["bumbo"], bumbo_sig(g, grave), t0 + b * beat)
-                    if "bumbo" in cams:
-                        batidas.append(t0 + b * beat)
-            if "baixo" in cams:
-                for b in range(4):
-                    n = int(0.26 * SR)
-                    t = np.arange(n) / SR
-                    fr = hz(raiz)
-                    s = np.tanh(1.6 * (np.sin(2 * np.pi * fr * t) + 0.25 * np.sin(4 * np.pi * fr * t)))
-                    coloca(camadas["baixo"], 0.32 * s * np.exp(-t / 0.18) * np.minimum(1, t / 0.01), t0 + (b + 0.5) * beat)
-            if "chimbal" in cams:
-                for i, b in enumerate(CHIMBAIS[f["chimbal"]]):
-                    longo = f["chimbal"] == "shaker"
-                    n = int((0.09 if longo else 0.06) * SR)
-                    t = np.arange(n) / SR
-                    acento = 1.0 if (i % 2 == 1 or len(CHIMBAIS[f["chimbal"]]) <= 4) else 0.55
-                    coloca(camadas["chimbal"], 0.18 * acento * rng.standard_normal(n) * np.exp(-t / (0.03 if longo else 0.018)), t0 + b * beat)
+            cs = [x for x in cams if x not in ("tique", "respiro", "subida")]
+            if "subida" in cams and k == ncomp - 1:
+                cs.append("subida")
             if "tique" in cams:
-                for b in range(4):
-                    n = int(0.03 * SR)
-                    t = np.arange(n) / SR
-                    coloca(camadas["chimbal"], 0.1 * rng.standard_normal(n) * np.exp(-t / 0.01), t0 + b * beat)
-            if "caixa" in cams:
-                for b in CAIXAS[f["caixa"]]:
-                    n = int(0.22 * SR)
-                    t = np.arange(n) / SR
-                    env = np.exp(-t / 0.07) * (1 + 0.6 * np.exp(-((t - 0.012) / 0.004) ** 2))
-                    g = 0.16 if f["caixa"] == "aro" else 0.22
-                    coloca(camadas["caixa"], g * rng.standard_normal(n) * env, t0 + b * beat)
-            if "subida" in cams and ultimo:
-                n = int(bar * SR)
-                t = np.arange(n) / SR
-                ru = rng.standard_normal(n)
-                ru = ru - np.concatenate(([0], ru[:-1]))
-                coloca(camadas["fx"], 0.12 * (t / bar) ** 2.2 * ru, t0)
-            if "impacto" in cams and k == 0:
-                n = int(1.6 * SR)
-                t = np.arange(n) / SR
-                boom = np.sin(2 * np.pi * (38 + 40 * np.exp(-t / 0.08)) * t) * np.exp(-t / 0.5)
-                coloca(camadas["fx"], 0.7 * boom + 0.04 * rng.standard_normal(n) * np.exp(-t / 0.35), t0)
-            if "respiro" in cams and ultimo:
-                n = int(bar * 0.5 * SR)
-                t = np.arange(n) / SR
-                coloca(camadas["fx"], 0.08 * rng.standard_normal(n) * (t / t[-1]) ** 3, t0 + bar / 2)
+                for bt in range(4):
+                    efeitos.append(["tique", (c + k) * bar + bt * beat])
+            if "respiro" in cams and k == ncomp - 1:
+                efeitos.append(["whoosh", (c + k + 1) * bar - 0.28])
+            if nome == "intro" and v != "base" and "bumbo" not in cs:
+                cs.append("filtro")
+            compassos.append(cs)
         c += ncomp
-
-    # sidechain: pad e baixo abaixam a cada bumbo
-    duck = np.ones(N)
-    tt = np.arange(N) / SR
-    for tk in batidas:
-        i = int(tk * SR)
-        j = min(N, i + int(0.35 * SR))
-        duck[i:j] = np.minimum(duck[i:j], 1 - 0.55 * np.exp(-(tt[i:j] - tk) / 0.11))
-    pad *= duck[:, None]
-    camadas["baixo"] *= duck
-    return pad, camadas, dur, beat
-
-
-def grava_wav(caminho, dados):
-    if dados.ndim == 1:
-        dados = dados[:, None]
-    pcm = (np.clip(dados, -1, 1) * 32767).astype("<i2")
-    with wave.open(caminho, "wb") as w:
-        w.setnchannels(pcm.shape[1])
-        w.setsampwidth(2)
-        w.setframerate(SR)
-        w.writeframes(pcm.tobytes())
+    return {
+        "bpm": f["bpm"], "tom": f["tom"], "modo": f["modo"], "progressao": f["progressao"], "nonas": f.get("nonas", False),
+        "timbre_arpejo": "piano" if v == "base" else f.get("timbre_arpejo", "pluck"),
+        "arpejo": f.get("arpejo", 0), "passo": 0.25 if v == "construcao" else 0.5,
+        "bumbo": BUMBOS[f.get("bumbo", "reto")], "chimbal": CHIMBAIS[f.get("chimbal", "contratempo")], "caixa": CAIXAS[f.get("caixa", "palmas")],
+        "brilho": f.get("brilho", 2400) + 900, "loudness": VARIACOES[v]["loudness"] + 1, "semente": f.get("semente", 7),
+        "g_pad": 1.9 if v == "base" else 1.7, "g_arp": 0.75 if v == "base" else 0.55,
+        "compassos": compassos, "efeitos": efeitos,
+    }
 
 
 def gerar(f):
-    pad, cam, dur, beat = sintetizar(f)
-    eco = int(f["eco"] * beat * 1000)
-    loud = VARIACOES[f["variacao"]]["loudness"]
+    import arranjo
     nome = f["id"].lower()
     os.makedirs(SAIDA, exist_ok=True)
     os.makedirs(DEMOS, exist_ok=True)
     wav = os.path.join(SAIDA, nome + ".wav")
-    with tempfile.TemporaryDirectory() as tmp:
-        ordem = [("pad", pad)] + list(cam.items())
-        entradas = []
-        for k, sig in ordem:
-            p = os.path.join(tmp, k + ".wav")
-            grava_wav(p, sig)
-            entradas += ["-i", p]
-        g = (
-            f"[0]lowpass=f={f['brilho']},aecho=0.8:0.5:120|260:0.25|0.18[pad];"
-            f"[1]lowpass=f=4500,aecho=0.8:0.7:{eco}|{2 * eco}:0.32|0.16,pan=stereo|c0=0.8*c0|c1=0.55*c0[arp];"
-            f"[2]highpass=f=500,aecho=0.8:0.8:{eco}:0.35,pan=stereo|c0=0.55*c0|c1=0.85*c0[mel];"
-            "[3]lowpass=f=900,pan=stereo|c0=c0|c1=c0[bum];"
-            "[4]highpass=f=6500,pan=stereo|c0=0.6*c0|c1=0.9*c0[chi];"
-            "[5]bandpass=f=1600:width_type=o:w=1.2,aecho=0.8:0.4:60:0.3,pan=stereo|c0=c0|c1=c0[cai];"
-            "[6]lowpass=f=420,pan=stereo|c0=c0|c1=c0[bai];"
-            "[7]highpass=f=30,pan=stereo|c0=c0|c1=c0[fx];"
-            "[pad][arp][mel][bum][chi][cai][bai][fx]amix=inputs=8:normalize=0,"
-            f"atrim=0:{dur:.3f},afade=t=in:d=0.05,afade=t=out:st={dur - 2.4:.3f}:d=2.4,"
-            f"loudnorm=I={loud}:TP=-1.5:LRA=9,aresample=44100"
-        )
-        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *entradas, "-filter_complex", g, "-ac", "2", wav], check=True)
+    dur = arranjo.render(ficha(f), wav)
     mp3 = os.path.join(DEMOS, nome + ".mp3")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", wav, "-c:a", "libmp3lame", "-b:a", "160k", mp3], check=True)
     acordes = " – ".join(nome_acorde(f, g) for g in f["progressao"])
