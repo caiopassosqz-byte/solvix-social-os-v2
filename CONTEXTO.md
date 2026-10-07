@@ -29,6 +29,7 @@ Se algo aqui conflitar com o manual, o manual vence.
 - Título: "Presença por fora. Estrutura por dentro." · Design, código e publicação em uma só operação.
 - Serviços: 01 Sites e Landing Pages · 02 Painéis Administrativos · 03 E-commerce · 04 Google Meu Negócio.
 - Projetos (ambos marcados como projeto conceitual): Grupo Kaza (imobiliário) e Sushi Club (restaurante).
+- **Sushi Club fica só no site, como case conceitual: não criar conteúdo com ele sem permissão.** O mesmo vale para a Kaza: o D12 só vai ao ar com autorização do Grupo Kaza.
 - Sobre: Caio Passos. Contato por formulário que abre o WhatsApp, e e-mail.
 
 ## Posicionamento
