@@ -1,0 +1,1615 @@
+[
+ {
+  "id": "D01",
+  "hook": "Abra seu site no celular. Você tem 5 segundos.",
+  "variacao": "pulso",
+  "status": "aprovada",
+  "arquivo": "posts/d01-teste-5-segundos/trilha-d01.wav",
+  "tom": 9,
+  "modo": "menor",
+  "bpm": 112.5,
+  "progressao": [
+   0,
+   5,
+   2,
+   6
+  ]
+ },
+ {
+  "id": "D03",
+  "hook": "A Solvix não nasceu para fazer site bonito.",
+  "variacao": "base",
+  "status": "rascunho",
+  "tom": 7,
+  "modo": "maior",
+  "progressao": [
+   0,
+   5,
+   3,
+   4
+  ],
+  "bpm": 79,
+  "arpejo": 6,
+  "timbre_arpejo": "piano",
+  "pad": "seno-tremolo",
+  "bumbo": "meio-tempo",
+  "chimbal": "shaker",
+  "caixa": "meio-tempo",
+  "nonas": false,
+  "eco": 0.75,
+  "brilho": 1512,
+  "semente": 6009,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad"
+    ]
+   ],
+   [
+    "corpo",
+    6,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ],
+   [
+    "meio",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "melodia"
+    ]
+   ],
+   [
+    "final",
+    4,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D04",
+  "hook": "Mesma empresa. Mesmo serviço. Só mudamos a primeira tela.",
+  "variacao": "construcao",
+  "status": "rascunho",
+  "tom": 1,
+  "modo": "menor",
+  "progressao": [
+   5,
+   3,
+   0,
+   6
+  ],
+  "bpm": 124,
+  "arpejo": 5,
+  "timbre_arpejo": "sino",
+  "pad": "triangulo",
+  "bumbo": "reto",
+  "chimbal": "contratempo",
+  "caixa": "palmas",
+  "nonas": false,
+  "eco": 0.75,
+  "brilho": 2650,
+  "semente": 4876,
+  "secoes": [
+   [
+    "intro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "tique"
+    ]
+   ],
+   [
+    "groove",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal"
+    ]
+   ],
+   [
+    "pico",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D06",
+  "hook": "Seu site é bonito. Mas ele vende?",
+  "variacao": "pulso",
+  "status": "rascunho",
+  "tom": 8,
+  "modo": "dórico",
+  "progressao": [
+   0,
+   1,
+   3,
+   0
+  ],
+  "bpm": 116,
+  "arpejo": 6,
+  "timbre_arpejo": "sino",
+  "pad": "triangulo",
+  "bumbo": "sincopado",
+  "chimbal": "contratempo",
+  "caixa": "palmas",
+  "nonas": true,
+  "eco": 0.5,
+  "brilho": 1512,
+  "semente": 8019,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "tique",
+     "bumbo_leve"
+    ]
+   ],
+   [
+    "entrada",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo"
+    ]
+   ],
+   [
+    "pico",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D08",
+  "hook": "Seu cliente não pesquisa seu nome. Ele pesquisa o que você faz.",
+  "variacao": "pulso",
+  "status": "rascunho",
+  "tom": 6,
+  "modo": "maior",
+  "progressao": [
+   0,
+   5,
+   3,
+   4
+  ],
+  "bpm": 104,
+  "arpejo": 5,
+  "timbre_arpejo": "pluck",
+  "pad": "serra-suave",
+  "bumbo": "sincopado",
+  "chimbal": "semicolcheias",
+  "caixa": "palmas",
+  "nonas": false,
+  "eco": 0.5,
+  "brilho": 1609,
+  "semente": 4737,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "tique",
+     "bumbo_leve"
+    ]
+   ],
+   [
+    "entrada",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo"
+    ]
+   ],
+   [
+    "pico",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D10",
+  "hook": "Um site pode custar R$1 mil ou R$35 mil. Aqui está a diferença.",
+  "variacao": "base",
+  "status": "rascunho",
+  "tom": 0,
+  "modo": "menor",
+  "progressao": [
+   0,
+   5,
+   2,
+   6
+  ],
+  "bpm": 78,
+  "arpejo": 3,
+  "timbre_arpejo": "piano",
+  "pad": "seno-tremolo",
+  "bumbo": "meio-tempo",
+  "chimbal": "shaker",
+  "caixa": "meio-tempo",
+  "nonas": true,
+  "eco": 0.5,
+  "brilho": 2456,
+  "semente": 8131,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad"
+    ]
+   ],
+   [
+    "corpo",
+    6,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ],
+   [
+    "meio",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "melodia"
+    ]
+   ],
+   [
+    "final",
+    4,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D11",
+  "hook": "O botão mais importante do seu site está escondido.",
+  "variacao": "pulso",
+  "status": "rascunho",
+  "tom": 6,
+  "modo": "menor",
+  "progressao": [
+   0,
+   2,
+   5,
+   3
+  ],
+  "bpm": 104,
+  "arpejo": 2,
+  "timbre_arpejo": "sino",
+  "pad": "serra-suave",
+  "bumbo": "sincopado",
+  "chimbal": "semicolcheias",
+  "caixa": "palmas",
+  "nonas": false,
+  "eco": 1.0,
+  "brilho": 2147,
+  "semente": 7288,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "tique",
+     "bumbo_leve"
+    ]
+   ],
+   [
+    "entrada",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo"
+    ]
+   ],
+   [
+    "pico",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D12",
+  "hook": "Por que esse site imobiliário quase não usa cor.",
+  "variacao": "construcao",
+  "status": "rascunho",
+  "tom": 3,
+  "modo": "menor",
+  "progressao": [
+   5,
+   3,
+   0,
+   6
+  ],
+  "bpm": 119,
+  "arpejo": 0,
+  "timbre_arpejo": "pluck",
+  "pad": "serra-suave",
+  "bumbo": "sincopado",
+  "chimbal": "semicolcheias",
+  "caixa": "aro",
+  "nonas": true,
+  "eco": 0.5,
+  "brilho": 1967,
+  "semente": 4773,
+  "secoes": [
+   [
+    "intro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "tique"
+    ]
+   ],
+   [
+    "groove",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal"
+    ]
+   ],
+   [
+    "pico",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D13",
+  "hook": "Comecei o Instagram da Solvix com 0 seguidores. Vou mostrar tudo.",
+  "variacao": "base",
+  "status": "rascunho",
+  "tom": 7,
+  "modo": "menor",
+  "progressao": [
+   0,
+   5,
+   2,
+   6
+  ],
+  "bpm": 82,
+  "arpejo": 0,
+  "timbre_arpejo": "piano",
+  "pad": "triangulo",
+  "bumbo": "meio-tempo",
+  "chimbal": "shaker",
+  "caixa": "meio-tempo",
+  "nonas": false,
+  "eco": 1.0,
+  "brilho": 2658,
+  "semente": 9999,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad"
+    ]
+   ],
+   [
+    "corpo",
+    6,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ],
+   [
+    "meio",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "melodia"
+    ]
+   ],
+   [
+    "final",
+    4,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D14",
+  "hook": "Redesenhei a página de uma academia em 3 decisões.",
+  "variacao": "construcao",
+  "status": "rascunho",
+  "tom": 6,
+  "modo": "mixolídio",
+  "progressao": [
+   0,
+   6,
+   3,
+   0
+  ],
+  "bpm": 124,
+  "arpejo": 2,
+  "timbre_arpejo": "pluck",
+  "pad": "serra-suave",
+  "bumbo": "sincopado",
+  "chimbal": "semicolcheias",
+  "caixa": "palmas",
+  "nonas": true,
+  "eco": 1.0,
+  "brilho": 2351,
+  "semente": 2993,
+  "secoes": [
+   [
+    "intro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "tique"
+    ]
+   ],
+   [
+    "groove",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal"
+    ]
+   ],
+   [
+    "pico",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D16",
+  "hook": "Fiz o teste dos 5 segundos em 3 sites. Só um passou.",
+  "variacao": "pulso",
+  "status": "rascunho",
+  "tom": 1,
+  "modo": "dórico",
+  "progressao": [
+   0,
+   6,
+   3,
+   4
+  ],
+  "bpm": 112,
+  "arpejo": 6,
+  "timbre_arpejo": "pluck",
+  "pad": "serra-suave",
+  "bumbo": "reto",
+  "chimbal": "shaker",
+  "caixa": "palmas",
+  "nonas": true,
+  "eco": 1.0,
+  "brilho": 2086,
+  "semente": 4515,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "tique",
+     "bumbo_leve"
+    ]
+   ],
+   [
+    "entrada",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo"
+    ]
+   ],
+   [
+    "pico",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D19",
+  "hook": "Seu perfil no Google é a primeira página do seu site.",
+  "variacao": "pulso",
+  "status": "rascunho",
+  "tom": 3,
+  "modo": "dórico",
+  "progressao": [
+   0,
+   3,
+   0,
+   6
+  ],
+  "bpm": 115,
+  "arpejo": 5,
+  "timbre_arpejo": "sino",
+  "pad": "serra-suave",
+  "bumbo": "reto",
+  "chimbal": "contratempo",
+  "caixa": "palmas",
+  "nonas": true,
+  "eco": 0.5,
+  "brilho": 1908,
+  "semente": 7971,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "tique",
+     "bumbo_leve"
+    ]
+   ],
+   [
+    "entrada",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo"
+    ]
+   ],
+   [
+    "pico",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D20",
+  "hook": "O site traz o contato. O que acontece depois?",
+  "variacao": "construcao",
+  "status": "rascunho",
+  "tom": 2,
+  "modo": "menor",
+  "progressao": [
+   0,
+   3,
+   5,
+   4
+  ],
+  "bpm": 120,
+  "arpejo": 5,
+  "timbre_arpejo": "sino",
+  "pad": "serra-suave",
+  "bumbo": "sincopado",
+  "chimbal": "contratempo",
+  "caixa": "palmas",
+  "nonas": false,
+  "eco": 1.0,
+  "brilho": 1998,
+  "semente": 1581,
+  "secoes": [
+   [
+    "intro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "tique"
+    ]
+   ],
+   [
+    "groove",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal"
+    ]
+   ],
+   [
+    "pico",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D21",
+  "hook": "\"Qualidade e excelência\" não diz nada.",
+  "variacao": "pulso",
+  "status": "rascunho",
+  "tom": 1,
+  "modo": "maior",
+  "progressao": [
+   5,
+   3,
+   0,
+   4
+  ],
+  "bpm": 109,
+  "arpejo": 0,
+  "timbre_arpejo": "sino",
+  "pad": "serra-suave",
+  "bumbo": "quebrado",
+  "chimbal": "contratempo",
+  "caixa": "aro",
+  "nonas": true,
+  "eco": 1.0,
+  "brilho": 1812,
+  "semente": 144,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "tique",
+     "bumbo_leve"
+    ]
+   ],
+   [
+    "entrada",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo"
+    ]
+   ],
+   [
+    "pico",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D23",
+  "hook": "Numa loja online, a venda acontece ou morre na página do produto.",
+  "variacao": "construcao",
+  "status": "rascunho",
+  "tom": 3,
+  "modo": "dórico",
+  "progressao": [
+   0,
+   1,
+   3,
+   0
+  ],
+  "bpm": 122,
+  "arpejo": 0,
+  "timbre_arpejo": "sino",
+  "pad": "triangulo",
+  "bumbo": "reto",
+  "chimbal": "contratempo",
+  "caixa": "palmas",
+  "nonas": true,
+  "eco": 1.0,
+  "brilho": 2166,
+  "semente": 5274,
+  "secoes": [
+   [
+    "intro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "tique"
+    ]
+   ],
+   [
+    "groove",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal"
+    ]
+   ],
+   [
+    "pico",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D24",
+  "hook": "Seu site não passou no teste dos 5 segundos? Eu faço a análise.",
+  "variacao": "base",
+  "status": "rascunho",
+  "tom": 6,
+  "modo": "lídio",
+  "progressao": [
+   0,
+   1,
+   0,
+   4
+  ],
+  "bpm": 77,
+  "arpejo": 4,
+  "timbre_arpejo": "piano",
+  "pad": "triangulo",
+  "bumbo": "meio-tempo",
+  "chimbal": "shaker",
+  "caixa": "meio-tempo",
+  "nonas": false,
+  "eco": 1.0,
+  "brilho": 2230,
+  "semente": 1782,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad"
+    ]
+   ],
+   [
+    "corpo",
+    6,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ],
+   [
+    "meio",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "melodia"
+    ]
+   ],
+   [
+    "final",
+    4,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D25",
+  "hook": "As perguntas que mais chegaram na DM da Solvix este mês.",
+  "variacao": "base",
+  "status": "rascunho",
+  "tom": 1,
+  "modo": "maior",
+  "progressao": [
+   0,
+   5,
+   3,
+   4
+  ],
+  "bpm": 79,
+  "arpejo": 0,
+  "timbre_arpejo": "piano",
+  "pad": "triangulo",
+  "bumbo": "meio-tempo",
+  "chimbal": "shaker",
+  "caixa": "meio-tempo",
+  "nonas": false,
+  "eco": 0.5,
+  "brilho": 2655,
+  "semente": 1915,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad"
+    ]
+   ],
+   [
+    "corpo",
+    6,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ],
+   [
+    "meio",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "melodia"
+    ]
+   ],
+   [
+    "final",
+    4,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D26",
+  "hook": "Seu site foi feito em 2019. Seu cliente percebe.",
+  "variacao": "pulso",
+  "status": "rascunho",
+  "tom": 7,
+  "modo": "dórico",
+  "progressao": [
+   0,
+   1,
+   3,
+   0
+  ],
+  "bpm": 108,
+  "arpejo": 5,
+  "timbre_arpejo": "sino",
+  "pad": "serra-suave",
+  "bumbo": "sincopado",
+  "chimbal": "semicolcheias",
+  "caixa": "aro",
+  "nonas": true,
+  "eco": 1.0,
+  "brilho": 2592,
+  "semente": 8233,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "tique",
+     "bumbo_leve"
+    ]
+   ],
+   [
+    "entrada",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo"
+    ]
+   ],
+   [
+    "pico",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D28",
+  "hook": "O site de R$300 costuma custar duas vezes.",
+  "variacao": "pulso",
+  "status": "rascunho",
+  "tom": 9,
+  "modo": "menor",
+  "progressao": [
+   0,
+   6,
+   5,
+   6
+  ],
+  "bpm": 107,
+  "arpejo": 4,
+  "timbre_arpejo": "sino",
+  "pad": "seno-tremolo",
+  "bumbo": "quebrado",
+  "chimbal": "contratempo",
+  "caixa": "aro",
+  "nonas": false,
+  "eco": 0.5,
+  "brilho": 1795,
+  "semente": 9984,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "tique",
+     "bumbo_leve"
+    ]
+   ],
+   [
+    "entrada",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo"
+    ]
+   ],
+   [
+    "pico",
+    3,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "subida"
+    ]
+   ],
+   [
+    "impacto",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "caixa",
+     "melodia",
+     "impacto"
+    ]
+   ],
+   [
+    "respiro",
+    1,
+    [
+     "pad",
+     "arpejo",
+     "respiro"
+    ]
+   ],
+   [
+    "final",
+    2,
+    [
+     "pad",
+     "arpejo",
+     "bumbo",
+     "baixo",
+     "chimbal",
+     "melodia"
+    ]
+   ]
+  ]
+ },
+ {
+  "id": "D30",
+  "hook": "30 dias atrás: 0 seguidores. Estes são os números de hoje.",
+  "variacao": "base",
+  "status": "rascunho",
+  "tom": 11,
+  "modo": "lídio",
+  "progressao": [
+   0,
+   1,
+   5,
+   4
+  ],
+  "bpm": 81,
+  "arpejo": 3,
+  "timbre_arpejo": "piano",
+  "pad": "triangulo",
+  "bumbo": "meio-tempo",
+  "chimbal": "shaker",
+  "caixa": "meio-tempo",
+  "nonas": true,
+  "eco": 0.75,
+  "brilho": 2126,
+  "semente": 3796,
+  "secoes": [
+   [
+    "intro",
+    2,
+    [
+     "pad"
+    ]
+   ],
+   [
+    "corpo",
+    6,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ],
+   [
+    "meio",
+    4,
+    [
+     "pad",
+     "arpejo",
+     "melodia"
+    ]
+   ],
+   [
+    "final",
+    4,
+    [
+     "pad",
+     "arpejo"
+    ]
+   ]
+  ]
+ }
+]
