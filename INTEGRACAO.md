@@ -2,7 +2,16 @@
 
 Como os posts aprovados no painel passam a ser agendados e publicados automaticamente.
 
-## Como funciona
+## Caminho grátis: Meta Business Suite + Claude no navegador
+
+1. Crie a página do Facebook "Solvix Agency" (categoria Web Designer) e ligue ao @solvixagencybr. O Business Suite precisa dela.
+2. Aprove os posts no painel.
+3. No Chrome, logado no Facebook, abra o painel na aba **Agendar**, clique em **Copiar roteiro** e cole no Claude do navegador.
+4. Ele agenda no business.facebook.com só o que estiver aprovado (post, legenda, horário e Stories) e marca cada item como Agendado no painel. Se a janela de arquivos do computador travar, ele pede para você escolher o arquivo.
+
+## Caminho pago: Postiz
+
+
 
 O Claude não entra no Instagram com login e senha. A publicação passa pelo **Postiz**, uma ferramenta de agendamento que usa a API oficial da Meta. Você conecta o Instagram no Postiz uma vez; depois o Claude envia cada post aprovado (mídia, legenda, data e hora) para o Postiz, que publica no horário.
 

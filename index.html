@@ -424,6 +424,21 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
   ol.why li { display: grid; grid-template-columns: 36px 1fr; gap: 10px; }
   ol.why .n { color: var(--text-2); font-variant-numeric: tabular-nums; }
   ol.why p { color: var(--text-2); font-size: 0.875rem; line-height: 1.5; margin-top: 2px; }
+  .ag-list { display: grid; gap: 10px; margin-top: 8px; }
+  .ag { border: 1px solid var(--line, #262626); border-radius: 14px; padding: 16px 18px; display: grid; gap: 12px; }
+  .ag.off { opacity: 0.5; padding: 12px 18px; gap: 4px; }
+  .ag.done { border-style: dashed; }
+  .ag-h { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; font-size: 0.875rem; }
+  .ag-h b { font-size: 1rem; }
+  .ag-t { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .ag-st { margin-left: auto; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); }
+  .ag-st.aprovado { color: var(--text); font-weight: 600; }
+  .ag-f, .ag-s, .ag-a { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .ag-a { justify-content: space-between; }
+  .ag-l { flex: 1 1 100%; }
+  .ag-l summary { cursor: pointer; font-size: 0.875rem; color: var(--text-2); }
+  .ag-l .legenda { margin-top: 8px; }
+  .ag-p { white-space: pre-wrap; font-size: 0.8125rem; line-height: 1.55; background: var(--bg); border: 1px solid var(--line, #262626); border-radius: 12px; padding: 16px; margin: 12px 0; max-height: 360px; overflow: auto; }
 </style>
 
 <div class="app">
@@ -451,6 +466,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
       <section class="view" id="v-calendario" hidden></section>
       <section class="view" id="v-producao" hidden></section>
       <section class="view" id="v-grid" hidden></section>
+      <section class="view" id="v-agendar" hidden></section>
       <section class="view" id="v-biblioteca" hidden></section>
       <section class="view" id="v-estrategia" hidden></section>
       <section class="view" id="v-marca" hidden></section>
@@ -486,7 +502,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
   var SN = {}; STATUS.forEach(function (s, i) { SN[s.id] = s; s.i = i; });
   var VIEWS = [
     ["hoje", "Hoje"], ["calendario", "Calendário"], ["producao", "Produção"], ["grid", "Grid"],
-    ["biblioteca", "Biblioteca"], ["estrategia", "Estratégia"], ["marca", "Marca"]
+    ["agendar", "Agendar"], ["biblioteca", "Biblioteca"], ["estrategia", "Estratégia"], ["marca", "Marca"]
   ];
   var WD = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
   var WDL = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
@@ -601,6 +617,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
       if (v[0] === "hoje" && todo) k = '<span class="k on" title="Itens que precisam de você">' + todo + "</span>";
       if (v[0] === "producao") k = '<span class="k">' + prod + "</span>";
       if (v[0] === "calendario") k = '<span class="k">30</span>';
+      if (v[0] === "agendar" && countBy("aprovado")) k = '<span class="k on" title="Aprovados para agendar">' + countBy("aprovado") + "</span>";
       return '<a href="#' + v[0] + '" data-view="' + v[0] + '"' + (current === v[0] ? ' aria-current="page"' : "") + "><span>" + v[1] + "</span>" + k + "</a>";
     }).join("");
     $("nav").innerHTML = html; $("navM").innerHTML = html;
@@ -785,6 +802,61 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     $("v-biblioteca").innerHTML = '<div class="page-head"><p class="eyebrow">Biblioteca</p><h1>Tudo o que já foi produzido.</h1><p class="lede">Peças finais, trilhas dos Reels e o banco de hooks no tom da Solvix.</p></div>' + tabs + body;
   }
 
+
+  /* ---------------- AGENDAR ---------------- */
+  function roteiroNavegador() {
+    return [
+      "Você vai agendar posts do Instagram @" + ((DATA.perfil || {}).arroba || "solvixagencybr") + " no Meta Business Suite (business.facebook.com), usando a aba Agendar do painel Solvix Social OS (esta página).",
+      "",
+      "Regras:",
+      "- Agende só os itens com a etiqueta \"Aprovado\". Não mexa nos itens \"Aguardando aprovação\", \"Agendado\" ou \"Publicado\".",
+      "- Nada é publicado agora: tudo é agendado para a data e o horário do item, no horário de Brasília.",
+      "- Destino: só o Instagram @" + ((DATA.perfil || {}).arroba || "solvixagencybr") + ". Desmarque o Facebook.",
+      "- Não altere nada no perfil nem na página.",
+      "",
+      "Para cada item aprovado, do primeiro ao último:",
+      "1. Baixe os arquivos do item com os botões Baixar.",
+      "2. No Business Suite, abra o Planejador e crie o conteúdo:",
+      "   - Reels: Criar reel, envie o vídeo .mp4 e use o capa.png como capa.",
+      "   - Carrossel: Criar post, envie as imagens na ordem dos números (01, 02, 03...).",
+      "   - Imagem: Criar post, envie a imagem.",
+      "3. Cole a legenda exatamente como está no item (botão Copiar legenda).",
+      "4. Agende para a data e o horário do post mostrados no item. Confira a pré-visualização.",
+      "5. Stories do item: Criar story, uma imagem por vez, cada uma no horário indicado ao lado dela.",
+      "6. Volte a esta página e clique em \"Marcar como agendado\" no item.",
+      "",
+      "Se a janela de arquivos do computador abrir e você não conseguir escolher o arquivo, me peça para selecionar e continue depois.",
+      "Se algo estiver diferente do esperado (conta errada, horário, formato recusado), pare e me pergunte antes de seguir."
+    ].join("\n");
+  }
+  function nomeArq(u) { return u.split("/").pop(); }
+  function renderAgendar() {
+    var linhas = POSTS.map(function (p) {
+      var st = statusOf(p), d = dateOf(p.n), hora = horaPost(p);
+      var quando = WD[d.getDay()] + " " + dlabel(d) + "/" + d.getFullYear();
+      var pronto = st === "aprovado", feito = st === "agendado" || st === "publicado";
+      var head = '<div class="ag-h"><b>' + p.id + "</b><span>" + quando + "</span><span>" + p.fmt + "</span><span class=\"ag-t\">Post às " + hora + "</span>" +
+        '<span class="ag-st ' + st + '">' + (pronto ? "Aprovado" : feito ? SN[st].nome : "Aguardando aprovação") + "</span></div>";
+      if (!pronto && !feito) return '<div class="ag off">' + head + '<p class="muted">' + esc(p.hook) + "</p></div>";
+      var arqs = [];
+      if (p.video) { arqs.push([p.video, "Vídeo (" + nomeArq(p.video) + ")"]); if (p.slides && p.slides[0]) arqs.push([p.slides[0], "Capa"]); }
+      else (p.slides || []).forEach(function (sl, i) { arqs.push([sl, p.slides.length > 1 ? "Slide " + pad(i + 1) : "Imagem"]); });
+      var files = '<div class="ag-f">' + arqs.map(function (a) { return '<a class="btn small line" href="' + a[0] + '" download="' + p.id + "-" + nomeArq(a[0]) + '">Baixar ' + esc(a[1]) + "</a>"; }).join("") + "</div>";
+      var leg = p.legenda ? '<details class="ag-l"><summary>Legenda</summary><div class="legenda">' + esc(p.legenda) + '</div></details><button class="btn small line" type="button" data-copy-legn="' + p.n + '">Copiar legenda</button>' : "";
+      var sts = (p.stories || []).length ? '<div class="ag-s"><span class="muted">Stories</span>' + p.stories.map(function (x) {
+        return '<a class="btn small line" href="' + x.arquivo + '" download="' + p.id + "-story-" + nomeArq(x.arquivo) + '">' + esc(x.momento) + " · Baixar</a>";
+      }).join("") + "</div>" : "";
+      var acao = pronto ? '<button class="btn primary small" type="button" data-agendado="' + p.id + '">Marcar como agendado</button>' : '<span class="muted" style="font-size:0.8125rem">' + SN[st].nome + "</span>";
+      return '<div class="ag' + (feito ? " done" : "") + '">' + head + files + sts + '<div class="ag-a">' + leg + acao + "</div></div>";
+    }).join("");
+    var nA = countBy("aprovado"), nG = countBy("agendado");
+    $("v-agendar").innerHTML = '<div class="page-head"><p class="eyebrow">Agendar</p><h1>O mês inteiro no Meta Business Suite.</h1><p class="lede">Cada post aprovado com os arquivos, a legenda e os horários. ' +
+      nA + " para agendar, " + nG + ' já agendados. Use o roteiro abaixo com o Claude no seu navegador, ou siga item por item.</p></div>' +
+      '<section class="sec"><header><p class="eyebrow">Claude no navegador</p><h2>Roteiro para colar</h2></header><div class="body"><p class="muted" style="max-width:62ch">Abra esta aba no Chrome, já logado no Facebook, e cole o roteiro no Claude do navegador. Ele agenda só o que estiver aprovado.</p>' +
+      '<pre class="ag-p">' + esc(roteiroNavegador()) + '</pre><button class="btn primary" type="button" data-copy-roteiro="1">Copiar roteiro</button></div></section>' +
+      '<div class="ag-list">' + linhas + "</div>";
+  }
+
   /* ---------------- ESTRATÉGIA ---------------- */
   function renderEstrategia() {
     var counts = { A: 0, Au: 0, R: 0, C: 0 };
@@ -840,7 +912,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
   }
 
   function renderView(v) {
-    ({ hoje: renderHoje, calendario: renderCalendario, producao: renderProducao, grid: renderGrid, biblioteca: renderBiblioteca, estrategia: renderEstrategia, marca: renderMarca })[v]();
+    ({ hoje: renderHoje, calendario: renderCalendario, producao: renderProducao, grid: renderGrid, agendar: renderAgendar, biblioteca: renderBiblioteca, estrategia: renderEstrategia, marca: renderMarca })[v]();
   }
 
   /* ---------------- FICHA DO POST ---------------- */
@@ -987,6 +1059,9 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     var sk = t.closest("[data-seek]");
     if (sk && sk.getAttribute("data-seek") === playing && player.duration) { var rc = sk.getBoundingClientRect(); player.currentTime = player.duration * (e.clientX - rc.left) / rc.width; return; }
     var cp = t.closest("[data-copy]"); if (cp) { copy(cp.getAttribute("data-copy"), cp); return; }
+    var cl = t.closest("[data-copy-legn]"); if (cl) { copy(postBy(+cl.getAttribute("data-copy-legn")).legenda, cl); return; }
+    var cr = t.closest("[data-copy-roteiro]"); if (cr) { copy(roteiroNavegador(), cr); return; }
+    var ag = t.closest("[data-agendado]"); if (ag) { var aid = ag.getAttribute("data-agendado"); Store.setPost(aid, { status: "agendado" }, "Agendou no Meta Business Suite").then(function () { toast(aid + " marcado como agendado."); }); return; }
     if (t.closest("[data-copy-leg]")) { copy(postBy(openN).legenda, t.closest("[data-copy-leg]")); return; }
   });
   $("scrim").addEventListener("click", closePost);
