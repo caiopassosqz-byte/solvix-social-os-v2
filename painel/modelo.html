@@ -432,6 +432,15 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
   .ag-l summary { cursor: pointer; font-size: 0.875rem; color: var(--text-2); }
   .ag-l .legenda { margin-top: 8px; }
   .ag-p { white-space: pre-wrap; font-size: 0.8125rem; line-height: 1.55; background: var(--bg); border: 1px solid var(--line, #262626); border-radius: 12px; padding: 16px; margin: 12px 0; max-height: 360px; overflow: auto; }
+  .mats { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 8px; }
+  .mat { border: 1px solid var(--line, #262626); border-radius: 14px; padding: 18px; display: grid; gap: 12px; align-content: start; }
+  .mat-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 0.8125rem; }
+  .mat-h b { font-size: 1.125rem; letter-spacing: 0.06em; }
+  .mat-t { font-size: 0.9375rem; line-height: 1.55; }
+  .mat-t mark { background: transparent; color: inherit; border-bottom: 1px dashed currentColor; }
+  .ped-form { display: grid; grid-template-columns: 1fr 160px auto; gap: 10px; align-items: end; margin-bottom: 10px; }
+  @media (max-width: 640px) { .ped-form { grid-template-columns: 1fr; } }
+  .ped { display: grid; gap: 8px; padding: 12px 0; border-top: 1px solid var(--line, #262626); }
 </style>
 
 <div class="app">
@@ -460,6 +469,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
       <section class="view" id="v-producao" hidden></section>
       <section class="view" id="v-grid" hidden></section>
       <section class="view" id="v-agendar" hidden></section>
+      <section class="view" id="v-materiais" hidden></section>
       <section class="view" id="v-biblioteca" hidden></section>
       <section class="view" id="v-estrategia" hidden></section>
       <section class="view" id="v-marca" hidden></section>
@@ -495,7 +505,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
   var SN = {}; STATUS.forEach(function (s, i) { SN[s.id] = s; s.i = i; });
   var VIEWS = [
     ["hoje", "Hoje"], ["calendario", "Calendário"], ["producao", "Produção"], ["grid", "Grid"],
-    ["agendar", "Agendar"], ["biblioteca", "Biblioteca"], ["estrategia", "Estratégia"], ["marca", "Marca"]
+    ["agendar", "Agendar"], ["materiais", "Materiais"], ["biblioteca", "Biblioteca"], ["estrategia", "Estratégia"], ["marca", "Marca"]
   ];
   var WD = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
   var WDL = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
@@ -535,9 +545,9 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
   /* ---------------- armazenamento ---------------- */
   var Store = (function () {
     var KEY = "solvix-social-os:v2";
-    var mode = "local", db = null, docs = {}, cfg = {}, subs = [], queues = {}, canWrite = true;
-    try { var o = JSON.parse(localStorage.getItem(KEY) || "{}"); docs = o.posts || {}; cfg = o.config || {}; } catch (e) { /* sem armazenamento */ }
-    function saveLocal() { try { localStorage.setItem(KEY, JSON.stringify({ posts: docs, config: cfg })); } catch (e) { /* ignora */ } }
+    var mode = "local", db = null, docs = {}, cfg = {}, peds = {}, subs = [], queues = {}, canWrite = true;
+    try { var o = JSON.parse(localStorage.getItem(KEY) || "{}"); docs = o.posts || {}; cfg = o.config || {}; peds = o.pedidos || {}; } catch (e) { /* sem armazenamento */ }
+    function saveLocal() { try { localStorage.setItem(KEY, JSON.stringify({ posts: docs, config: cfg, pedidos: peds })); } catch (e) { /* ignora */ } }
     function emit() { subs.forEach(function (f) { f(); }); }
     function queue(k, fn) { var p = (queues[k] || Promise.resolve()).then(fn); queues[k] = p.catch(function () {}); return p; }
     function fail(e) {
@@ -554,6 +564,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
           var nd = {}; snap.docs.forEach(function (s) { if (s.exists) nd[s.id] = s.data(); }); docs = nd; emit();
         }, function () { mode = "erro"; emit(); });
         db.doc("config/geral").onSnapshot(function (s) { cfg = s.exists ? s.data() : {}; emit(); }, function () {});
+        db.collection("pedidos").onSnapshot(function (snap) { var np = {}; snap.docs.forEach(function (x) { if (x.exists) np[x.id] = x.data(); }); peds = np; emit(); }, function () {});
         emit();
       }, function () { emit(); });
     }
@@ -570,6 +581,13 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
         if (acao) cur.ultimaAcao = acao;
         docs[id] = cur; emit();
         if (mode === "db") return queue("p" + id, function () { return db.doc("posts/" + id).set(cur); }).catch(fail);
+        saveLocal(); return Promise.resolve();
+      },
+      pedidos: function () { return peds; },
+      setPedido: function (id, data) {
+        var cur = Object.assign({}, peds[id] || {}, data, { atualizadoEm: new Date().toISOString() });
+        peds[id] = cur; emit();
+        if (mode === "db") return queue("q" + id, function () { return db.doc("pedidos/" + id).set(cur); }).catch(fail);
         saveLocal(); return Promise.resolve();
       },
       setConfig: function (patch) {
@@ -862,6 +880,35 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
       '<div class="ag-list">' + linhas + "</div>";
   }
 
+
+  /* ---------------- MATERIAIS ---------------- */
+  var ETAPAS_PED = [["pediu", "Pediu"], ["respondi", "Respondi"], ["conversa", "Virou conversa"], ["reuniao", "Virou reunião"], ["cliente", "Fechou"]];
+  function renderMateriais() {
+    var M = DATA.materiais || { respostas: [] };
+    var cards = M.respostas.map(function (r, i) {
+      var falta = /\[prazo\]/.test(r.texto);
+      return '<div class="mat"><div class="mat-h"><b>' + r.palavra + '</b><span class="muted">' + esc(r.posts) + "</span></div>" +
+        '<p class="mat-t">' + esc(r.texto).replace(/\[(nome|prazo)\]/g, '<mark>[$1]</mark>') + "</p>" +
+        (falta ? '<p class="req"><b>Falta definir</b>O prazo de entrega da análise e quantas cabem por semana.</p>' : "") +
+        '<div class="ag-f"><button class="btn primary small" type="button" data-copy-resp="' + i + '">Copiar resposta</button>' +
+        (r.pdf ? '<button class="btn small line" type="button" data-dl="' + r.pdf + '" data-name="' + r.pdf.split("/").pop() + '">Baixar PDF para enviar</button>' : "") + "</div></div>";
+    }).join("");
+    var P = Store.pedidos(), ids = Object.keys(P).sort(function (a, b) { return (P[b].criadoEm || "").localeCompare(P[a].criadoEm || ""); });
+    var cont = {}; ETAPAS_PED.forEach(function (e) { cont[e[0]] = 0; }); ids.forEach(function (id) { cont[P[id].etapa || "pediu"]++; });
+    var lista = ids.length ? ids.map(function (id) {
+      var x = P[id];
+      return '<div class="ped"><div><b>' + esc(x.quem) + '</b><span class="muted"> · ' + esc(x.palavra) + " · " + esc((x.criadoEm || "").slice(8, 10) + "/" + (x.criadoEm || "").slice(5, 7)) + '</span></div><div class="tags">' +
+        ETAPAS_PED.map(function (e) { return '<button type="button" class="chip" data-ped="' + id + '" data-etapa="' + e[0] + '" aria-pressed="' + ((x.etapa || "pediu") === e[0]) + '">' + e[1] + "</button>"; }).join("") + "</div></div>";
+    }).join("") : '<p class="empty">Nenhum pedido ainda. Registre aqui cada pessoa que mandar uma palavra-chave.</p>';
+    $("v-materiais").innerHTML = '<div class="page-head"><p class="eyebrow">Materiais</p><h1>Tudo o que você envia na DM.</h1><p class="lede">Quando alguém mandar CHECKLIST, PREÇO ou ANÁLISE: copie a resposta, troque o [nome], envie o PDF e registre o pedido abaixo. Funciona pelo celular.</p></div>' +
+      '<div class="mats">' + cards + "</div>" +
+      '<section class="sec"><header><p class="eyebrow">Pedidos</p><h2>Quem pediu e até onde foi</h2></header><div class="body">' +
+      '<div class="ped-form"><label class="field" for="pedQuem">@ ou nome<input id="pedQuem" type="text" placeholder="@empresa"></label><label class="field" for="pedPal">Palavra<select id="pedPal"><option>CHECKLIST</option><option>PREÇO</option><option>ANÁLISE</option></select></label><button class="btn primary" type="button" data-ped-add="1">Registrar pedido</button></div>' +
+      '<p class="muted" style="font-size:0.875rem">' + ETAPAS_PED.map(function (e) { return e[1] + ": <b>" + cont[e[0]] + "</b>"; }).join(" · ") + "</p>" + lista + "</div></section>" +
+      '<section class="sec"><header><p class="eyebrow">Análise gratuita</p><h2>Roteiro do vídeo</h2></header><div class="body"><details class="ag-l"><summary>Abrir o roteiro</summary><div class="legenda">' + esc(M.analise || "") + "</div></details></div></section>" +
+      (DATA.perfil ? '<section class="sec"><header><p class="eyebrow">Perfil</p><h2>Links da bio</h2></header><div class="body"><div class="ag-f"><button class="btn small line" type="button" data-copy="' + esc(DATA.perfil.whatsapp) + '">Copiar link do WhatsApp</button><button class="btn small line" type="button" data-copy="' + esc(DATA.perfil.site) + '">Copiar link do site</button></div></div></section>' : "");
+  }
+
   /* ---------------- ESTRATÉGIA ---------------- */
   function renderEstrategia() {
     var counts = { A: 0, Au: 0, R: 0, C: 0 };
@@ -917,7 +964,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
   }
 
   function renderView(v) {
-    ({ hoje: renderHoje, calendario: renderCalendario, producao: renderProducao, grid: renderGrid, agendar: renderAgendar, biblioteca: renderBiblioteca, estrategia: renderEstrategia, marca: renderMarca })[v]();
+    ({ hoje: renderHoje, calendario: renderCalendario, producao: renderProducao, grid: renderGrid, agendar: renderAgendar, materiais: renderMateriais, biblioteca: renderBiblioteca, estrategia: renderEstrategia, marca: renderMarca })[v]();
   }
 
   /* ---------------- FICHA DO POST ---------------- */
@@ -1065,6 +1112,9 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     if (sk && sk.getAttribute("data-seek") === playing && player.duration) { var rc = sk.getBoundingClientRect(); player.currentTime = player.duration * (e.clientX - rc.left) / rc.width; return; }
     var cp = t.closest("[data-copy]"); if (cp) { copy(cp.getAttribute("data-copy"), cp); return; }
     var dlb = t.closest("[data-dl]"); if (dlb) { baixar(dlb); return; }
+    var crs = t.closest("[data-copy-resp]"); if (crs) { copy(DATA.materiais.respostas[+crs.getAttribute("data-copy-resp")].texto, crs); return; }
+    var pe = t.closest("[data-ped]"); if (pe) { Store.setPedido(pe.getAttribute("data-ped"), { etapa: pe.getAttribute("data-etapa") }); return; }
+    if (t.closest("[data-ped-add]")) { var q = $("pedQuem").value.trim(); if (!q) { toast("Escreva o @ ou o nome."); return; } var nid = "p" + Date.now().toString(36); Store.setPedido(nid, { quem: q, palavra: $("pedPal").value, etapa: "pediu", criadoEm: new Date().toISOString() }).then(function () { toast("Pedido registrado."); }); return; }
     var cl = t.closest("[data-copy-legn]"); if (cl) { copy(postBy(+cl.getAttribute("data-copy-legn")).legenda, cl); return; }
     var cr = t.closest("[data-copy-roteiro]"); if (cr) { copy(roteiroNavegador(), cr); return; }
     var ag = t.closest("[data-agendado]"); if (ag) { var aid = ag.getAttribute("data-agendado"); Store.setPost(aid, { status: "agendado" }, "Agendou no Meta Business Suite").then(function () { toast(aid + " marcado como agendado."); }); return; }

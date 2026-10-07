@@ -112,6 +112,24 @@ PENDENCIAS = [
 ]
 
 
+def materiais():
+    md = ler("materiais/README.md")
+    resp = {}
+    for chave in ("CHECKLIST", "PREÇO", "ANÁLISE"):
+        m = re.search(r"\*\*" + chave + r"\*\*\s*\n\s*> (.+)", md)
+        if m:
+            resp[chave] = m.group(1).strip()
+    analise = ler("materiais/analise.md")
+    return {
+        "respostas": [
+            {"palavra": "CHECKLIST", "texto": resp.get("CHECKLIST", ""), "pdf": "materiais/checklist-landing-page.pdf", "posts": "D05 · Stories de seg, qua e sex"},
+            {"palavra": "PREÇO", "texto": resp.get("PREÇO", ""), "pdf": "materiais/guia-de-investimento.pdf", "posts": "D10, D15, D29"},
+            {"palavra": "ANÁLISE", "texto": resp.get("ANÁLISE", ""), "pdf": None, "posts": "D17, D24, D29"},
+        ],
+        "analise": analise,
+    }
+
+
 def trilhas():
     cat = json.loads(ler("trilhas/catalogo.json"))
     out = {}
@@ -173,6 +191,7 @@ def dados():
         "pendencias": PENDENCIAS,
         "agenda": plano.get("agenda"),
         "perfil": PERFIL,
+        "materiais": materiais(),
         "trilhas": [dict(id=k, **v) for k, v in trs.items()],
     }
 
