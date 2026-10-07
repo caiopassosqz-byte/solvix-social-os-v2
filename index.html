@@ -815,7 +815,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
       "- Não altere nada no perfil nem na página.",
       "",
       "Para cada item aprovado, do primeiro ao último:",
-      "1. Baixe os arquivos do item com os botões Baixar.",
+      "1. Baixe os arquivos do item com os botões Baixar (confirme cada download na janelinha que aparece).",
       "2. No Business Suite, abra o Planejador e crie o conteúdo:",
       "   - Reels: Criar reel, envie o vídeo .mp4 e use o capa.png como capa.",
       "   - Carrossel: Criar post, envie as imagens na ordem dos números (01, 02, 03...).",
@@ -830,6 +830,18 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     ].join("\n");
   }
   function nomeArq(u) { return u.split("/").pop(); }
+  var dlCap = null;
+  function baixar(btn) {
+    var url = btn.getAttribute("data-dl"), nome = btn.getAttribute("data-name"), orig = btn.textContent;
+    if (!dlCap) dlCap = (window.claude && window.claude.use) ? window.claude.use("downloads") : Promise.resolve(null);
+    btn.textContent = "Preparando...";
+    dlCap.then(function (dl) {
+      if (!dl) { var a = document.createElement("a"); a.href = url; a.download = nome; document.body.appendChild(a); a.click(); a.remove(); btn.textContent = orig; return; }
+      return fetch(url).then(function (r) { if (!r.ok) throw { code: "http_" + r.status }; return r.blob(); })
+        .then(function (blob) { return dl.save({ filename: nome, data: blob }); })
+        .then(function () { btn.textContent = "Baixado ✓"; setTimeout(function () { btn.textContent = orig; }, 2500); });
+    }).catch(function (e) { btn.textContent = orig; if (!e || e.code !== "declined") toast("Não foi possível baixar" + (e && e.code ? " (" + e.code + ")" : "") + "."); });
+  }
   function renderAgendar() {
     var linhas = POSTS.map(function (p) {
       var st = statusOf(p), d = dateOf(p.n), hora = horaPost(p);
@@ -841,10 +853,10 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
       var arqs = [];
       if (p.video) { arqs.push([p.video, "Vídeo (" + nomeArq(p.video) + ")"]); if (p.slides && p.slides[0]) arqs.push([p.slides[0], "Capa"]); }
       else (p.slides || []).forEach(function (sl, i) { arqs.push([sl, p.slides.length > 1 ? "Slide " + pad(i + 1) : "Imagem"]); });
-      var files = '<div class="ag-f">' + arqs.map(function (a) { return '<a class="btn small line" href="' + a[0] + '" download="' + p.id + "-" + nomeArq(a[0]) + '">Baixar ' + esc(a[1]) + "</a>"; }).join("") + "</div>";
+      var files = '<div class="ag-f">' + arqs.map(function (a) { return '<button type="button" class="btn small line" data-dl="' + a[0] + '" data-name="' + p.id + "-" + nomeArq(a[0]) + '">Baixar ' + esc(a[1]) + "</button>"; }).join("") + "</div>";
       var leg = p.legenda ? '<details class="ag-l"><summary>Legenda</summary><div class="legenda">' + esc(p.legenda) + '</div></details><button class="btn small line" type="button" data-copy-legn="' + p.n + '">Copiar legenda</button>' : "";
       var sts = (p.stories || []).length ? '<div class="ag-s"><span class="muted">Stories</span>' + p.stories.map(function (x) {
-        return '<a class="btn small line" href="' + x.arquivo + '" download="' + p.id + "-story-" + nomeArq(x.arquivo) + '">' + esc(x.momento) + " · Baixar</a>";
+        return '<button type="button" class="btn small line" data-dl="' + x.arquivo + '" data-name="' + p.id + "-story-" + nomeArq(x.arquivo) + '">' + esc(x.momento) + " · Baixar</button>";
       }).join("") + "</div>" : "";
       var acao = pronto ? '<button class="btn primary small" type="button" data-agendado="' + p.id + '">Marcar como agendado</button>' : '<span class="muted" style="font-size:0.8125rem">' + SN[st].nome + "</span>";
       return '<div class="ag' + (feito ? " done" : "") + '">' + head + files + sts + '<div class="ag-a">' + leg + acao + "</div></div>";
@@ -1059,6 +1071,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     var sk = t.closest("[data-seek]");
     if (sk && sk.getAttribute("data-seek") === playing && player.duration) { var rc = sk.getBoundingClientRect(); player.currentTime = player.duration * (e.clientX - rc.left) / rc.width; return; }
     var cp = t.closest("[data-copy]"); if (cp) { copy(cp.getAttribute("data-copy"), cp); return; }
+    var dlb = t.closest("[data-dl]"); if (dlb) { baixar(dlb); return; }
     var cl = t.closest("[data-copy-legn]"); if (cl) { copy(postBy(+cl.getAttribute("data-copy-legn")).legenda, cl); return; }
     var cr = t.closest("[data-copy-roteiro]"); if (cr) { copy(roteiroNavegador(), cr); return; }
     var ag = t.closest("[data-agendado]"); if (ag) { var aid = ag.getAttribute("data-agendado"); Store.setPost(aid, { status: "agendado" }, "Agendou no Meta Business Suite").then(function () { toast(aid + " marcado como agendado."); }); return; }
