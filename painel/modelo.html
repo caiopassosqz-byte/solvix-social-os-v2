@@ -620,7 +620,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
       (m === "db" ? "Suas aprovações chegam ao Claude." : m === "erro" ? "Recarregue a página." : "Abra pelo link do Claude para sincronizar.") + "</span>";
     var pub = !!pendDone("publicacao"), ps = $("pubState");
     ps.className = "chip-status" + (pub ? " ok" : "");
-    ps.innerHTML = "<i></i><span><b>Publicação automática</b>" + (pub ? "Conexão informada; aguardando configuração." : "Não conectada") + "</span>";
+    ps.innerHTML = "<i></i><span><b>Publicação automática</b>" + (pub ? "Meta Business Suite conectado. Agende pela aba Agendar." : "Não conectada") + "</span>";
   }
   function go(view) {
     if (!VIEWS.some(function (v) { return v[0] === view; })) view = "hoje";
