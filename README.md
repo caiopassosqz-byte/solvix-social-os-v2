@@ -4,17 +4,30 @@ Painel de criação de conteúdo do Instagram da Solvix Agency.
 
 Abra `index.html` no navegador. Não precisa de instalação nem de build.
 
-## Abas
+## Áreas do painel
 
-- **Visão geral:** objetivo do ciclo, as 3 métricas, a proporção entre funções, os próximos posts e os gargalos de partida.
-- **Calendário:** os 30 posts com dia, função, objetivo, pilar, tema, ângulo, hook, formato, ideia central, CTA e métrica. Cada post tem uma prévia da capa no padrão da marca, um status (Planejado, Em produção, Publicado) e um campo para registrar o resultado.
-- **Hooks:** 30 ganchos no tom editorial direto, agrupados por mecanismo.
-- **Cérebro da marca:** posicionamento, valores, tom de voz, serviços, pilares e regras visuais do manual.
-- **Rotina:** preparação antes do D01, stories diários e revisão semanal.
+- **Hoje:** quanto falta para o próximo post, o mapa dos 30 dias com a etapa de cada um, o que precisa de você (aprovações e pendências), a atividade recente e como funciona a publicação.
+- **Calendário:** visão de mês ou lista, com filtro por função e formato.
+- **Produção:** quadro com as seis etapas (Planejado, Em produção, Para aprovar, Aprovado, Agendado, Publicado).
+- **Grid:** o perfil como vai ficar ao fim do ciclo, com os fixados no topo.
+- **Biblioteca:** peças prontas, trilhas dos Reels e banco de hooks.
+- **Estratégia** e **Marca:** objetivo, métricas, proporção, linha editorial, rotina, ajustes do ciclo e regras da marca.
 
-O status e as anotações ficam salvos no navegador onde foram feitos. A data de início do ciclo pode ser alterada no calendário.
+Clicar em qualquer post abre a ficha: peça final (slides ou vídeo), trilha, legenda com botão de copiar, plano, botões **Aprovar** e **Pedir ajuste**, resultado e comentário.
 
-O contexto da marca e as regras de conteúdo estão em `CONTEXTO.md`.
+Aberto pelo link do Claude, o painel sincroniza: aprovações, pedidos de ajuste, pendências e resultados ficam salvos num banco que o Claude lê. Aberto como arquivo local, salva só no navegador.
+
+## Como atualizar o painel
+
+O `index.html` é gerado. Edite as fontes e monte de novo:
+
+- `painel/plano.json`: os 30 posts, pilares, funções, hooks e paleta.
+- `painel/modelo.html`: visual e comportamento.
+- `painel/montar.py`: junta plano, legendas das peças (`posts/*/legenda*.md`), trilhas e pendências.
+
+```
+python3 painel/montar.py
+```
 
 ## Trilhas dos Reels
 
