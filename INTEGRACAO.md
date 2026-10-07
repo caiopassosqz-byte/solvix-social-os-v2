@@ -11,8 +11,8 @@ Só vai para o Postiz o que estiver **Aprovado** no painel. Nada é publicado se
 ## O que você faz (uma vez só)
 
 1. **Conta profissional no Instagram.** No app: Configurações › Tipo de conta › Mudar para conta profissional (Empresa).
-2. **Página do Facebook ligada.** A Meta exige uma página do Facebook vinculada à conta profissional do Instagram (Central de Contas › Contas › Adicionar contas).
-3. **Conta no Postiz.** Crie em postiz.com e conecte o canal "Instagram (Facebook Business)". Entre com o Facebook que administra a página e autorize o Instagram da Solvix.
+2. **Facebook é opcional.** O Postiz tem duas formas de conectar: "Instagram (Standalone)", que entra direto com o login do Instagram, sem Facebook, e "Instagram (Facebook Business)", que precisa de uma página do Facebook ligada à conta. Use a Standalone. A única diferença é que ela não escolhe música da biblioteca do Instagram para o Reels; os nossos Reels já têm a trilha dentro do vídeo, então não muda nada.
+3. **Conta no Postiz.** Crie em postiz.com e adicione o canal "Instagram (Standalone)". Entre com o login do @solvixagencybr e autorize.
 4. **Chave da API.** No Postiz: Settings › Public API › gere a chave.
 5. **Guarde a chave no ambiente do Claude, não no chat.** No menu do ambiente na barra de título da sessão, clique em Edit e adicione a chave em *Network secrets* (ou como variável de ambiente) com o nome `POSTIZ_API_KEY`.
 6. **Libere o endereço do Postiz.** Na mesma tela, em *Network access*, adicione `api.postiz.com` em *Allowed domains* (deixe marcada a opção de gerenciadores de pacote). Hoje esse endereço está bloqueado pela política de rede do ambiente. Passo a passo: https://code.claude.com/docs/en/cloud-environments#network-access
