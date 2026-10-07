@@ -683,5 +683,45 @@
    "#FFFFFF",
    "Destaques"
   ]
- ]
+ ],
+ "agenda": {
+  "util": {
+   "post": "19:00",
+   "bastidor": "12:30",
+   "story_post": "19:20",
+   "palavra": "21:00"
+  },
+  "fds": {
+   "post": "11:00",
+   "bastidor": "09:30",
+   "story_post": "11:20"
+  },
+  "porque": [
+   [
+    "Post às 19h nos dias úteis",
+    "O brasileiro usa mais o Instagram à noite: cerca de 47% acessa entre 18h e meia-noite, e quase metade do consumo de Reels é noturno (Opinion Box). Às 19h o post já passou pelo primeiro teste de distribuição quando o pico das 20h às 22h começa, com menos concorrência do que postar no pico."
+   ],
+   [
+    "Post às 11h no fim de semana",
+    "Sábado e domingo o uso se espalha pelo dia e cai à noite. O fim da manhã pega o empresário fora da rotina da loja ou do escritório."
+   ],
+   [
+    "Bastidor às 12h30",
+    "Horário de almoço, a janela que perfis voltados a empresas mais usam em dia útil. Funciona como aviso do post da noite."
+   ],
+   [
+    "Story do post às 19h20",
+    "Vinte minutos depois do post, para levar quem já segue até ele enquanto ele ainda está sendo testado."
+   ],
+   [
+    "Palavra-chave às 21h",
+    "No pico de uso, quando há tempo para mandar uma DM."
+   ],
+   [
+    "Mesmo horário todo dia",
+    "Constância ajuda quem segue a criar o hábito. O horário pesa menos que o gancho: o que espalha um Reels é tempo assistido, envios e curtidas."
+   ]
+  ],
+  "teste": "Semanas 1 e 2: tudo às 19h. Semana 3: carrosséis às 12h30 e Reels às 19h; compare o alcance e os salvamentos de cada post na ficha. Fica o horário que vencer. Com 100 seguidores, o Insights passa a mostrar os horários em que eles estão ativos, e esse dado vale mais que qualquer média."
+ }
 }

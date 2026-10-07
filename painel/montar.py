@@ -10,6 +10,7 @@ Junta o plano (painel/plano.json), as legendas das peças prontas, as trilhas
 As imagens e áudios são referenciados pelo caminho a partir da raiz do repositório
 (posts/..., trilhas/demos/..., marca/...), então o index.html abre direto no navegador.
 """
+import datetime
 import json
 import os
 import re
@@ -102,7 +103,6 @@ PENDENCIAS = [
      "detalhe": "Crie uma conta no Postiz e conecte o Instagram da Solvix (conta profissional ligada a uma página do Facebook). Depois, adicione a chave da API nas configurações do ambiente do Claude com o nome POSTIZ_API_KEY. Não cole a chave no chat. Até lá, os posts aprovados ficam prontos para você subir manualmente."},
     {"id": "arroba", "titulo": "Confirmar o @ da agência", "detalhe": "Usei @solvixagency nas prévias e na bio sugerida."},
     {"id": "link", "titulo": "Enviar o link da bio", "detalhe": "Ele entra na bio e nos botões \"Ver projetos\"."},
-    {"id": "horario", "titulo": "Definir o horário de publicação", "detalhe": "Escolha em Estratégia › Ajustes do ciclo. Vale para todos os posts até você mudar."},
     {"id": "kaza", "titulo": "Autorização do Grupo Kaza", "detalhe": "Para publicar o D12 com o nome e as fotos da Kaza.", "posts": [12]},
     {"id": "materiais", "titulo": "Materiais das palavras-chave", "detalhe": "Checklist de landing page, guia de investimento e roteiro da análise gratuita. Posso escrever os três; preciso do seu ok no conteúdo.", "posts": [5, 10, 17, 24]},
     {"id": "politicas", "titulo": "Confirmar duas políticas da Solvix", "detalhe": "Contrato e pagamento 50% + 50% já estão confirmados. Faltam: o domínio fica no nome do cliente? E existe suporte depois da entrega (incluso por um período ou só como manutenção paga)? Citados no D17, D18, D29 e no guia de investimento.", "posts": [17, 18, 29]},
@@ -152,7 +152,9 @@ def dados():
             p["pasta"] = "posts/d03-por-que-a-solvix-existe/"
         pasta_st = os.path.join(RAIZ, "stories", pid.lower())
         if os.path.isdir(pasta_st):
-            nomes = {"01-manha.png": "Manhã · post do dia e pergunta", "02-tarde.png": "Tarde · bastidor", "03-palavra.png": "Lembrete de palavra-chave"}
+            fds = datetime.date.fromisoformat(INICIO).weekday() + i
+            ag = (plano.get("agenda") or {}).get("fds" if fds % 7 >= 5 else "util", {})
+            nomes = {"01-bastidor.png": ag.get("bastidor", "") + " · Bastidor", "02-post.png": ag.get("story_post", "") + " · Post do dia e pergunta", "03-palavra.png": ag.get("palavra", "") + " · Palavra-chave"}
             p["stories"] = [{"arquivo": f"stories/{pid.lower()}/{a}", "momento": nomes.get(a, a)} for a in sorted(os.listdir(pasta_st)) if a.endswith(".png")]
         if p["fmt"] == "Reels" and pid in trs:
             p["trilha"] = trs[pid]
@@ -166,6 +168,7 @@ def dados():
         "paleta": plano["paleta"],
         "posts": posts,
         "pendencias": PENDENCIAS,
+        "agenda": plano.get("agenda"),
         "trilhas": [dict(id=k, **v) for k, v in trs.items()],
     }
 

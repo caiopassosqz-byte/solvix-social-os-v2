@@ -411,6 +411,12 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
   .stories { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .stories a { display: grid; gap: 6px; color: inherit; text-decoration: none; font-size: 0.75rem; line-height: 1.3; }
   .stories img { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; display: block; box-shadow: 0 0 0 1px var(--line, #2A2A2A); }
+  .agenda { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+  .agenda .kv dt { font-variant-numeric: tabular-nums; }
+  ol.why { list-style: none; display: grid; gap: 14px; margin: 8px 0; }
+  ol.why li { display: grid; grid-template-columns: 36px 1fr; gap: 10px; }
+  ol.why .n { color: var(--text-2); font-variant-numeric: tabular-nums; }
+  ol.why p { color: var(--text-2); font-size: 0.875rem; line-height: 1.5; margin-top: 2px; }
 </style>
 
 <div class="app">
@@ -491,6 +497,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     var s = (Store.config().inicio || DATA.inicio) + "T12:00:00";
     var d = new Date(s); return isNaN(d) ? new Date(DATA.inicio + "T12:00:00") : d;
   }
+  function horaPost(p) { var c = Store.config().horario; if (c) return c; var ag = DATA.agenda; if (!ag) return ""; var w = dateOf(p.n).getDay(); return (w === 0 || w === 6 ? ag.fds : ag.util).post; }
   function dateOf(n) { var d = startDate(); d.setDate(d.getDate() + n - 1); return d; }
   function today() { var d = new Date(); d.setHours(12, 0, 0, 0); return d; }
   function dayIndex() { return Math.round((today() - startDate()) / 86400000) + 1; }
@@ -795,12 +802,17 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
          ["Atenção sem captura.", "Cada post de conversão aponta para uma das três palavras-chave."],
          ["Tom fora da marca.", "Os ganchos provocam pelo contraste e pela clareza, sem alarmismo."]].map(function (x, i) { return '<li><span class="n">' + pad(i + 1) + "</span><div><b>" + x[0] + "</b><p>" + x[1] + "</p></div></li>"; }).join("") + "</ol></div></section>" +
       '<section class="sec"><header><p class="eyebrow">Rotina</p><h2>Toda semana</h2></header><div class="body"><div class="cols2">' +
-        '<div><h3>Stories, todo dia</h3><ul><li>Manhã: post do dia com uma enquete ligada a ele.</li><li>Tarde: um bastidor real de projeto.</li><li>3 vezes por semana: lembrete de palavra-chave.</li></ul></div>' +
+        '<div><h3>Stories, todo dia</h3><ul><li>Almoço: um bastidor real da produção.</li><li>Logo depois do post: o post do dia com uma pergunta.</li><li>Segunda, quarta e sexta à noite: lembrete de palavra-chave.</li></ul></div>' +
         '<div><h3>Revisão de domingo</h3><ul><li>Registre os números de cada post na ficha.</li><li>Refaça os 2 Reels de atração com mais alcance fora da base, com outro hook.</li><li>Post de conversão sem pedidos: revise o material oferecido.</li><li>Toda pergunta da DM vira pauta.</li></ul></div></div></div></section>' +
+      (DATA.agenda ? '<section class="sec"><header><p class="eyebrow">Horários</p><h2>Quando cada peça vai ao ar</h2></header><div class="body">' +
+        '<div class="agenda"><div><h3>Segunda a sexta</h3><dl class="kv"><dt>' + DATA.agenda.util.bastidor + '</dt><dd>Story de bastidor</dd><dt>' + DATA.agenda.util.post + '</dt><dd><b>Post no feed</b></dd><dt>' + DATA.agenda.util.story_post + '</dt><dd>Story do post, com a pergunta</dd><dt>' + DATA.agenda.util.palavra + '</dt><dd>Story de palavra-chave (seg, qua e sex)</dd></dl></div>' +
+        '<div><h3>Sábado e domingo</h3><dl class="kv"><dt>' + DATA.agenda.fds.bastidor + '</dt><dd>Story de bastidor</dd><dt>' + DATA.agenda.fds.post + '</dt><dd><b>Post no feed</b></dd><dt>' + DATA.agenda.fds.story_post + '</dt><dd>Story do post, com a pergunta</dd></dl></div></div>' +
+        '<ol class="why">' + DATA.agenda.porque.map(function (x, i) { return '<li><span class="n">' + pad(i + 1) + "</span><div><b>" + esc(x[0]) + "</b><p>" + esc(x[1]) + "</p></div></li>"; }).join("") + "</ol>" +
+        '<p class="req"><b>Teste do ciclo</b>' + esc(DATA.agenda.teste) + "</p></div></section>" : "") +
       '<section class="sec"><header><p class="eyebrow">Ajustes do ciclo</p><h2>Datas e horário</h2></header><div class="body"><div class="fields">' +
         '<label class="field" for="cfgInicio">Início do ciclo<input type="date" id="cfgInicio" value="' + esc(cfg.inicio || DATA.inicio) + '"></label>' +
-        '<label class="field" for="cfgHora">Horário de publicação<input type="time" id="cfgHora" value="' + esc(cfg.horario || "") + '"></label></div>' +
-        '<p class="muted" style="font-size:0.875rem">Mudar o início reposiciona todas as datas. O horário vale para todos os posts e é o que o Claude usa ao agendar.</p></div></section>';
+        '<label class="field" for="cfgHora">Horário único (opcional)<input type="time" id="cfgHora" value="' + esc(cfg.horario || "") + '"></label></div>' +
+        '<p class="muted" style="font-size:0.875rem">Mudar o início reposiciona todas as datas. Deixe o horário único vazio para seguir a agenda acima; se preencher, ele vale para todos os posts do feed.</p></div></section>';
   }
 
   /* ---------------- MARCA ---------------- */
@@ -843,7 +855,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     try { history.replaceState(null, "", "#" + current); } catch (e) { /* ignora */ }
   }
   function actionBox(p, st, dd) {
-    var hora = Store.config().horario, d = dateOf(p.n);
+    var hora = horaPost(p), d = dateOf(p.n);
     var quando = WD[d.getDay()] + " " + dlabel(d) + (hora ? " às " + hora : "");
     var btns = "", txt = "";
     if (st === "planejado") { txt = "<b>Ainda sem peça.</b> Entra em produção perto da data." + (p.requer ? " Antes, depende de: " + esc(p.requer) : ""); btns = '<button class="btn small line" type="button" data-set="producao">Marcar como em produção</button>'; }
@@ -882,7 +894,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     var trilha = p.trilha ? '<div class="dr-sec"><h3>Trilha original</h3><div class="audio-row track' + (playing === p.trilha.arquivo ? " on" : "") + '" data-track="' + p.trilha.arquivo + '"><button type="button" class="play" data-play="' + p.trilha.arquivo + '" aria-label="Tocar a trilha">' + (playing === p.trilha.arquivo && !$("player").paused ? ICON_PAUSE : ICON_PLAY) + '</button><div style="min-width:0;flex:1"><div class="m"><b>' + p.trilha.variacao + "</b> · " + esc(p.trilha.tom) + " · " + String(p.trilha.bpm).replace(".", ",") + " BPM · " + esc(p.trilha.acordes) + '</div><div class="bar" data-seek="' + p.trilha.arquivo + '" style="height:2px;background:var(--line);margin-top:8px;position:relative;cursor:pointer"><i style="position:absolute;inset:0 auto 0 0;width:0;background:var(--text)"></i></div></div><span class="tag' + (p.trilha.status === "aprovada" ? " solid" : "") + '">' + (p.trilha.status === "aprovada" ? "Aprovada" : "Rascunho") + "</span></div></div>" : "";
     var stories = p.stories && p.stories.length ? '<div class="dr-sec"><h3>Stories do dia</h3><div class="stories">' + p.stories.map(function (s) {
       return '<a href="' + s.arquivo + '" target="_blank" rel="noopener"><img loading="lazy" src="' + s.arquivo + '" alt="' + esc(s.momento) + '"><span>' + esc(s.momento) + "</span></a>";
-    }).join("") + '</div><p class="muted" style="font-size:0.8125rem">1080×1920. A pergunta da manhã já pede resposta na arte; se postar pelo app, dá para pôr o adesivo de enquete no espaço livre abaixo dela.</p></div>' : "";
+    }).join("") + '</div><p class="muted" style="font-size:0.8125rem">1080×1920. A pergunta do story do post já pede resposta na arte; se postar pelo app, dá para pôr o adesivo de enquete no espaço livre abaixo dela.</p></div>' : "";
     var legenda = p.legenda ? '<div class="dr-sec"><h3>Legenda <button class="btn small line" type="button" data-copy-leg="1">Copiar legenda</button></h3><div class="legenda">' + esc(p.legenda) + "</div></div>" : '<div class="dr-sec"><h3>Legenda</h3><p class="empty">A legenda é escrita junto com a peça.</p></div>';
     var plano = '<div class="dr-sec"><h3>Plano</h3><dl class="kv">' +
       [["Objetivo", p.objetivo], ["Tema", p.tema], ["Ângulo", p.angulo], ["Ideia central", p.ideia], ["CTA", p.cta], ["Métrica", p.metrica], ["Fundo", p.fundo], ["Tema recorrente", p.fio]]
@@ -897,7 +909,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     var outras = '<details class="more"><summary>Mudar a etapa manualmente</summary><div class="tags" style="margin-top:10px">' + STATUS.map(function (s) {
       return '<button type="button" class="chip" data-set="' + s.id + '" aria-pressed="' + (s.id === st) + '"><span class="sg ' + s.id + '"></span>' + s.nome + "</button>";
     }).join("") + "</div></details>";
-    $("drBody").innerHTML = '<div class="dr-head"><span class="when">' + p.id + " · " + WDL[d.getDay()] + " " + dlabel(d) + (Store.config().horario ? " · " + Store.config().horario : "") + "</span><h2>" + esc(p.hook) + "</h2>" + tags + "</div>" +
+    $("drBody").innerHTML = '<div class="dr-head"><span class="when">' + p.id + " · " + WDL[d.getDay()] + " " + dlabel(d) + (horaPost(p) ? " · " + horaPost(p) : "") + "</span><h2>" + esc(p.hook) + "</h2>" + tags + "</div>" +
       steps + actionBox(p, st, dd) + mediaBox(p) + trilha + stories + legenda + plano + arquivos + resultado + nota + outras;
   }
 

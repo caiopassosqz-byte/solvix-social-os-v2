@@ -4,7 +4,7 @@
     python3 stories/preparar.py
     node stories/exportar.js            # gera stories/dNN/*.png
 
-Por dia: 1 manhã (o post do dia + uma pergunta) e 1 tarde (um bastidor real da produção).
+Por dia: 1 bastidor real da produção (almoço) e 1 story do post com uma pergunta (logo depois do post).
 Segunda, quarta e sexta: 1 lembrete de palavra-chave. Os bastidores usam material de verdade:
 o roteiro em código de cada Reels, a forma de onda da trilha, quadros do vídeo e a grade de slides.
 """

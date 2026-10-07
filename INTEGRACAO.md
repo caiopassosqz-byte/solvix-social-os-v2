@@ -23,7 +23,7 @@ Nunca cole a chave, senha ou código de acesso no chat.
 ## O que o Claude faz depois
 
 1. Confere a conexão: lista os canais do Postiz e as configurações exigidas pelo Instagram.
-2. Para cada post **Aprovado** no painel: envia a mídia (vídeo do Reels ou slides do carrossel), a legenda da pasta do post e agenda no dia do calendário, no horário definido em Estratégia › Ajustes do ciclo. Os Stories do dia (pasta `stories/dNN/`) vão junto: o da manhã antes do post e o bastidor à tarde.
+2. Para cada post **Aprovado** no painel: envia a mídia (vídeo do Reels ou slides do carrossel), a legenda da pasta do post e agenda no dia do calendário, no horário da agenda (Estratégia › Horários: 19h nos dias úteis, 11h no fim de semana). Os Stories do dia (pasta `stories/dNN/`) vão junto: o bastidor no almoço, o story do post 20 minutos depois dele e a palavra-chave às 21h.
    - A API do Instagram publica Stories como imagem, sem adesivos. A pergunta da manhã já pede resposta na própria arte. Se quiser a enquete clicável, poste esse Story pelo app e ponha o adesivo no espaço livre abaixo da pergunta.
 3. Marca o post como **Agendado** no painel e, depois de publicado, como **Publicado**.
 4. Se algo falhar (mídia recusada, conta desconectada), o post volta para **Aprovado** com a nota do erro, e você é avisado.
@@ -34,7 +34,6 @@ Pendências que travam posts específicos (também aparecem no painel, em Hoje):
 
 | Pendência | Posts |
 |---|---|
-| Horário de publicação | todos |
 | @ da agência e link da bio | todos os que citam "link da bio" |
 | Autorização do Grupo Kaza | D12 |
 | Números reais do Insights | D13, D30 |

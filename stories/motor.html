@@ -89,7 +89,7 @@ DIAS.filter(function (d) { return !Q || d.id === Q; }).forEach(function (d) {
   // manhã: post do dia + pergunta
   var capa = d.capa ? '<div class="capa"><img src="' + d.capa + '" alt=""><span class="fmt">' + d.fmt + "</span></div>"
     : '<div class="capa txtonly">' + esc(d.hook) + '<span class="fmt">' + d.fmt + "</span></div>";
-  story(pasta + "01-manha.png", barra(d) + '<div class="novo"><b>Post novo no perfil.</b>Toque na foto do perfil para ver.</div>' +
+  story(pasta + "02-post.png", barra(d) + '<div class="novo"><b>Post novo no perfil.</b>Toque na foto do perfil para ver.</div>' +
     '<div class="box" style="gap:34px"><p class="eyebrow"><i></i>Hoje no perfil</p>' + capa +
     '<h2 style="font-size:76px;margin-top:20px">' + esc(d.pergunta) + '</h2><div class="livre"></div><p class="resp">' + esc(d.resposta) + "</p></div>");
   // tarde: bastidor real
@@ -99,7 +99,7 @@ DIAS.filter(function (d) { return !Q || d.id === Q; }).forEach(function (d) {
   else if (b.tipo === "quadros") vis = '<div class="quadros">' + b.imgs.map(function (s) { return '<img src="' + s + '" alt="">'; }).join("") + "</div>";
   else if (b.tipo === "slides") { var n = b.imgs.length, cols = n <= 3 ? n : n <= 6 ? 3 : 4; vis = '<div class="grade" style="grid-template-columns:repeat(' + cols + ',1fr)">' + b.imgs.map(function (s) { return '<img src="' + s + '" alt="">'; }).join("") + "</div>"; }
   else vis = '<div class="painel"><img src="' + b.img + '" alt=""></div>';
-  story(pasta + "02-tarde.png", barra(d) + '<div class="box" style="justify-content:center"><p class="eyebrow"><i></i>Bastidor</p><h2>' + rich(b.titulo) + "</h2>" + vis + '<p class="txt">' + esc(b.texto) + "</p></div>");
+  story(pasta + "01-bastidor.png", barra(d) + '<div class="box" style="justify-content:center"><p class="eyebrow"><i></i>Bastidor</p><h2>' + rich(b.titulo) + "</h2>" + vis + '<p class="txt">' + esc(b.texto) + "</p></div>");
   // palavra-chave
   if (d.palavra) {
     var P = PALAVRA[d.palavra];
