@@ -1,5 +1,5 @@
 // D29 · Como funciona contratar a Solvix (Conversão). 6 slides; "o que você recebe" é o momento claro.
-// Pendente: confirmar etapas, prazos e políticas antes de publicar.
+// Etapas seguem o processo da Solvix. Pendente: confirmar domínio no nome do cliente e suporte depois da entrega.
 window.CAR = { id: "D29", slides: [
   { tipo: "capa", eyebrow: "Contratar a Solvix", titulo: "Tudo o que você precisa saber antes de falar com a Solvix. [Inclusive o preço.]", tamanho: 88 },
   { tipo: "linhas", eyebrow: "01 · O que fazemos", titulo: "Três frentes.", tamanho: 84, itens: [
@@ -12,7 +12,7 @@ window.CAR = { id: "D29", slides: [
   { tipo: "linhas", eyebrow: "03 · Como funciona", titulo: "Seis etapas.", tamanho: 76, compacta: true, itens: [
     { t: "Conversa", d: "Entender o negócio, o cliente e o objetivo." }, { t: "Proposta", d: "Escopo, prazo e valor por escrito." },
     { t: "Estrutura e texto", d: "O que a página diz, antes do layout." }, { t: "Design e desenvolvimento" },
-    { t: "Testes no celular", d: "Revisão na tela onde o cliente vai abrir." }, { t: "Publicação", d: "Site no ar e acessos entregues." }] },
+    { t: "Testes e sua revisão", d: "No celular, com você, antes de publicar." }, { t: "Publicação", d: "Pagamento final, site no ar e entrega." }] },
   { tipo: "checks", eyebrow: "04 · O que você recebe", titulo: "No fim do projeto.", claro: true, tamanho: 76, itens: [
     { t: "Site no ar, testado no celular" }, { t: "Domínio no nome da sua empresa" }, { t: "Acesso a todos os arquivos e painéis" }, { t: "Contrato com o escopo combinado" }, { t: "Suporte depois da entrega" }] },
   { tipo: "cta", eyebrow: "05 · Primeiro passo", titulo: "Escolha [uma palavra.]", tamanho: 100, sub: "<b style='color:#F5F5F3'>PREÇO</b> para receber o guia de investimento.<br><b style='color:#F5F5F3'>ANÁLISE</b> para avaliarmos seu site atual sem custo.", botoes: ["Enviar na DM"] }

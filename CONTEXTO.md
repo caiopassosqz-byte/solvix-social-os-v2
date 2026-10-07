@@ -39,6 +39,7 @@ Valores: Sofisticação · Confiança · Foco em resultados · Precisão · Parc
 2. Nenhum post existe só para manter frequência. Todo post tem função (Atração, Autoridade, Relacionamento ou Conversão) e uma métrica.
 3. Prova sempre real. Enquanto não houver clientes, a prova vem de projetos demonstrativos (sempre identificados como demonstração), redesigns conceituais (identificados como conceito) e bastidores. Nunca inventar case, número ou depoimento.
 4. Não expor negócios reais em críticas sem autorização.
+5. Nenhuma peça depende de o dono aparecer ou falar. Reels são sempre animados (motor de Reels), sem rosto e sem voz.
 
 ## Regras visuais dos posts
 

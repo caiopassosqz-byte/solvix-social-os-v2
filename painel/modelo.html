@@ -345,9 +345,9 @@ img { max-width: 100%; }
 .logo-pair b { font-weight: 500; font-size: 1.3rem; letter-spacing: 0.02em; line-height: 1; }
 .logo-pair small { display: block; font-size: 0.5rem; letter-spacing: 0.4em; opacity: 0.7; margin-top: 6px; }
 .field { display: grid; gap: 6px; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-2); }
-.field input, .field select, .field textarea { background: var(--bg); border: 1px solid var(--line-2); border-radius: 8px; padding: 9px 11px; font-size: 0.9375rem; letter-spacing: 0; text-transform: none; color: var(--text); }
+.field input, .field select, .field textarea { background: var(--bg); border: 1px solid var(--line-2); border-radius: 8px; padding: 9px 11px; font-size: 0.9375rem; letter-spacing: 0; text-transform: none; color: var(--text); width: 100%; min-width: 0; box-sizing: border-box; }
 .field textarea { min-height: 84px; resize: vertical; }
-.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
 
 /* Ficha do post (gaveta) */
 .scrim { position: fixed; inset: 0; background: var(--scrim); z-index: 40; opacity: 0; pointer-events: none; transition: opacity 180ms ease; }
@@ -408,6 +408,9 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
 .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px); background: var(--inv-bg); color: var(--inv-fg); padding: 10px 16px; border-radius: 999px; font-size: 0.875rem; opacity: 0; pointer-events: none; transition: all 200ms ease; z-index: 60; max-width: calc(100% - 32px); }
 .toast.on { opacity: 1; transform: translate(-50%, 0); }
 @media (prefers-reduced-motion: reduce) { .drawer, .scrim, .toast { transition: none; } }
+  .stories { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .stories a { display: grid; gap: 6px; color: inherit; text-decoration: none; font-size: 0.75rem; line-height: 1.3; }
+  .stories img { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; display: block; box-shadow: 0 0 0 1px var(--line, #2A2A2A); }
 </style>
 
 <div class="app">
@@ -761,7 +764,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     } else {
       body = DATA.hooks.map(function (g) {
         return '<div class="hook-grp"><h3>' + esc(g.m) + "</h3><div>" + g.itens.map(function (h) {
-          return '<div class="hook-it"><div><p>' + esc(h[0]) + "</p><small>" + (h[1] ? "No calendário · D" + pad(h[1]) : "Reserva para regravação") + '</small></div><button type="button" class="btn small line" data-copy="' + esc(h[0]) + '">Copiar</button></div>';
+          return '<div class="hook-it"><div><p>' + esc(h[0]) + "</p><small>" + (h[1] ? "No calendário · D" + pad(h[1]) : "Reserva para nova versão") + '</small></div><button type="button" class="btn small line" data-copy="' + esc(h[0]) + '">Copiar</button></div>';
         }).join("") + "</div></div>";
       }).join("");
     }
@@ -786,14 +789,14 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
       '<section class="sec"><header><p class="eyebrow">Proporção</p><h2>Quatro funções</h2></header><div class="body"><div class="mixbar">' + mix + '</div><div class="mixleg">' + leg + '</div><p class="muted" style="max-width:64ch">Sem audiência, atrair desconhecidos vem primeiro. Projetos e carrosséis de autoridade sustentam a confiança que um ticket de até R$35 mil exige. Manifestos e bastidores dão rosto e posição à agência. A conversão fica baixa e sem atrito.</p></div></section>' +
       '<section class="sec"><header><p class="eyebrow">Linha editorial</p><h2>7 posts de vitrine</h2></header><div class="body"><p style="max-width:64ch">Sete dos 30 posts seguem uma linha mais elegante, com estrutura de feed de agência premium: projeto em mockup, manifestos curtos e carrosséis de ideias. A identidade continua 100% Solvix e a cor entra só pelas telas dos projetos.</p><div>' + edit + "</div></div></section>" +
       '<section class="sec"><header><p class="eyebrow">Ponto de partida</p><h2>Gargalos</h2></header><div class="body"><ol class="olist">' +
-        [["Volume sem distribuição.", "35 posts por semana com 15 views de média. Corte para 7 no feed e use o tempo para gravar dois hooks por Reels."],
+        [["Volume sem distribuição.", "35 posts por semana com 15 views de média. Corte para 7 no feed e use o tempo para testar dois hooks por Reels."],
          ["Prova ainda em construção.", "A prova vem de projetos demonstrativos e conceituais, sempre identificados. Nenhum case é inventado."],
          ["Mensagem dividida entre serviços.", "Sites e landing pages lideram; CRM e Google entram como apoio."],
          ["Atenção sem captura.", "Cada post de conversão aponta para uma das três palavras-chave."],
          ["Tom fora da marca.", "Os ganchos provocam pelo contraste e pela clareza, sem alarmismo."]].map(function (x, i) { return '<li><span class="n">' + pad(i + 1) + "</span><div><b>" + x[0] + "</b><p>" + x[1] + "</p></div></li>"; }).join("") + "</ol></div></section>" +
       '<section class="sec"><header><p class="eyebrow">Rotina</p><h2>Toda semana</h2></header><div class="body"><div class="cols2">' +
         '<div><h3>Stories, todo dia</h3><ul><li>Manhã: post do dia com uma enquete ligada a ele.</li><li>Tarde: um bastidor real de projeto.</li><li>3 vezes por semana: lembrete de palavra-chave.</li></ul></div>' +
-        '<div><h3>Revisão de domingo</h3><ul><li>Registre os números de cada post na ficha.</li><li>Regrave os 2 Reels de atração com mais alcance fora da base, com outro hook.</li><li>Post de conversão sem pedidos: revise o material oferecido.</li><li>Toda pergunta da DM vira pauta.</li></ul></div></div></div></section>' +
+        '<div><h3>Revisão de domingo</h3><ul><li>Registre os números de cada post na ficha.</li><li>Refaça os 2 Reels de atração com mais alcance fora da base, com outro hook.</li><li>Post de conversão sem pedidos: revise o material oferecido.</li><li>Toda pergunta da DM vira pauta.</li></ul></div></div></div></section>' +
       '<section class="sec"><header><p class="eyebrow">Ajustes do ciclo</p><h2>Datas e horário</h2></header><div class="body"><div class="fields">' +
         '<label class="field" for="cfgInicio">Início do ciclo<input type="date" id="cfgInicio" value="' + esc(cfg.inicio || DATA.inicio) + '"></label>' +
         '<label class="field" for="cfgHora">Horário de publicação<input type="time" id="cfgHora" value="' + esc(cfg.horario || "") + '"></label></div>' +
@@ -877,6 +880,9 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     steps = '<div style="display:grid;gap:8px"><p class="steps-cap">Etapa ' + (SN[st].i + 1) + " de 6 · <b>" + SN[st].nome + "</b></p>" + steps + "</div>";
     var tags = '<div class="tags"><span class="tag">' + fnSw(p.f) + F[p.f].nome + '</span><span class="tag">' + p.fmt + '</span><span class="tag">' + esc(PIL[p.p]) + "</span>" + (p.estilo ? '<span class="tag">Editorial</span>' : "") + (p.fixado ? '<span class="tag solid">Fixar no perfil</span>' : "") + "</div>";
     var trilha = p.trilha ? '<div class="dr-sec"><h3>Trilha original</h3><div class="audio-row track' + (playing === p.trilha.arquivo ? " on" : "") + '" data-track="' + p.trilha.arquivo + '"><button type="button" class="play" data-play="' + p.trilha.arquivo + '" aria-label="Tocar a trilha">' + (playing === p.trilha.arquivo && !$("player").paused ? ICON_PAUSE : ICON_PLAY) + '</button><div style="min-width:0;flex:1"><div class="m"><b>' + p.trilha.variacao + "</b> · " + esc(p.trilha.tom) + " · " + String(p.trilha.bpm).replace(".", ",") + " BPM · " + esc(p.trilha.acordes) + '</div><div class="bar" data-seek="' + p.trilha.arquivo + '" style="height:2px;background:var(--line);margin-top:8px;position:relative;cursor:pointer"><i style="position:absolute;inset:0 auto 0 0;width:0;background:var(--text)"></i></div></div><span class="tag' + (p.trilha.status === "aprovada" ? " solid" : "") + '">' + (p.trilha.status === "aprovada" ? "Aprovada" : "Rascunho") + "</span></div></div>" : "";
+    var stories = p.stories && p.stories.length ? '<div class="dr-sec"><h3>Stories do dia</h3><div class="stories">' + p.stories.map(function (s) {
+      return '<a href="' + s.arquivo + '" target="_blank" rel="noopener"><img loading="lazy" src="' + s.arquivo + '" alt="' + esc(s.momento) + '"><span>' + esc(s.momento) + "</span></a>";
+    }).join("") + '</div><p class="muted" style="font-size:0.8125rem">1080×1920. A pergunta da manhã já pede resposta na arte; se postar pelo app, dá para pôr o adesivo de enquete no espaço livre abaixo dela.</p></div>' : "";
     var legenda = p.legenda ? '<div class="dr-sec"><h3>Legenda <button class="btn small line" type="button" data-copy-leg="1">Copiar legenda</button></h3><div class="legenda">' + esc(p.legenda) + "</div></div>" : '<div class="dr-sec"><h3>Legenda</h3><p class="empty">A legenda é escrita junto com a peça.</p></div>';
     var plano = '<div class="dr-sec"><h3>Plano</h3><dl class="kv">' +
       [["Objetivo", p.objetivo], ["Tema", p.tema], ["Ângulo", p.angulo], ["Ideia central", p.ideia], ["CTA", p.cta], ["Métrica", p.metrica], ["Fundo", p.fundo], ["Tema recorrente", p.fio]]
@@ -892,7 +898,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
       return '<button type="button" class="chip" data-set="' + s.id + '" aria-pressed="' + (s.id === st) + '"><span class="sg ' + s.id + '"></span>' + s.nome + "</button>";
     }).join("") + "</div></details>";
     $("drBody").innerHTML = '<div class="dr-head"><span class="when">' + p.id + " · " + WDL[d.getDay()] + " " + dlabel(d) + (Store.config().horario ? " · " + Store.config().horario : "") + "</span><h2>" + esc(p.hook) + "</h2>" + tags + "</div>" +
-      steps + actionBox(p, st, dd) + mediaBox(p) + trilha + legenda + plano + arquivos + resultado + nota + outras;
+      steps + actionBox(p, st, dd) + mediaBox(p) + trilha + stories + legenda + plano + arquivos + resultado + nota + outras;
   }
 
   /* ---------------- áudio ---------------- */

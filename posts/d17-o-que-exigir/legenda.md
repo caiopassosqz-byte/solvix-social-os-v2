@@ -2,7 +2,7 @@
 
 - **Formato:** carrossel, 6 slides de 1080×1350
 - **Fonte editável:** `carrosseis/roteiros/d17.js`
-- **Antes de publicar:** confirmar que os quatro itens são política da Solvix (o último slide diz que são padrão).
+- **Antes de publicar:** confirmar domínio no nome do cliente e entrega de todos os acessos. Contrato e pagamento 50% + 50% já são política da Solvix.
 
 ## Legenda
 

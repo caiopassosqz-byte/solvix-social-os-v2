@@ -63,3 +63,14 @@ node carrosseis/exportar.js checklist /tmp/x materiais/checklist-landing-page.pd
 
 - `materiais/`: o que enviar para quem manda CHECKLIST, PREÇO ou ANÁLISE na DM, com respostas prontas.
 - `INTEGRACAO.md`: como conectar o Instagram da Solvix para a publicação automática.
+
+## Stories
+
+73 Stories para o ciclo, em `stories/dNN/`: todo dia um de manhã (o post do dia com uma pergunta) e um à tarde (um bastidor real: o roteiro em código do Reels, a forma de onda da trilha, quadros do vídeo ou a grade de slides). Segunda, quarta e sexta, um lembrete de palavra-chave (CHECKLIST, PREÇO ou ANÁLISE).
+
+```
+python3 stories/preparar.py      # junta plano, peças e bastidores em stories/dados.js
+node stories/exportar.js         # gera os PNG 1080×1920 (ou: node stories/exportar.js D04)
+```
+
+As perguntas ficam em `stories/roteiro.json`. A arte já pede a resposta por escrito, porque a API do Instagram não coloca adesivos; quem postar pelo app pode pôr o adesivo de enquete no espaço livre abaixo da pergunta.

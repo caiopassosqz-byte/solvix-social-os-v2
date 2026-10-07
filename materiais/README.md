@@ -10,7 +10,7 @@ O que entregar quando alguém manda uma palavra-chave na DM. **Revise antes de u
 
 Os PDFs saem de `carrosseis/roteiros/checklist.js` e `carrosseis/roteiros/guia-preco.js` (mesmo motor dos carrosséis). Para mudar o texto, edite o roteiro e gere de novo.
 
-**Pendente no guia de investimento:** a página "Em todo projeto" lista domínio no nome do cliente, acesso aos arquivos e suporte depois da entrega. Confirme que são políticas da Solvix. Se quiser publicar uma faixa por tipo de site (landing, institucional, e-commerce, sistema), me passe os valores e eu acrescento; hoje o guia só usa a faixa geral de R$1 mil a R$35 mil.
+**Pendente no guia de investimento:** a página "Em todo projeto" lista domínio no nome do cliente, acesso aos arquivos e suporte depois da entrega. Proposta por escrito e testes antes de publicar já seguem o processo da Solvix; confirme os outros três. Se quiser publicar uma faixa por tipo de site (landing, institucional, e-commerce, sistema), me passe os valores e eu acrescento; hoje o guia só usa a faixa geral de R$1 mil a R$35 mil.
 
 ## Respostas prontas para a DM
 

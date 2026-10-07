@@ -105,7 +105,7 @@ PENDENCIAS = [
     {"id": "horario", "titulo": "Definir o horário de publicação", "detalhe": "Escolha em Estratégia › Ajustes do ciclo. Vale para todos os posts até você mudar."},
     {"id": "kaza", "titulo": "Autorização do Grupo Kaza", "detalhe": "Para publicar o D12 com o nome e as fotos da Kaza.", "posts": [12]},
     {"id": "materiais", "titulo": "Materiais das palavras-chave", "detalhe": "Checklist de landing page, guia de investimento e roteiro da análise gratuita. Posso escrever os três; preciso do seu ok no conteúdo.", "posts": [5, 10, 17, 24]},
-    {"id": "politicas", "titulo": "Confirmar as políticas da Solvix", "detalhe": "Domínio no nome do cliente, contrato, pagamento em etapas e entrega de acessos, citados no D17 e no D29.", "posts": [17, 29]},
+    {"id": "politicas", "titulo": "Confirmar duas políticas da Solvix", "detalhe": "Contrato e pagamento 50% + 50% já estão confirmados. Faltam: o domínio fica no nome do cliente? E existe suporte depois da entrega (incluso por um período ou só como manutenção paga)? Citados no D17, D18, D29 e no guia de investimento.", "posts": [17, 18, 29]},
 ]
 
 
@@ -150,6 +150,10 @@ def dados():
             p["legenda"] = leg[pid]
         if pid == "D03":
             p["pasta"] = "posts/d03-por-que-a-solvix-existe/"
+        pasta_st = os.path.join(RAIZ, "stories", pid.lower())
+        if os.path.isdir(pasta_st):
+            nomes = {"01-manha.png": "Manhã · post do dia e pergunta", "02-tarde.png": "Tarde · bastidor", "03-palavra.png": "Lembrete de palavra-chave"}
+            p["stories"] = [{"arquivo": f"stories/{pid.lower()}/{a}", "momento": nomes.get(a, a)} for a in sorted(os.listdir(pasta_st)) if a.endswith(".png")]
         if p["fmt"] == "Reels" and pid in trs:
             p["trilha"] = trs[pid]
         p["statusInicial"] = "revisao" if pid in pecas else "planejado"
