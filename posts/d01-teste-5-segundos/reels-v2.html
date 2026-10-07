@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>D01 · Teste dos 5 segundos · v2</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+Display:wght@300;400;500&display=swap">
+<style>
+/* Reels D01 v2 — 1080×1920, 20 s, 120 BPM (1 tempo = 0,5 s; 1 compasso = 2 s).
+   render(t) desenha o quadro do segundo t. Movimento: palavras que batem no tempo, câmera que pulsa
+   na batida, cortes secos com varredura, celular que carrega e reage. Monocromático; a cor da marca é preto e branco.
+   Zona segura: textos entre y=260 e y=1480, longe da coluna de botões à direita. */
+:root {
+  --bg: #050505; --card: #141414; --line: #262626; --g5: #737373; --g4: #A3A3A3; --off: #F5F5F3; --white: #FFFFFF;
+  --serif: "Noto Serif Display", Georgia, serif;
+  --sans: "Inter", Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #222; }
+#stage { width: 1080px; height: 1920px; position: relative; overflow: hidden; background: var(--bg); color: var(--off); font-family: var(--sans); }
+#cam { position: absolute; inset: 0; transform-origin: 50% 46%; }
+.abs { position: absolute; }
+.scene { position: absolute; inset: 0; display: none; }
+.scene.light { background: var(--off); color: #0A0A0A; }
+.grid { position: absolute; inset: -200px; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 120px 120px; }
+.light .grid { background-image: linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px); }
+.glow { position: absolute; width: 1400px; height: 1400px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0) 60%); }
+.light .glow { background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 60%); }
+.w { display: inline-block; will-change: transform, opacity; }
+.serif { font-family: var(--serif); letter-spacing: -0.02em; }
+.label { font-size: 30px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 600; color: var(--g4); }
+.light .label { color: var(--g5); }
+
+/* topo fixo */
+.top { position: absolute; left: 96px; right: 96px; top: 236px; display: flex; justify-content: space-between; align-items: center; z-index: 20; }
+.logo { display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 500; letter-spacing: 0.01em; line-height: 1; }
+.logo img { height: 56px; display: block; }
+.logo small { display: block; font-size: 9px; letter-spacing: 0.42em; color: var(--g4); margin-top: 8px; font-weight: 400; }
+.prog { position: absolute; left: 96px; right: 96px; top: 330px; height: 3px; background: rgba(255,255,255,0.14); z-index: 20; }
+.prog i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--off); }
+#stage.inv .top { color: #0A0A0A; }
+#stage.inv .prog { background: rgba(0,0,0,0.12); }
+#stage.inv .prog i { background: #0A0A0A; }
+#stage.inv .logo small { color: var(--g5); }
+
+/* celular */
+.phone { position: absolute; width: 540px; height: 1080px; border-radius: 70px; background: #0C0C0C; padding: 18px; box-shadow: 0 0 0 3px #2C2C2C, 0 60px 120px rgba(0,0,0,0.6); }
+.phone::before { content: ""; position: absolute; top: 34px; left: 50%; width: 150px; height: 40px; border-radius: 24px; background: #000; transform: translateX(-50%); z-index: 3; }
+.screen { position: absolute; inset: 18px; border-radius: 54px; overflow: hidden; background: #F5F5F3; color: #0A0A0A; }
+.site { position: absolute; inset: 0; padding: 104px 40px 40px; display: grid; align-content: start; gap: 26px; }
+.site .nav { display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 700; letter-spacing: 0.08em; }
+.site .nav i { display: block; width: 36px; height: 3px; background: #0A0A0A; box-shadow: 0 10px 0 #0A0A0A, 0 -10px 0 #0A0A0A; }
+.site h3 { font-family: var(--serif); font-weight: 400; font-size: 56px; line-height: 1.04; letter-spacing: -0.015em; }
+.site p { font-size: 25px; line-height: 1.4; color: #575757; }
+.site .img { height: 300px; border-radius: 18px; background: linear-gradient(135deg, #CFCFCC, #E2E2DF); }
+.site .img.dark { background: linear-gradient(135deg, #1E1E1E, #3A3A3A); }
+.site .btn { background: #0A0A0A; color: #F5F5F3; border-radius: 999px; padding: 26px; font-size: 26px; font-weight: 600; text-align: center; position: relative; }
+.site .lines i { display: block; height: 16px; border-radius: 8px; background: #DADAD7; margin-top: 14px; }
+.site .lines i:nth-child(2) { width: 82%; } .site .lines i:nth-child(3) { width: 64%; }
+.skel { position: absolute; inset: 0; padding: 104px 40px 40px; display: grid; align-content: start; gap: 24px; background: #F5F5F3; }
+.skel i { display: block; border-radius: 14px; background: linear-gradient(90deg, #E4E4E1 0%, #F2F2EF 50%, #E4E4E1 100%); background-size: 300% 100%; }
+.loadbar { position: absolute; left: 0; top: 0; height: 8px; background: #0A0A0A; z-index: 2; }
+.dim { position: absolute; inset: 0; background: rgba(5,5,5,0.72); }
+.tap { position: absolute; width: 120px; height: 120px; border-radius: 50%; border: 5px solid #0A0A0A; background: rgba(10,10,10,0.12); }
+.bubble { position: absolute; right: 40px; bottom: 60px; max-width: 380px; background: #0A0A0A; color: #F5F5F3; border-radius: 30px 30px 8px 30px; padding: 24px 28px; font-size: 26px; line-height: 1.35; }
+.bubble small { display: block; font-size: 18px; color: #A3A3A3; margin-top: 8px; text-align: right; }
+
+/* contador */
+.count { position: absolute; font-family: var(--serif); font-weight: 400; line-height: 0.8; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.verdict { position: absolute; left: 96px; right: 96px; display: grid; gap: 14px; }
+.verdict b { font-family: var(--serif); font-weight: 400; font-size: 150px; line-height: 0.92; letter-spacing: -0.03em; }
+.verdict span { font-size: 40px; color: var(--g4); }
+.wipe { position: absolute; top: -10%; bottom: -10%; width: 140%; left: -20%; background: var(--off); z-index: 30; transform: translateX(-130%) skewX(-12deg); }
+.flash { position: absolute; inset: 0; background: #fff; z-index: 31; opacity: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="cam">
+
+    <!-- 1 · Hook (0 – 2) -->
+    <section class="scene" id="c1" data-from="0" data-to="2">
+      <div class="grid"></div><div class="glow" style="left:-500px; top:-300px"></div>
+      <div class="abs serif" style="left:96px; right:96px; top:560px; font-size:150px; line-height:1.0; font-weight:300">
+        <span class="w" id="h1">Abra</span> <span class="w" id="h2">seu site</span><br><span class="w" id="h3">no celular.</span>
+      </div>
+      <div class="abs" id="h4" style="left:96px; top:1080px; width:220px; height:400px; border:4px solid var(--off); border-radius:44px;">
+        <div style="position:absolute; top:22px; left:50%; width:70px; height:16px; border-radius:10px; background:var(--off); transform:translateX(-50%)"></div>
+      </div>
+      <div class="abs label" id="h5" style="left:360px; top:1250px">Agora. Sério.</div>
+    </section>
+
+    <!-- 2 · Você tem 5 segundos (2 – 4), fundo claro -->
+    <section class="scene light" id="c2" data-from="2" data-to="4">
+      <div class="grid"></div><div class="glow" style="right:-600px; top:200px"></div>
+      <div class="abs serif" id="v1" style="left:96px; top:470px; font-size:84px; font-weight:300; color:#737373">Você tem</div>
+      <div class="abs serif" id="v2" style="left:70px; top:520px; font-size:860px; line-height:1; font-weight:300">5</div>
+      <div class="abs serif" id="v3" style="left:96px; top:1330px; font-size:150px; font-weight:300">segundos.</div>
+    </section>
+
+    <!-- 3 · Teste 1 (4 – 8) -->
+    <section class="scene" id="c3" data-from="4" data-to="8">
+      <div class="grid"></div><div class="glow" style="left:-300px; top:600px"></div>
+      <div class="abs label" id="t1lab" style="left:96px; top:400px">Teste 1 · site genérico</div>
+      <div class="count" id="cnt1" style="left:96px; top:520px; font-size:340px">5</div>
+      <div class="abs label" id="t1seg" style="left:110px; top:820px">segundos</div>
+      <div class="phone" id="ph1" style="left:450px; top:470px">
+        <div class="screen">
+          <div class="site">
+            <div class="nav">LOGO <i></i></div>
+            <div class="img"></div>
+            <h3>Bem-vindo ao nosso site</h3>
+            <p>Soluções com qualidade e excelência para você.</p>
+            <div class="lines"><i></i><i></i><i></i></div>
+          </div>
+          <div class="skel" id="sk1"><i style="height:30px;width:40%"></i><i style="height:300px"></i><i style="height:60px"></i><i style="height:60px;width:70%"></i><i style="height:26px"></i><i style="height:26px;width:80%"></i></div>
+          <div class="loadbar" id="lb1"></div>
+          <div class="dim" id="dim1"></div>
+        </div>
+      </div>
+      <div class="verdict" id="vd1" style="top:1330px">
+        <b>Ele saiu.</b><span>E foi para o concorrente.</span>
+      </div>
+    </section>
+
+    <!-- 4 · Critérios (8 – 12), fundo claro -->
+    <section class="scene light" id="c4" data-from="8" data-to="12">
+      <div class="grid"></div><div class="glow" style="left:-400px; top:-200px"></div>
+      <div class="abs label" id="k0" style="left:96px; top:600px">Em 5 segundos, ele precisa entender</div>
+      <div class="abs" style="left:96px; right:96px; top:700px; display:grid; gap:56px">
+        <div id="k1" style="display:grid; grid-template-columns:110px 1fr; align-items:baseline"><span class="serif" style="font-size:54px; color:#737373">01</span><span class="serif" style="font-size:104px; line-height:1; font-weight:300">O que você faz.</span></div>
+        <div id="k2" style="display:grid; grid-template-columns:110px 1fr; align-items:baseline"><span class="serif" style="font-size:54px; color:#737373">02</span><span class="serif" style="font-size:104px; line-height:1; font-weight:300">Para quem.</span></div>
+        <div id="k3" style="display:grid; grid-template-columns:110px 1fr; align-items:baseline"><span class="serif" style="font-size:54px; color:#737373">03</span><span class="serif" style="font-size:104px; line-height:1; font-weight:300">Como te chamar.</span></div>
+      </div>
+      <div class="abs" id="kline" style="left:206px; top:0; height:6px; background:#0A0A0A"></div>
+    </section>
+
+    <!-- 5 · Teste 2 (12 – 16) -->
+    <section class="scene" id="c5" data-from="12" data-to="16">
+      <div class="grid"></div><div class="glow" style="right:-400px; top:400px"></div>
+      <div class="abs label" id="t2lab" style="left:96px; top:400px">Teste 2 · site claro</div>
+      <div class="count" id="cnt2" style="left:96px; top:520px; font-size:340px">5</div>
+      <div class="abs label" id="t2seg" style="left:110px; top:820px">segundos</div>
+      <div class="phone" id="ph2" style="left:450px; top:470px">
+        <div class="screen">
+          <div class="site">
+            <div class="nav">CLÍNICA <i></i></div>
+            <h3>Implante dentário com avaliação em 24 horas.</h3>
+            <p>Para quem quer voltar a sorrir sem esperar meses.</p>
+            <div class="btn" id="wbtn">Agendar pelo WhatsApp</div>
+            <div class="img dark"></div>
+          </div>
+          <div class="loadbar" id="lb2"></div>
+          <div class="tap" id="tap"></div>
+          <div class="bubble" id="bub">Olá! Quero agendar uma avaliação.<small>agora ✓✓</small></div>
+        </div>
+      </div>
+      <div class="verdict" id="vd2" style="top:1330px">
+        <b>Ele chamou.</b><span>Em 2 segundos.</span>
+      </div>
+    </section>
+
+    <!-- 6 · Virada (16 – 18), fundo claro -->
+    <section class="scene light" id="c6" data-from="16" data-to="18">
+      <div class="grid"></div><div class="glow" style="left:0; top:300px"></div>
+      <div class="abs serif" style="left:96px; right:96px; top:600px; font-size:200px; line-height:0.98; font-weight:300">
+        <span class="w" id="a1">Agora</span><br><span class="w" id="a2">abre</span> <span class="w" id="a3">o seu.</span>
+      </div>
+      <div class="abs label" id="a4" style="left:96px; top:1240px">Passou ou não?</div>
+    </section>
+
+    <!-- 7 · CTA (18 – 20) -->
+    <section class="scene" id="c7" data-from="18" data-to="20.01">
+      <div class="grid"></div><div class="glow" style="left:-200px; top:200px"></div>
+      <div class="abs serif" style="left:96px; right:96px; top:560px; font-size:118px; line-height:1.04; font-weight:300">
+        <span class="w" id="e1">Manda</span> <span class="w" id="e2">para quem</span><br><span class="w" id="e3">tem site</span> <span class="w" id="e4" style="color:#A3A3A3">e nunca</span><br><span class="w" id="e5" style="color:#A3A3A3">fez esse teste.</span>
+      </div>
+      <div class="abs" id="e6" style="left:96px; top:1200px; display:flex; align-items:center; gap:28px">
+        <img src="../../marca/solvix-simbolo.png" alt="" style="height:120px">
+        <div style="font-size:62px; font-weight:500; letter-spacing:0.01em; line-height:1">SOLVIX<small style="display:block; font-size:16px; letter-spacing:0.42em; color:#A3A3A3; margin-top:14px; font-weight:400">SITES QUE POSICIONAM</small></div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="top"><span class="logo" id="logo"><img id="logoImg" src="../../marca/solvix-simbolo.png" alt=""><span>SOLVIX<small>AGENCY</small></span></span><span class="label" id="stepLabel" style="font-size:22px">01 / 05</span></div>
+  <div class="prog"><i id="progBar"></i></div>
+  <div class="wipe" id="wipe"></div>
+  <div class="flash" id="flash"></div>
+</div>
+
+<script>
+var DURATION = 20, BEAT = 0.5;
+function $(id) { return document.getElementById(id); }
+function cl(x) { return Math.max(0, Math.min(1, x)); }
+function outExpo(x) { return x >= 1 ? 1 : 1 - Math.pow(2, -10 * x); }
+function outBack(x) { var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); }
+function outCubic(x) { return 1 - Math.pow(1 - x, 3); }
+function inOut(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+// pop: entra no tempo t0 com escala/deslocamento e opacidade imediata (sem fade lento)
+function pop(id, t, t0, o) {
+  o = o || {}; var el = $(id); var d = o.d || 0.32;
+  var p = cl((t - t0) / d), e = (o.ease || outBack)(p);
+  var on = t >= t0 - 1e-6;
+  var x = (o.x || 0) * (1 - e), y = (o.y == null ? 60 : o.y) * (1 - e), s = 1 + ((o.s == null ? 0.35 : o.s)) * (1 - e), r = (o.r || 0) * (1 - e);
+  var out = o.out != null ? cl((t - o.out) / 0.2) : 0;
+  el.style.opacity = on ? (o.fade ? cl(p * 3) : 1) * (1 - out) : 0;
+  el.style.transform = "translate(" + x + "px," + (y - out * 40) + "px) scale(" + s + ") rotate(" + r + "deg)";
+  if (o.blur) el.style.filter = "blur(" + ((1 - e) * o.blur).toFixed(1) + "px)";
+}
+var beatsHot = [[4, 8], [8, 12], [12, 16], [18, 20]];
+window.render = function (t) {
+  // cenas (cortes secos)
+  document.querySelectorAll(".scene").forEach(function (s) {
+    s.style.display = (t >= +s.dataset.from && t < +s.dataset.to) ? "block" : "none";
+  });
+  var light = (t >= 2 && t < 4) || (t >= 8 && t < 12) || (t >= 16 && t < 18);
+  $("stage").classList.toggle("inv", light);
+  $("logoImg").src = light ? "../../marca/solvix-simbolo-escuro.png" : "../../marca/solvix-simbolo.png";
+  $("progBar").style.width = (100 * t / DURATION) + "%";
+  var step = t < 4 ? 1 : t < 8 ? 2 : t < 12 ? 3 : t < 16 ? 4 : 5;
+  $("stepLabel").textContent = "0" + step + " / 05";
+
+  // câmera: zoom contínuo por cena + soco na batida
+  var sceneStart = [0, 2, 4, 8, 12, 16, 18].filter(function (x) { return x <= t; }).pop();
+  var zoom = 1 + 0.045 * inOut(cl((t - sceneStart) / 2.5));
+  var hot = beatsHot.some(function (r) { return t >= r[0] && t < r[1]; });
+  var lastBeat = Math.floor(t / BEAT) * BEAT;
+  var punch = hot ? 0.018 * Math.exp(-(t - lastBeat) / 0.09) : 0;
+  $("cam").style.transform = "scale(" + (zoom + punch) + ")";
+  document.querySelectorAll(".grid").forEach(function (g) { g.style.transform = "translate(" + (-(t * 26) % 120) + "px," + (-(t * 14) % 120) + "px)"; });
+
+  // varredura e flash nas viradas
+  var wipeT = [2, 8, 16, 18].filter(function (x) { return t >= x - 0.18 && t < x + 0.22; })[0];
+  if (wipeT != null) { var wp = cl((t - (wipeT - 0.18)) / 0.4); $("wipe").style.transform = "translateX(" + (-130 + 260 * inOut(wp)) + "%) skewX(-12deg)"; $("wipe").style.background = wipeT === 18 ? "#050505" : "#F5F5F3"; }
+  else $("wipe").style.transform = "translateX(-130%) skewX(-12deg)";
+  $("flash").style.opacity = (t >= 7 && t < 7.25 ? 0.35 * (1 - (t - 7) / 0.25) : 0) + (t >= 14.5 && t < 14.7 ? 0.25 * (1 - (t - 14.5) / 0.2) : 0);
+
+  // 1 · hook: palavras batem no tempo; a primeira já está no quadro 0
+  if (t < 2) {
+    pop("h1", t, -1); pop("h2", t, 0.25, { y: 0, x: 80, s: 0.2, ease: outExpo, d: 0.25 }); pop("h3", t, 0.5, { y: 90, s: 0.25 });
+    pop("h4", t, 1.0, { y: 220, s: 0, ease: outBack, d: 0.4 }); pop("h5", t, 1.25, { x: -40, y: 0, s: 0, ease: outExpo });
+    var ph = $("h4"); var wob = t > 1.4 ? Math.sin((t - 1.4) * 24) * 6 * Math.exp(-(t - 1.4) * 3) : 0; ph.style.transform += " rotate(" + wob + "deg)";
+  }
+  // 2 · 5 segundos
+  if (t >= 2 && t < 4) {
+    pop("v1", t, 2.0, { y: 30, s: 0.1, ease: outExpo, d: 0.2 });
+    pop("v2", t, 2.0, { y: 0, s: 1.2, r: -8, ease: outBack, d: 0.42 });
+    pop("v3", t, 2.5, { y: 80, s: 0.15 });
+    var bump = 0.05 * Math.exp(-((t - 2) % 0.5) / 0.08); $("v2").style.transform += " scale(" + (1 + bump) + ")";
+  }
+  // 3 · teste 1: celular sobe, carrega, contador cai, ele sai
+  if (t >= 4 && t < 8) {
+    pop("t1lab", t, 4.0, { x: -60, y: 0, s: 0, ease: outExpo });
+    var pe = outExpo(cl((t - 4) / 0.55)), shake = t >= 7 ? Math.sin(t * 90) * 18 * Math.exp(-(t - 7) / 0.18) : 0;
+    var sh1 = 1 - 0.24 * outExpo(cl((t - 7) / 0.3));
+    $("ph1").style.transformOrigin = "100% 0"; $("ph1").style.transform = "translate(" + shake + "px," + (700 * (1 - pe)) + "px) rotate(" + (6 * (1 - pe)) + "deg) scale(" + sh1 + ")";
+    $("ph1").style.opacity = 1;
+    $("lb1").style.width = (100 * outCubic(cl((t - 4.4) / 1.6))) + "%"; $("lb1").style.opacity = t < 6.1 ? 1 : 0;
+    $("sk1").style.opacity = t < 6.0 ? 1 : 0;
+    document.querySelectorAll("#sk1 i").forEach(function (i) { i.style.backgroundPosition = (100 - ((t * 120) % 300)) + "% 0"; });
+    var left = Math.max(0, 5 - Math.floor((t - 4.5) / 0.5)); if (t < 4.5) left = 5;
+    var since = t < 4.5 ? t - 4 : (t - 4.5) % 0.5;
+    $("cnt1").textContent = left; $("cnt1").style.opacity = t >= 4.2 ? 1 : 0;
+    $("cnt1").style.transform = "scale(" + (1 + 0.35 * Math.exp(-since / 0.08)) + ")"; $("cnt1").style.transformOrigin = "0 80%";
+    $("t1seg").style.opacity = t >= 4.2 ? 1 : 0;
+    $("dim1").style.opacity = cl((t - 7) / 0.15);
+    pop("vd1", t, 7.0, { y: 120, s: 0.2, ease: outBack, d: 0.35 });
+  }
+  // 4 · critérios: entram da direita, o anterior apaga para cinza
+  if (t >= 8 && t < 12) {
+    pop("k0", t, 8.0, { x: -60, y: 0, s: 0, ease: outExpo, d: 0.3 });
+    [["k1", 8.5], ["k2", 9.5], ["k3", 10.5]].forEach(function (k, i, arr) {
+      pop(k[0], t, k[1], { x: 420, y: 0, s: 0, ease: outExpo, d: 0.38 });
+      var next = arr[i + 1]; $(k[0]).style.color = next && t >= next[1] ? "#A3A3A3" : "#0A0A0A";
+    });
+    var cur = t >= 10.5 ? 2 : t >= 9.5 ? 1 : 0, ck = [8.5, 9.5, 10.5][cur];
+    var row = $(["k1", "k2", "k3"][cur]); var top = row.offsetTop + 700 + row.offsetHeight + 6;
+    $("kline").style.top = top + "px"; $("kline").style.width = (outExpo(cl((t - ck - 0.15) / 0.35)) * 700) + "px"; $("kline").style.opacity = t >= 8.6 ? 1 : 0;
+  }
+  // 5 · teste 2: carrega rápido, toque no botão, mensagem chega
+  if (t >= 12 && t < 16) {
+    pop("t2lab", t, 12.0, { x: -60, y: 0, s: 0, ease: outExpo });
+    var pe2 = outExpo(cl((t - 12) / 0.5));
+    var sh2 = 1 - 0.24 * outExpo(cl((t - 14.5) / 0.3));
+    $("ph2").style.transformOrigin = "100% 0"; $("ph2").style.transform = "translate(" + (-900 * (1 - pe2)) + "px,0) rotate(" + (-5 * (1 - pe2)) + "deg) scale(" + sh2 + ")";
+    $("lb2").style.width = (100 * outCubic(cl((t - 12.3) / 0.3))) + "%"; $("lb2").style.opacity = t < 12.65 ? 1 : 0;
+    var left2 = t < 12.5 ? 5 : t < 13 ? 4 : 3, since2 = t < 12.5 ? t - 12 : t < 13 ? t - 12.5 : t - 13;
+    $("cnt2").textContent = left2; $("cnt2").style.opacity = t >= 12.2 ? 1 : 0; $("cnt2").style.transformOrigin = "0 80%";
+    $("cnt2").style.transform = "scale(" + (1 + 0.35 * Math.exp(-since2 / 0.08)) + ")";
+    $("t2seg").style.opacity = t >= 12.2 ? 1 : 0;
+    // toque
+    var btn = $("wbtn"), bx = btn.offsetLeft + btn.offsetWidth / 2, by = btn.offsetTop + btn.offsetHeight / 2;
+    var tp = cl((t - 13.5) / 0.5);
+    $("tap").style.left = (bx - 60 + 160 * (1 - outCubic(cl((t - 13.1) / 0.4)))) + "px"; $("tap").style.top = (by - 60 + 200 * (1 - outCubic(cl((t - 13.1) / 0.4)))) + "px";
+    $("tap").style.opacity = t >= 13.1 && t < 14.3 ? 1 - cl((t - 13.9) / 0.4) : 0;
+    $("tap").style.transform = "scale(" + (t >= 13.5 ? 1 + 0.6 * tp : 1) + ")";
+    btn.style.transform = "scale(" + (t >= 13.5 && t < 13.7 ? 0.94 : 1) + ")";
+    pop("bub", t, 14.0, { y: 80, s: 0.3, ease: outBack, d: 0.35 });
+    pop("vd2", t, 14.5, { y: 120, s: 0.2, ease: outBack, d: 0.35 });
+  }
+  // 6 · virada
+  if (t >= 16 && t < 18) {
+    pop("a1", t, 16.0, { y: 0, s: 0.6, ease: outBack, d: 0.3 }); pop("a2", t, 16.5, { y: 120, s: 0.2 }); pop("a3", t, 17.0, { x: 200, y: 0, s: 0.1, ease: outExpo });
+    pop("a4", t, 17.5, { x: -50, y: 0, s: 0, ease: outExpo });
+  }
+  // 7 · CTA
+  if (t >= 18) {
+    pop("e1", t, 18.0, { y: 80, s: 0.3 }); pop("e2", t, 18.25, { y: 80, s: 0.3 }); pop("e3", t, 18.5, { y: 80, s: 0.3 }); pop("e4", t, 18.75, { y: 80, s: 0.3 }); pop("e5", t, 19.0, { y: 80, s: 0.3 });
+    pop("e6", t, 19.25, { y: 60, s: 0.15, ease: outExpo, d: 0.4 });
+  }
+};
+window.DURATION = DURATION;
+render(location.hash === "#capa" ? 3.4 : 0);
+</script>
+</body>
+</html>
