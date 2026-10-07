@@ -1,0 +1,968 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Solvix Social OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+Display:wght@300;400;500&display=swap">
+<style>
+/* Layout: painel editorial monocromático — régua fina no topo, abas, conteúdo em grid de 12 colunas com linhas de 1px (manual Solvix 2026). */
+:root {
+  --bg: #050505;        /* Black 950 — fundo principal */
+  --bg-2: #0A0A0A;      /* Black 900 — seções secundárias */
+  --surface: #141414;   /* Black 800 — cards */
+  --line: #262626;      /* Gray 700 — bordas e divisórias */
+  --muted: #737373;     /* Gray 500 — elementos discretos */
+  --text-2: #A3A3A3;    /* Gray 400 — texto secundário */
+  --text: #F5F5F3;      /* Off White — texto principal */
+  --strong: #FFFFFF;    /* White — destaques pontuais */
+  --inv-bg: #F5F5F3;
+  --inv-fg: #050505;
+  /* Peça de Instagram: sempre no padrão escuro da marca */
+  --post-bg: #141414;
+  --post-line: #262626;
+  --post-fg: #F5F5F3;
+  --post-muted: #A3A3A3;
+  --serif: "Noto Serif Display", "Didot", "Bodoni 72", Georgia, "Times New Roman", serif;
+  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --step--1: 0.75rem;
+  --step-0: 0.9375rem;
+  --step-1: 1.125rem;
+  --step-2: 1.5rem;
+  --step-3: 2.125rem;
+  --step-4: clamp(2.5rem, 6vw, 4.25rem);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #F5F5F3; --bg-2: #EDEDEA; --surface: #FFFFFF; --line: #D6D6D3;
+    --muted: #737373; --text-2: #575757; --text: #0A0A0A; --strong: #050505;
+    --inv-bg: #050505; --inv-fg: #F5F5F3;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #F5F5F3; --bg-2: #EDEDEA; --surface: #FFFFFF; --line: #D6D6D3;
+  --muted: #737373; --text-2: #575757; --text: #0A0A0A; --strong: #050505;
+  --inv-bg: #050505; --inv-fg: #F5F5F3;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 48px); }
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+.eyebrow { font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-2); }
+.muted { color: var(--text-2); }
+button, select, input, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 1px solid var(--text); outline-offset: 3px; }
+
+/* Topo */
+.top { border-bottom: 1px solid var(--line); background: var(--bg); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; }
+.top-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px 0; }
+.brand { display: flex; align-items: baseline; gap: 14px; }
+.mono { font-family: var(--serif); font-size: 1.6rem; line-height: 1; }
+.brand-name { font-size: 1.05rem; letter-spacing: 0.02em; line-height: 1; }
+.brand-name small { display: block; font-size: 0.5rem; letter-spacing: 0.35em; color: var(--text-2); margin-top: 4px; }
+.top-meta { font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-2); text-align: right; }
+.tabs { display: flex; gap: 28px; overflow-x: auto; scrollbar-width: none; margin-top: 18px; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  background: none; border: 0; padding: 0 0 14px; cursor: pointer; white-space: nowrap;
+  font-size: var(--step--1); letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-2);
+  border-bottom: 1px solid transparent; margin-bottom: -1px;
+}
+.tab:hover { color: var(--text); }
+.tab[aria-selected="true"] { color: var(--text); border-bottom-color: var(--text); }
+
+main { padding-block: 40px 96px; }
+.view[hidden] { display: none !important; }
+.section { border-top: 1px solid var(--line); padding-block: 32px; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 24px 48px; }
+.section:first-child { border-top: 0; padding-top: 0; }
+.section > header { display: grid; gap: 8px; align-content: start; }
+.section > header h2 { font-size: var(--step-2); }
+.section > .body { min-width: 0; display: grid; gap: 20px; }
+@media (max-width: 820px) { .section { grid-template-columns: minmax(0, 1fr); } }
+
+/* Visão geral */
+.hero { display: grid; gap: 18px; padding-bottom: 40px; }
+.hero h1 { font-size: var(--step-4); line-height: 1.04; font-weight: 300; max-width: 16ch; }
+.hero .lede { max-width: 62ch; color: var(--text-2); font-size: var(--step-1); }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); }
+.kpi { padding: 20px; display: grid; gap: 6px; border-left: 1px solid var(--line); }
+.kpi:first-child { border-left: 0; }
+.kpi .v { font-family: var(--serif); font-size: var(--step-3); line-height: 1; font-variant-numeric: tabular-nums; }
+.kpi .l { font-size: var(--step--1); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); }
+@media (max-width: 720px) {
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi:nth-child(3) { border-left: 0; }
+  .kpi:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+
+.mix { display: grid; gap: 14px; }
+.mix-bar { display: flex; height: 10px; gap: 2px; }
+.mix-bar span { display: block; height: 100%; }
+.mix-legend { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.mix-legend div { display: grid; gap: 4px; }
+.mix-legend b { font-family: var(--serif); font-weight: 400; font-size: var(--step-2); font-variant-numeric: tabular-nums; }
+@media (max-width: 720px) { .mix-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sw { display: inline-block; width: 9px; height: 9px; margin-right: 8px; vertical-align: 1px; }
+.sw-A { background: var(--text); }
+.sw-Au { background: var(--text-2); }
+.sw-R { background: var(--muted); }
+.sw-C { background: transparent; box-shadow: inset 0 0 0 1px var(--text); }
+
+.list { list-style: none; margin: 0; padding: 0; display: grid; }
+.list li { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 12px; padding-block: 14px; border-top: 1px solid var(--line); }
+.list li:last-child { border-bottom: 1px solid var(--line); }
+.list .n { color: var(--muted); font-variant-numeric: tabular-nums; font-size: var(--step--1); padding-top: 3px; letter-spacing: 0.08em; }
+.list strong { font-weight: 600; }
+.list p { color: var(--text-2); }
+
+.metric-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); }
+.metric-row > div { padding: 20px; border-left: 1px solid var(--line); display: grid; gap: 8px; align-content: start; }
+.metric-row > div:first-child { border-left: 0; }
+.metric-row h3 { font-size: var(--step-1); }
+@media (max-width: 720px) {
+  .metric-row { grid-template-columns: minmax(0, 1fr); }
+  .metric-row > div { border-left: 0; border-top: 1px solid var(--line); }
+  .metric-row > div:first-child { border-top: 0; }
+}
+
+.next { display: grid; gap: 0; }
+.next a { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) auto; gap: 16px; align-items: baseline; padding-block: 14px; border-top: 1px solid var(--line); color: inherit; text-decoration: none; }
+.next a:last-child { border-bottom: 1px solid var(--line); }
+.next a:hover .h { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.next .d { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.next .h { font-family: var(--serif); font-size: var(--step-1); }
+@media (max-width: 560px) { .next a { grid-template-columns: minmax(0, 1fr); gap: 6px; } }
+
+/* Calendário */
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 7px 14px; cursor: pointer;
+  font-size: var(--step--1); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2);
+}
+.chip:hover { color: var(--text); border-color: var(--muted); }
+.chip[aria-pressed="true"] { background: var(--inv-bg); color: var(--inv-fg); border-color: var(--inv-bg); }
+.field { display: flex; align-items: center; gap: 10px; font-size: var(--step--1); letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-2); }
+.field input[type="date"], .field select {
+  background: var(--bg); border: 1px solid var(--line); padding: 6px 10px; border-radius: 0; letter-spacing: 0; text-transform: none; font-size: var(--step-0); color: var(--text);
+}
+.check { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; }
+.check input { accent-color: var(--text); width: 15px; height: 15px; }
+
+.week { padding-top: 32px; }
+.week-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 12px; }
+.week-head h2 { font-size: var(--step-2); }
+.post { border-top: 1px solid var(--line); }
+.post:last-child { border-bottom: 1px solid var(--line); }
+.post summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 5.5rem 9.5rem minmax(0, 1fr) 8.5rem; gap: 16px; align-items: baseline; padding-block: 18px; }
+.post summary::-webkit-details-marker { display: none; }
+.post summary:hover .hook { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+.post .date { font-variant-numeric: tabular-nums; display: grid; gap: 2px; }
+.post .date b { font-family: var(--serif); font-weight: 400; font-size: var(--step-2); line-height: 1; }
+.post .date span { font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-2); }
+.post .fn { font-size: var(--step--1); letter-spacing: 0.12em; text-transform: uppercase; display: grid; gap: 4px; color: var(--text-2); }
+.post .fn em { font-style: normal; color: var(--text); }
+.post .hook { font-family: var(--serif); font-size: var(--step-1); line-height: 1.35; min-width: 0; }
+.post .meta-line { display: block; font-family: var(--sans); font-size: var(--step--1); color: var(--text-2); margin-top: 6px; letter-spacing: 0.02em; }
+.status-pill { justify-self: end; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--text-2); white-space: nowrap; }
+.status-pill[data-s="producao"] { border-color: var(--text-2); color: var(--text); border-style: dashed; }
+.status-pill[data-s="publicado"] { background: var(--inv-bg); color: var(--inv-fg); border-color: var(--inv-bg); }
+.post[open] summary { padding-bottom: 8px; }
+.post-body { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 32px; padding: 8px 0 28px calc(5.5rem + 16px); }
+.specs { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); align-content: start; gap: 0; margin: 0; }
+.specs dt, .specs dd { margin: 0; padding-block: 10px; border-top: 1px solid var(--line); }
+.specs dt { font-size: var(--step--1); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); padding-top: 13px; }
+.specs dd { min-width: 0; }
+.req { border: 1px dashed var(--muted); padding: 12px 14px; font-size: var(--step--1); line-height: 1.5; color: var(--text-2); }
+.req b { color: var(--text); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-right: 6px; }
+.side { display: grid; gap: 16px; align-content: start; }
+.side label { display: grid; gap: 6px; font-size: var(--step--1); letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); }
+.side select, .side textarea { background: var(--bg); border: 1px solid var(--line); padding: 8px 10px; border-radius: 0; color: var(--text); text-transform: none; letter-spacing: 0; font-size: var(--step-0); }
+.side textarea { min-height: 84px; resize: vertical; }
+@media (max-width: 900px) {
+  .post summary { grid-template-columns: 5.25rem minmax(0, 1fr) auto; }
+  .post summary .fn { grid-column: 2; grid-row: 1; }
+  .post summary .hook { grid-column: 1 / -1; }
+  .post summary .status-pill { grid-column: 3; grid-row: 1; }
+  .post-body { grid-template-columns: minmax(0, 1fr); padding-left: 0; }
+  .side { max-width: 320px; }
+}
+@media (max-width: 480px) { .specs { grid-template-columns: minmax(0, 1fr); } .specs dt { border-top: 1px solid var(--line); padding-bottom: 0; } .specs dd { border-top: 0; padding-top: 4px; } }
+
+/* Capa no padrão do manual */
+.cover {
+  aspect-ratio: 4 / 5; max-width: 100%; background: var(--post-bg); color: var(--post-fg);
+  border: 1px solid var(--post-line); padding: 18px; display: grid; grid-template-rows: auto 1fr auto; gap: 12px; position: relative;
+}
+.cover.reels { aspect-ratio: 9 / 16; max-width: 220px; }
+.cover-top, .cover-foot { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.5625rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--post-muted); }
+.cover-top b { font-family: var(--sans); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.02em; color: var(--post-fg); }
+.cover-hook { align-self: center; font-family: var(--serif); font-weight: 400; font-size: 1.2rem; line-height: 1.18; text-wrap: balance; }
+.cover-foot { border-top: 1px solid var(--post-line); padding-top: 10px; }
+
+/* Hooks */
+.hook-group { display: grid; gap: 0; }
+.hook-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding-block: 14px; border-top: 1px solid var(--line); }
+.hook-item:last-child { border-bottom: 1px solid var(--line); }
+.hook-item p { font-family: var(--serif); font-size: var(--step-1); line-height: 1.35; }
+.hook-item small { display: block; font-family: var(--sans); font-size: var(--step--1); color: var(--text-2); margin-top: 4px; }
+.copy { border: 1px solid var(--line); background: transparent; padding: 6px 12px; border-radius: 999px; cursor: pointer; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-2); white-space: nowrap; }
+.copy:hover { color: var(--text); border-color: var(--muted); }
+
+/* Marca */
+.hero .quote { font-family: var(--serif); font-weight: 300; font-size: var(--step-3); line-height: 1.12; max-width: 22ch; }
+.values { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid var(--line); }
+.values div { padding: 18px; border-left: 1px solid var(--line); display: grid; gap: 6px; align-content: start; }
+.values div:first-child { border-left: 0; }
+.values h3 { font-size: var(--step-1); }
+.values p { color: var(--text-2); font-size: var(--step--1); line-height: 1.5; }
+@media (max-width: 900px) {
+  .values { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .values div { border-left: 0; border-top: 1px solid var(--line); }
+  .values div:nth-child(-n+2) { border-top: 0; }
+  .values div:nth-child(even) { border-left: 1px solid var(--line); }
+}
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); }
+.two > div { padding: 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.two > div + div { border-left: 1px solid var(--line); }
+.two ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; color: var(--text-2); }
+.two ul li::marker { color: var(--muted); }
+@media (max-width: 720px) { .two { grid-template-columns: minmax(0, 1fr); } .two > div + div { border-left: 0; border-top: 1px solid var(--line); } }
+.palette { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 10px; }
+.palette div { display: grid; gap: 6px; font-size: var(--step--1); min-width: 0; }
+.palette i { display: block; aspect-ratio: 1; border: 1px solid var(--line); }
+.palette code { font-family: var(--sans); color: var(--text-2); font-variant-numeric: tabular-nums; }
+@media (max-width: 720px) { .palette { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.type-spec { display: grid; gap: 16px; }
+.type-spec .serif { font-family: var(--serif); font-size: var(--step-3); line-height: 1.1; }
+.type-spec .sans { font-family: var(--sans); font-size: var(--step-2); }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: var(--step--1); color: var(--text-2); }
+
+.foot { border-top: 1px solid var(--line); padding-block: 24px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: var(--step--1); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.theme-btn { background: none; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; font-size: var(--step--1); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-2); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .post[open] .post-body { animation: rise 220ms ease-out; }
+  @keyframes rise { from { opacity: 0.4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <div class="brand">
+        <span class="mono" aria-hidden="true">SV</span>
+        <span class="brand-name">SOLVIX<small>SOCIAL OS</small></span>
+      </div>
+      <div class="top-meta" id="topMeta">Instagram · 30 dias</div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Seções do painel">
+      <button class="tab" role="tab" id="tab-geral" aria-controls="geral" aria-selected="true">Visão geral</button>
+      <button class="tab" role="tab" id="tab-calendario" aria-controls="calendario" aria-selected="false">Calendário</button>
+      <button class="tab" role="tab" id="tab-hooks" aria-controls="hooks" aria-selected="false">Hooks</button>
+      <button class="tab" role="tab" id="tab-marca" aria-controls="marca" aria-selected="false">Cérebro da marca</button>
+      <button class="tab" role="tab" id="tab-rotina" aria-controls="rotina" aria-selected="false">Rotina</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- VISÃO GERAL -->
+  <section class="view" id="geral" role="tabpanel" aria-labelledby="tab-geral">
+    <div class="hero">
+      <p class="eyebrow">Plano de 30 dias · Instagram da Solvix Agency</p>
+      <h1>Sites que posicionam. Conteúdo que prova.</h1>
+      <p class="lede">Um post por dia, cada um com uma função e uma métrica. O carro-chefe é site e landing page. A prova vem do trabalho: projetos demonstrativos, redesigns conceituais e bastidores.</p>
+    </div>
+
+    <div class="kpis" aria-live="polite">
+      <div class="kpi"><span class="v" id="kPub">0</span><span class="l">Publicados de 30</span></div>
+      <div class="kpi"><span class="v" id="kProd">0</span><span class="l">Em produção</span></div>
+      <div class="kpi"><span class="v" id="kDay">D01</span><span class="l" id="kDayL">Dia do plano</span></div>
+      <div class="kpi"><span class="v" id="kEnd">—</span><span class="l">Fim do ciclo</span></div>
+    </div>
+
+    <div style="height:40px"></div>
+
+    <div class="section">
+      <header><p class="eyebrow">Objetivo</p><h2>Alcance qualificado</h2></header>
+      <div class="body">
+        <p style="max-width:62ch">Fazer empresários que ainda não conhecem a Solvix verem, salvarem e seguirem o perfil. Com zero seguidores, ainda não existe público para converter. Por isso a conversão deste ciclo usa palavra-chave na DM: o empresário pede um material ou uma análise, sem compromisso de compra.</p>
+        <div class="metric-row">
+          <div><p class="eyebrow">Métrica 1</p><h3>% de alcance em não seguidores</h3><p class="muted">Nos Reels de atração. Prova que o conteúdo sai da bolha. Compare cada semana com a semana 1.</p></div>
+          <div><p class="eyebrow">Métrica 2</p><h3>Salvamentos + envios por alcance</h3><p class="muted">Prova que o conteúdo tem valor para o empresário. Curtida não entra na conta.</p></div>
+          <div><p class="eyebrow">Métrica 3</p><h3>Pedidos por palavra-chave</h3><p class="muted">ANÁLISE, PREÇO e CHECKLIST na DM. Acompanhe pedido → análise entregue → reunião.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <header><p class="eyebrow">Proporção</p><h2>Quatro funções</h2></header>
+      <div class="body">
+        <div class="mix">
+          <div class="mix-bar" id="mixBar" role="img" aria-label="Distribuição dos 30 posts por função"></div>
+          <div class="mix-legend" id="mixLegend"></div>
+        </div>
+        <p class="muted" style="max-width:62ch">Sem audiência, atrair desconhecidos vem primeiro. Sem cases de clientes, a autoridade carrega a confiança que um ticket de até R$35 mil exige. Relacionamento dá rosto à agência. A conversão fica baixa e sem atrito: palavra-chave na DM, nunca "compre agora".</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <header><p class="eyebrow">Próximos posts</p><h2>O que vem agora</h2></header>
+      <div class="body"><div class="next" id="nextList"></div></div>
+    </div>
+
+    <div class="section">
+      <header><p class="eyebrow">Ponto de partida</p><h2>Gargalos a resolver</h2></header>
+      <div class="body">
+        <ol class="list">
+          <li><span class="n">01</span><div><strong>Volume sem distribuição.</strong><p>35 posts por semana com média de 15 views. O problema não é falta de post. Corte para 7 no feed e use o tempo para gravar dois hooks por Reels.</p></div></li>
+          <li><span class="n">02</span><div><strong>Prova ainda em construção.</strong><p>A Solvix está na fase de portfólio. A prova vem de projetos demonstrativos e redesigns conceituais, sempre identificados como tal. Nenhum case é inventado.</p></div></li>
+          <li><span class="n">03</span><div><strong>Mensagem dividida entre serviços.</strong><p>Sites, sistemas e Google com o mesmo peso confundem quem chega. Sites e landing pages lideram; CRM e Google entram como apoio.</p></div></li>
+          <li><span class="n">04</span><div><strong>Atenção sem captura.</strong><p>Sem uma ação de baixo atrito, o alcance não vira contato. Cada post de conversão aponta para uma das três palavras-chave.</p></div></li>
+          <li><span class="n">05</span><div><strong>Tom fora da marca.</strong><p>Hooks de medo e urgência contradizem uma marca segura e sofisticada. Os ganchos provocam pelo contraste e pela clareza, sem alarmismo.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALENDÁRIO -->
+  <section class="view" id="calendario" role="tabpanel" aria-labelledby="tab-calendario" hidden>
+    <div class="toolbar">
+      <div class="chips" id="fnChips" role="group" aria-label="Filtrar por função"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center">
+        <label class="field" for="startDate">Início <input type="date" id="startDate"></label>
+        <label class="field check" for="hidePub"><input type="checkbox" id="hidePub"> Ocultar publicados</label>
+      </div>
+    </div>
+    <div id="weeks"></div>
+  </section>
+
+  <!-- HOOKS -->
+  <section class="view" id="hooks" role="tabpanel" aria-labelledby="tab-hooks" hidden>
+    <div class="hero" style="padding-bottom:24px">
+      <p class="eyebrow">Banco de hooks · editorial direto</p>
+      <h1 style="font-size:var(--step-3)">Provocar pela clareza, não pelo medo.</h1>
+      <p class="lede">30 ganchos no tom da Solvix, agrupados pelo mecanismo que prende a atenção. Os marcados com um dia já estão no calendário; os demais servem para regravar os Reels que tiverem bom alcance.</p>
+    </div>
+    <div id="hookGroups"></div>
+  </section>
+
+  <!-- MARCA -->
+  <section class="view" id="marca" role="tabpanel" aria-labelledby="tab-marca" hidden>
+    <div class="hero" style="padding-bottom:32px">
+      <p class="eyebrow">Posicionamento</p>
+      <p class="quote">Mais que presença digital. Clareza, estrutura e resultado.</p>
+      <p class="lede">Agência de desenvolvimento web e criação de experiências digitais profissionais, modernas, responsivas e orientadas à conversão. Estratégia, design e tecnologia para construir presença digital, organizar processos e gerar oportunidades reais de negócio.</p>
+    </div>
+
+    <div class="section">
+      <header><p class="eyebrow">Personalidade</p><h2>Valores</h2></header>
+      <div class="body">
+        <div class="values">
+          <div><h3>Sofisticação</h3><p>Qualidade percebida nos detalhes e na proporção.</p></div>
+          <div><h3>Confiança</h3><p>Comunicação clara, objetiva e profissional.</p></div>
+          <div><h3>Foco em resultados</h3><p>Design e tecnologia a serviço do negócio.</p></div>
+          <div><h3>Precisão</h3><p>Estruturas limpas, funcionais e bem resolvidas.</p></div>
+          <div><h3>Parceria</h3><p>Proximidade, responsabilidade e visão de longo prazo.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <header><p class="eyebrow">Tom de voz</p><h2>Editorial direto</h2></header>
+      <div class="body">
+        <div class="two">
+          <div><p class="eyebrow">Fazer</p><ul>
+            <li>Frases curtas e afirmativas.</li>
+            <li>Nomear o problema sem dramatizar.</li>
+            <li>Usar números reais quando existirem, e só eles.</li>
+            <li>Explicar o termo técnico na mesma frase.</li>
+            <li>Terminar com um próximo passo claro.</li>
+          </ul></div>
+          <div><p class="eyebrow">Evitar</p><ul>
+            <li>Alarmismo: "você está perdendo tudo".</li>
+            <li>Promessa garantida: "1º lugar no Google".</li>
+            <li>Gírias de guru: "hack", "segredo que ninguém conta".</li>
+            <li>CAPS LOCK e emoji como enfeite.</li>
+            <li>Recorte regional: o público são empresários, não uma cidade.</li>
+          </ul></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <header><p class="eyebrow">Oferta</p><h2>Serviços e público</h2></header>
+      <div class="body">
+        <ol class="list">
+          <li><span class="n">01</span><div><strong>Criação de sites e landing pages · carro-chefe</strong><p>Sites modernos, rápidos e focados em resultado, do institucional à landing page de alta performance.</p><div class="tags" style="margin-top:10px"><span class="tag">Sites</span><span class="tag">Landing pages</span><span class="tag">Otimização</span></div></div></li>
+          <li><span class="n">02</span><div><strong>Soluções internas e CRM · apoio</strong><p>Sistemas sob medida para organizar processos, centralizar informações e aumentar a produtividade.</p><div class="tags" style="margin-top:10px"><span class="tag">Sistemas</span><span class="tag">CRM</span><span class="tag">Automação</span></div></div></li>
+          <li><span class="n">03</span><div><strong>Google Meu Negócio · apoio</strong><p>Configuração e otimização do perfil para a empresa ser encontrada por quem procura o serviço.</p><div class="tags" style="margin-top:10px"><span class="tag">Visibilidade</span><span class="tag">Tráfego local</span><span class="tag">Resultados</span></div></div></li>
+        </ol>
+        <p class="muted" style="max-width:62ch">Público: empresários de MEI, ME e empresas maiores que precisam de presença digital que gere negócio. Investimento de R$1 mil a R$35 mil.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <header><p class="eyebrow">Conteúdo</p><h2>Pilares</h2></header>
+      <div class="body"><ol class="list" id="pillarList"></ol></div>
+    </div>
+
+    <div class="section">
+      <header><p class="eyebrow">Sistema visual</p><h2>Regras dos posts</h2></header>
+      <div class="body">
+        <div class="palette" id="palette"></div>
+        <div class="type-spec">
+          <div><p class="serif">Sites que posicionam.</p><p class="eyebrow" style="margin-top:6px">Noto Serif Display · títulos e mensagens de impacto</p></div>
+          <div><p class="sans">Sistemas que organizam.</p><p class="eyebrow" style="margin-top:6px">Inter · textos, legendas, tags e botões</p></div>
+        </div>
+        <div class="two">
+          <div><p class="eyebrow">Preferir</p><ul>
+            <li>Contraste alto, composição limpa, grid rígido.</li>
+            <li>Linhas finas e molduras discretas.</li>
+            <li>Arquitetura, tecnologia, materiais, luz e sombra.</li>
+            <li>Mockups realistas. A cor entra só pelo portfólio.</li>
+            <li>Carrossel 1080×1350; Reels 1080×1920 com texto na zona segura.</li>
+          </ul></div>
+          <div><p class="eyebrow">Nunca</p><ul>
+            <li>Gradientes coloridos, neon, glassmorphism.</li>
+            <li>Ícones genéricos e mais de duas famílias tipográficas.</li>
+            <li>Logo com contorno, sombra, degradê ou distorção.</li>
+            <li>Logo sem respiro: mínimo igual à altura do "S".</li>
+            <li>Texto sobre fundo sem contraste.</li>
+          </ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROTINA -->
+  <section class="view" id="rotina" role="tabpanel" aria-labelledby="tab-rotina" hidden>
+    <div class="section">
+      <header><p class="eyebrow">Antes do D01</p><h2>Preparação</h2></header>
+      <div class="body">
+        <ol class="list">
+          <li><span class="n">01</span><div><strong>Checklist de landing page (palavra CHECKLIST)</strong><p>PDF no padrão do manual com os itens completos do post D05.</p></div></li>
+          <li><span class="n">02</span><div><strong>Guia de investimento (palavra PREÇO)</strong><p>Faixas de R$1 mil a R$35 mil e o que entra em cada uma: landing page, site institucional, e-commerce, sistema.</p></div></li>
+          <li><span class="n">03</span><div><strong>Roteiro da análise gratuita (palavra ANÁLISE)</strong><p>Formato fixo: vídeo de até 5 minutos com 3 correções para o site do empresário. Defina quantas análises por semana cabem na agenda e diga esse número no D24.</p></div></li>
+          <li><span class="n">04</span><div><strong>Projetos demonstrativos prontos para mostrar</strong><p>Confirme quais projetos do portfólio são demonstração (Immovi, App Gestão, CRM WhatsApp) e deixe cada um com link. Prepare 3 redesigns conceituais: clínica, academia e loja online.</p></div></li>
+          <li><span class="n">05</span><div><strong>Perfil alinhado à promessa</strong><p>Bio com o que a Solvix faz, para quem e a palavra-chave. Exemplo: "Sites e landing pages que posicionam e convertem. Projetos ↓ Envie ANÁLISE na DM." Destaques: Projetos · Como funciona · Investimento.</p></div></li>
+          <li><span class="n">06</span><div><strong>Políticas confirmadas</strong><p>Os posts D17 e D29 citam domínio no nome do cliente, contrato, pagamento em etapas e entrega de acessos. Publique só o que for regra real da Solvix.</p></div></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section">
+      <header><p class="eyebrow">Todo dia</p><h2>Stories</h2></header>
+      <div class="body">
+        <ol class="list">
+          <li><span class="n">Manhã</span><div><strong>Post do dia + enquete</strong><p>Compartilhe o post com uma pergunta ligada a ele. Exemplo no D01: "Seu site passou no teste dos 5 segundos? Sim / Não".</p></div></li>
+          <li><span class="n">Tarde</span><div><strong>Bastidor real</strong><p>Uma tela de projeto em andamento, um wireframe, uma decisão de design. Mostra trabalho, não rotina pessoal.</p></div></li>
+          <li><span class="n">3×/sem</span><div><strong>Lembrete de palavra-chave</strong><p>Quem respondeu "Não" na enquete recebe DM oferecendo a análise.</p></div></li>
+        </ol>
+        <p class="muted">Stories não entram na contagem dos 30 posts.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <header><p class="eyebrow">Domingo · 15 minutos</p><h2>Revisão semanal</h2></header>
+      <div class="body">
+        <ol class="list">
+          <li><span class="n">01</span><div><strong>Registre os números de cada post</strong><p>Use o campo "Resultado" no calendário: alcance, % de não seguidores, salvamentos, envios, pedidos por DM.</p></div></li>
+          <li><span class="n">02</span><div><strong>Regrave os 2 melhores Reels de atração</strong><p>Pegue os 2 com maior % de não seguidores e regrave a mesma ideia com outro hook do banco na semana seguinte.</p></div></li>
+          <li><span class="n">03</span><div><strong>Leia a conversão pelo material</strong><p>Post de conversão sem nenhum pedido: o problema está no material oferecido ou na palavra-chave, não no hook.</p></div></li>
+          <li><span class="n">04</span><div><strong>Atualize o banco de perguntas</strong><p>Toda pergunta que chegar na DM vira pauta. O D25 depende disso.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Solvix Agency · preto, branco e trabalho bem apresentado.</span>
+    <span style="display:flex;gap:16px;align-items:center"><span id="saveNote">Status salvo neste navegador</span><button class="theme-btn" id="themeBtn" type="button">Tema</button></span>
+  </footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var FUNCS = {
+    A:  { nome: "Atração",       desc: "Alcançar desconhecidos" },
+    Au: { nome: "Autoridade",    desc: "Demonstrar competência" },
+    R:  { nome: "Relacionamento", desc: "Gerar conexão e identificação" },
+    C:  { nome: "Conversão",     desc: "Transformar atenção em lead" }
+  };
+
+  var PILARES = [
+    { id: "P1", nome: "Site que vende", desc: "Carro-chefe. Clareza, estrutura, WhatsApp, velocidade, texto e prova: o que faz um site ou uma landing page gerar conversa." },
+    { id: "P2", nome: "Projetos e processo", desc: "Projetos demonstrativos, redesigns conceituais e o método Solvix. É a prova enquanto não há cases de clientes." },
+    { id: "P3", nome: "Investimento sem rodeio", desc: "Preço, tipos de projeto, contrato e o que exigir de um fornecedor. Constrói confiança para o ticket alto." },
+    { id: "P4", nome: "Ser encontrado", desc: "Google Meu Negócio e SEO básico como apoio ao site. Nunca promete posição." },
+    { id: "P5", nome: "Construindo a Solvix", desc: "Bastidores, números reais do próprio perfil e posicionamento. Dá rosto à agência." }
+  ];
+  var PIL = {}; PILARES.forEach(function (p) { PIL[p.id] = p.nome; });
+
+  // f: função · fmt: formato · p: pilar · fio: tema recorrente
+  var POSTS = [
+    { f: "A", fmt: "Reels", p: "P1", fio: "Teste dos 5 segundos",
+      tema: "Teste dos 5 segundos", angulo: "O espectador se diagnostica na hora",
+      hook: "Abra seu site no celular. Você tem 5 segundos.",
+      ideia: "Em 5 segundos o visitante precisa entender o que a empresa faz, para quem e como falar com ela. Gravação de tela de duas landing pages criadas pela Solvix: uma passa no teste, outra falha.",
+      objetivo: "Alcançar donos de negócio fora da base", cta: "Envie para quem tem site e nunca fez esse teste.", metrica: "% de alcance em não seguidores + envios" },
+    { f: "Au", fmt: "Carrossel", p: "P1",
+      tema: "Anatomia de uma landing page", angulo: "Dissecar seção por seção",
+      hook: "Uma landing page que converte tem 7 partes. A maioria tem 3.",
+      ideia: "Promessa clara, prova, benefícios, objeções respondidas, oferta, chamada repetida e contato. Um slide por parte, usando uma landing demonstrativa da Solvix como exemplo.",
+      objetivo: "Mostrar método e domínio técnico", cta: "Salve antes de criar a sua.", metrica: "Salvamentos ÷ alcance" },
+    { f: "R", fmt: "Reels", p: "P5", fio: "Construindo a Solvix",
+      tema: "Por que a Solvix existe", angulo: "Manifesto falado para a câmera",
+      hook: "A Solvix não nasceu para fazer site bonito.",
+      ideia: "Nasceu para fazer site que trabalha: clareza, estrutura e resultado. Quem está por trás, como trabalha e o que recusa fazer.",
+      objetivo: "Dar rosto e posição à agência", cta: "Siga para acompanhar a construção da Solvix.", metrica: "Seguidores vindos do post + comentários" },
+    { f: "A", fmt: "Reels", p: "P2", fio: "Redesign em público",
+      tema: "Redesign em público · ep. 1 (clínica)", angulo: "Antes e depois de uma landing conceitual",
+      hook: "Mesma empresa. Mesmo serviço. Só mudamos a primeira tela.",
+      ideia: "Timelapse do redesign da primeira dobra de uma clínica fictícia. Três decisões explicadas em uma frase cada: título, foto e botão.",
+      objetivo: "Atrair pelo antes e depois", cta: "Comente o segmento do próximo redesign.", metrica: "Retenção + comentários com segmento",
+      requer: "Redesign conceitual pronto. Identificar no vídeo como conceito, não como cliente." },
+    { f: "C", fmt: "Carrossel", p: "P1",
+      tema: "Checklist de landing page", angulo: "Entregar 5 itens; a versão completa vai pela DM",
+      hook: "5 itens que toda landing page precisa antes de receber um real de anúncio.",
+      ideia: "Cinco itens completos, um por slide. O último slide avisa que o checklist completo está disponível na DM.",
+      objetivo: "Gerar os primeiros contatos", cta: "Envie CHECKLIST na DM.", metrica: "Pedidos com CHECKLIST",
+      requer: "PDF do checklist pronto antes da publicação." },
+    { f: "A", fmt: "Reels", p: "P1",
+      tema: "Site decorativo x site que vende", angulo: "Contradição",
+      hook: "Seu site é bonito. Mas ele vende?",
+      ideia: "Três sinais de site decorativo: não diz o que faz, esconde o botão de contato e demora para abrir no celular.",
+      objetivo: "Alcançar quem já tem site", cta: "Envie para quem acabou de fazer um site.", metrica: "Retenção (vídeo até o fim) + envios" },
+    { f: "Au", fmt: "Carrossel", p: "P2",
+      tema: "O processo Solvix", angulo: "Transparência de método",
+      hook: "Como um site é feito na Solvix, do briefing à entrega.",
+      ideia: "Diagnóstico, estrutura, design, desenvolvimento e revisão em 375, 768 e 1440 pixels antes de publicar. Cada etapa diz o que o cliente recebe.",
+      objetivo: "Reduzir o medo de contratar", cta: "Salve para comparar com outros orçamentos.", metrica: "Salvamentos + visitas ao perfil" },
+    { f: "A", fmt: "Reels", p: "P4",
+      tema: "Busca pelo serviço", angulo: "Quebra de padrão",
+      hook: "Seu cliente não pesquisa seu nome. Ele pesquisa o que você faz.",
+      ideia: "Quem ainda não conhece a empresa busca o serviço. Site e perfil no Google precisam aparecer nessa busca. Demonstração de uma pesquisa genérica.",
+      objetivo: "Abrir o tema Google sem tirar o foco do site", cta: "Envie para um amigo empresário.", metrica: "% de alcance em não seguidores" },
+    { f: "Au", fmt: "Carrossel", p: "P1",
+      tema: "Velocidade no celular", angulo: "Técnico explicado de forma simples",
+      hook: "Seu site demora para abrir. Veja o que está pesando.",
+      ideia: "Imagens sem compressão, fontes demais e scripts que ninguém usa. Como medir de graça no PageSpeed Insights.",
+      objetivo: "Ensinar algo verificável", cta: "Salve e teste o seu.", metrica: "Salvamentos" },
+    { f: "C", fmt: "Reels", p: "P3", fio: "Investimento sem rodeio",
+      tema: "Quanto custa um site", angulo: "Falar os números",
+      hook: "Um site pode custar R$1 mil ou R$35 mil. Aqui está a diferença.",
+      ideia: "Landing page, site institucional, e-commerce e sistema. O que muda: páginas, integrações, conteúdo e estratégia.",
+      objetivo: "Qualificar leads pelo investimento", cta: "Envie PREÇO na DM e receba o guia de investimento.", metrica: "Pedidos com PREÇO + retenção até o número",
+      requer: "Guia de investimento pronto." },
+    { f: "A", fmt: "Reels", p: "P1",
+      tema: "O botão do WhatsApp", angulo: "Erro pequeno, perda grande",
+      hook: "O botão mais importante do seu site está escondido.",
+      ideia: "Botão de WhatsApp fixo no celular, mensagem pré-preenchida e posição na primeira tela. Antes e depois em uma landing demonstrativa.",
+      objetivo: "Alcance com dica aplicável na hora", cta: "Envie para quem recebe contato pelo site.", metrica: "Envios + retenção" },
+    { f: "Au", fmt: "Reels", p: "P2", fio: "Projetos Solvix",
+      tema: "Projeto demonstrativo · Immovi", angulo: "Decisões de design explicadas",
+      hook: "Por que esse site imobiliário quase não usa cor.",
+      ideia: "Estrutura editorial, foto do imóvel como protagonista e busca em primeiro plano. A cor vem do imóvel, não da interface.",
+      objetivo: "Mostrar portfólio com raciocínio", cta: "Veja o projeto completo no link da bio.", metrica: "Cliques no link + salvamentos",
+      requer: "Confirmar que o Immovi é demonstrativo e identificar assim no post. Link publicado." },
+    { f: "R", fmt: "Reels", p: "P5", fio: "Construindo a Solvix",
+      tema: "Construindo em público", angulo: "Começar do zero, à vista",
+      hook: "Comecei o Instagram da Solvix com 0 seguidores. Vou mostrar tudo.",
+      ideia: "Compromisso de transparência: os números reais das duas primeiras semanas e o que vai mudar a partir deles.",
+      objetivo: "Criar acompanhamento", cta: "Siga para ver os próximos números.", metrica: "Seguidores ganhos",
+      requer: "Números reais do Insights até o D12." },
+    { f: "A", fmt: "Reels", p: "P2", fio: "Redesign em público",
+      tema: "Redesign em público · ep. 2 (academia)", angulo: "Três decisões",
+      hook: "Redesenhei a página de uma academia em 3 decisões.",
+      ideia: "Mesma estrutura do ep. 1, com outro segmento. Mostra que o método se repete.",
+      objetivo: "Atrair outro segmento de empresário", cta: "Comente o próximo segmento.", metrica: "Comentários + envios",
+      requer: "Redesign conceitual pronto e identificado como conceito." },
+    { f: "Au", fmt: "Carrossel", p: "P3", fio: "Investimento sem rodeio",
+      tema: "Landing page, site ou e-commerce", angulo: "Ajudar a escolher",
+      hook: "Landing page, site ou e-commerce? Escolher errado custa caro.",
+      ideia: "Quando cada um faz sentido, o que entrega e a faixa de investimento de cada um.",
+      objetivo: "Educar a decisão de compra", cta: "Salve antes de pedir orçamento.", metrica: "Salvamentos" },
+    { f: "A", fmt: "Reels", p: "P1", fio: "Teste dos 5 segundos",
+      tema: "Teste dos 5 segundos · ep. 2", angulo: "Aplicar o teste em três sites",
+      hook: "Fiz o teste dos 5 segundos em 3 sites. Só um passou.",
+      ideia: "Três páginas conceituais criadas pela Solvix, cada uma com um erro diferente. O espectador tenta adivinhar qual passa.",
+      objetivo: "Reforçar o fio do D01 com outro ângulo", cta: "Comente qual você acha que passou.", metrica: "Retenção + comentários" },
+    { f: "C", fmt: "Carrossel", p: "P3", fio: "Investimento sem rodeio",
+      tema: "O que exigir antes de contratar", angulo: "Ensinar o empresário a se proteger",
+      hook: "4 coisas para exigir antes de pagar alguém para fazer seu site.",
+      ideia: "Domínio no nome do cliente, contrato com escopo, pagamento em etapas e acesso total aos arquivos. Último slide: na Solvix, os quatro são padrão.",
+      objetivo: "Converter pela confiança", cta: "Envie ANÁLISE na DM e avaliamos seu site atual sem custo.", metrica: "Pedidos com ANÁLISE + salvamentos",
+      requer: "Confirmar que os 4 itens são política real da Solvix." },
+    { f: "R", fmt: "Carrossel", p: "P5", fio: "Construindo a Solvix",
+      tema: "O que a Solvix não faz", angulo: "Posicionamento pela recusa",
+      hook: "5 coisas que a Solvix não faz. Nem por um preço maior.",
+      ideia: "Não usa template genérico, não some depois da entrega, não registra domínio no próprio nome, não promete 1º lugar no Google e não entrega sem testar no celular.",
+      objetivo: "Gerar identificação com quem já foi mal atendido", cta: "Comente qual dessas já aconteceu com você.", metrica: "Comentários" },
+    { f: "A", fmt: "Reels", p: "P4",
+      tema: "Perfil no Google", angulo: "O Google como porta de entrada do site",
+      hook: "Seu perfil no Google é a primeira página do seu site. E ninguém cuida dela.",
+      ideia: "Perfil e site trabalhando juntos: categoria certa, fotos atuais e link para a landing page certa.",
+      objetivo: "Alcance com o serviço de apoio", cta: "Envie para quem tem negócio físico.", metrica: "% de alcance em não seguidores" },
+    { f: "Au", fmt: "Reels", p: "P2", fio: "Projetos Solvix",
+      tema: "Projeto demonstrativo · CRM WhatsApp", angulo: "Além do site",
+      hook: "O site traz o contato. O que acontece depois?",
+      ideia: "O CRM demonstrativo organiza as conversas que o site gera: cada contato com status, histórico e próximo passo.",
+      objetivo: "Mostrar o serviço de sistemas sem tirar o site do centro", cta: "Salve se o seu WhatsApp vive bagunçado.", metrica: "Salvamentos + visitas ao perfil",
+      requer: "Confirmar que o CRM WhatsApp é demonstrativo e identificar assim no post." },
+    { f: "A", fmt: "Reels", p: "P1",
+      tema: "Texto do site", angulo: "Antes e depois de frases",
+      hook: "\"Qualidade e excelência\" não diz nada. Seu cliente pulou essa frase.",
+      ideia: "Trocar adjetivos genéricos por fatos: o que faz, para quem, em quanto tempo. Três títulos reescritos na tela.",
+      objetivo: "Atrair com uma correção imediata", cta: "Comente a primeira frase do seu site que eu reescrevo.", metrica: "Comentários (cada um é um lead)" },
+    { f: "Au", fmt: "Carrossel", p: "P1",
+      tema: "Prova em landing page", angulo: "Como uma empresa nova cria prova",
+      hook: "Sem prova, sua landing page é só uma promessa.",
+      ideia: "Tipos de prova: depoimento, número, portfólio, garantia e rosto. Como quem está começando cria prova honesta, inclusive a própria Solvix.",
+      objetivo: "Autoridade com transparência", cta: "Salve para revisar sua página.", metrica: "Salvamentos" },
+    { f: "A", fmt: "Reels", p: "P2", fio: "Redesign em público",
+      tema: "Redesign em público · ep. 3 (loja online)", angulo: "Página de produto",
+      hook: "Numa loja online, a venda acontece ou morre na página do produto.",
+      ideia: "Redesign conceitual de uma página de produto: foto, preço, frete, prova e botão.",
+      objetivo: "Atrair donos de e-commerce", cta: "Comente o próximo segmento.", metrica: "Retenção + envios",
+      requer: "Redesign conceitual pronto e identificado como conceito." },
+    { f: "C", fmt: "Reels", p: "P1", fio: "Teste dos 5 segundos",
+      tema: "Análise gratuita", angulo: "Fecha o fio do teste com a oferta",
+      hook: "Seu site não passou no teste dos 5 segundos? Eu faço a análise por você.",
+      ideia: "O que a análise inclui (vídeo de até 5 minutos com 3 correções), quantas cabem por semana e o que acontece depois, sem compromisso.",
+      objetivo: "Converter em análise e reunião", cta: "Envie ANÁLISE na DM.", metrica: "Pedidos → análises entregues → reuniões",
+      requer: "Limite semanal de análises definido." },
+    { f: "R", fmt: "Reels", p: "P5", fio: "Construindo a Solvix",
+      tema: "Respostas da DM", angulo: "Conversa pública com a audiência",
+      hook: "As perguntas que mais chegaram na DM da Solvix este mês.",
+      ideia: "Três a cinco perguntas reais respondidas em uma frase cada. Mostra que a agência responde e escuta.",
+      objetivo: "Aproximar e derrubar objeções", cta: "Mande a sua pergunta na DM.", metrica: "DMs espontâneas + comentários",
+      requer: "Perguntas reais recebidas durante o mês." },
+    { f: "A", fmt: "Reels", p: "P1",
+      tema: "Site desatualizado", angulo: "Sinais que o cliente percebe",
+      hook: "Seu site foi feito em 2019. Seu cliente percebe.",
+      ideia: "Layout que quebra no celular, ano antigo no rodapé, fotos de banco de imagem, formulário que ninguém responde.",
+      objetivo: "Alcançar quem tem site antigo", cta: "Envie para quem precisa ouvir isso.", metrica: "Envios + % de alcance em não seguidores" },
+    { f: "Au", fmt: "Carrossel", p: "P4",
+      tema: "Site e Google", angulo: "SEO básico sem jargão",
+      hook: "Seu site existe. O Google sabe disso?",
+      ideia: "Título, descrição, sitemap e Search Console explicados em uma frase cada. O que conferir hoje.",
+      objetivo: "Autoridade técnica acessível", cta: "Salve e confira o seu site.", metrica: "Salvamentos" },
+    { f: "A", fmt: "Reels", p: "P3", fio: "Investimento sem rodeio",
+      tema: "Barato que sai caro", angulo: "Custo real de um site barato",
+      hook: "O site de R$300 costuma custar duas vezes.",
+      ideia: "Refazer do zero, domínio no nome de outra pessoa e falta de suporte. Sem atacar quem cobra pouco: mostra o que entra no preço.",
+      objetivo: "Atrair e preparar para o ticket", cta: "Envie para quem está pedindo orçamento.", metrica: "Envios + comentários" },
+    { f: "C", fmt: "Carrossel", p: "P3", fio: "Investimento sem rodeio",
+      tema: "Como funciona contratar a Solvix", angulo: "Tudo aberto, inclusive o preço",
+      hook: "Tudo o que você precisa saber antes de falar com a Solvix. Inclusive o preço.",
+      ideia: "Serviços, faixas de investimento, etapas, prazos, o que o cliente recebe e o primeiro passo.",
+      objetivo: "Converter em conversa", cta: "Envie PREÇO ou ANÁLISE na DM.", metrica: "Conversas iniciadas + reuniões agendadas",
+      requer: "Prazos e políticas confirmados." },
+    { f: "R", fmt: "Reels", p: "P5", fio: "Construindo a Solvix",
+      tema: "30 dias em números", angulo: "Prestação de contas pública",
+      hook: "30 dias atrás: 0 seguidores. Estes são os números de hoje.",
+      ideia: "Seguidores, alcance, pedidos e reuniões reais, mesmo que pequenos. O que funcionou e o que muda no próximo ciclo.",
+      objetivo: "Fechar o ciclo com coerência", cta: "Siga para acompanhar os próximos 30 dias.", metrica: "Seguidores ganhos",
+      requer: "Números reais do ciclo." }
+  ];
+
+  var HOOKS = [
+    { m: "Contradição", itens: [
+      ["Seu site é bonito. Mas ele vende?", 6],
+      ["Mais páginas não deixam seu site melhor. Deixam mais confuso.", 0],
+      ["O site de R$300 costuma custar duas vezes.", 28] ] },
+    { m: "Erro", itens: [
+      ["O botão mais importante do seu site está escondido.", 11],
+      ["\"Qualidade e excelência\" não diz nada. Seu cliente pulou essa frase.", 21],
+      ["Seu site foi feito em 2019. Seu cliente percebe.", 26] ] },
+    { m: "Curiosidade", itens: [
+      ["Uma landing page que converte tem 7 partes. A maioria tem 3.", 2],
+      ["Por que esse site imobiliário quase não usa cor.", 12],
+      ["O que seu cliente vê nos primeiros 5 segundos decide o resto da visita.", 0] ] },
+    { m: "Especificidade", itens: [
+      ["Abra seu site no celular. Você tem 5 segundos.", 1],
+      ["375 pixels. É nessa largura que seu cliente provavelmente vê seu site.", 0],
+      ["Um site pode custar R$1 mil ou R$35 mil. Aqui está a diferença.", 10] ] },
+    { m: "Comparação", itens: [
+      ["Mesma empresa. Mesmo serviço. Só mudamos a primeira tela.", 4],
+      ["Landing page, site ou e-commerce? Escolher errado custa caro.", 15],
+      ["Site institucional apresenta. Landing page converte. Você precisa de qual?", 0] ] },
+    { m: "Transparência", itens: [
+      ["4 coisas para exigir antes de pagar alguém para fazer seu site.", 17],
+      ["Tudo o que você precisa saber antes de falar com a Solvix. Inclusive o preço.", 29],
+      ["Quanto custa um site de verdade? Vou falar o número.", 0] ] },
+    { m: "Bastidor", itens: [
+      ["Como um site é feito na Solvix, do briefing à entrega.", 7],
+      ["Redesenhei a página de uma academia em 3 decisões.", 14],
+      ["Comecei o Instagram da Solvix com 0 seguidores. Vou mostrar tudo.", 13] ] },
+    { m: "Benefício", itens: [
+      ["5 itens que toda landing page precisa antes de receber um real de anúncio.", 5],
+      ["3 ajustes para seu site gerar mais conversas no WhatsApp.", 0],
+      ["Seu perfil no Google é a primeira página do seu site. E ninguém cuida dela.", 19] ] },
+    { m: "Quebra de padrão", itens: [
+      ["Seu cliente não pesquisa seu nome. Ele pesquisa o que você faz.", 8],
+      ["Pare de postar por 30 minutos e abra o seu próprio site.", 0],
+      ["Sem prova, sua landing page é só uma promessa.", 22] ] },
+    { m: "Posicionamento", itens: [
+      ["A Solvix não nasceu para fazer site bonito.", 3],
+      ["5 coisas que a Solvix não faz. Nem por um preço maior.", 18],
+      ["O site traz o contato. O que acontece depois?", 20] ] }
+  ];
+
+  var PALETTE = [
+    ["Black 950", "#050505", "Fundo principal"], ["Black 900", "#0A0A0A", "Seções"], ["Black 800", "#141414", "Cards"],
+    ["Gray 700", "#262626", "Divisórias"], ["Gray 500", "#737373", "Discretos"], ["Gray 400", "#A3A3A3", "Secundário"],
+    ["Off White", "#F5F5F3", "Texto principal"], ["White", "#FFFFFF", "Destaques"]
+  ];
+
+  var STATUS = { planejado: "Planejado", producao: "Em produção", publicado: "Publicado" };
+  var WD = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
+  var KEY = "solvix-social-os:v1";
+  var DEFAULT_START = "2026-10-12";
+
+  var state = load();
+  var filterFn = "todas";
+
+  function load() {
+    var s = { start: DEFAULT_START, status: {}, notas: {}, hidePub: false, tab: "geral" };
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) { var o = JSON.parse(raw); for (var k in o) s[k] = o[k]; }
+    } catch (e) { /* armazenamento indisponível: segue com o padrão */ }
+    return s;
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); }
+    catch (e) { document.getElementById("saveNote").textContent = "Status não será salvo neste navegador"; }
+  }
+
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function dateFor(i) {
+    var d = new Date((state.start || DEFAULT_START) + "T12:00:00");
+    if (isNaN(d)) d = new Date(DEFAULT_START + "T12:00:00");
+    d.setDate(d.getDate() + i);
+    return d;
+  }
+  function dLabel(d) { return pad(d.getDate()) + "/" + pad(d.getMonth() + 1); }
+  function st(n) { return state.status[n] || "planejado"; }
+
+  // Abas
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  function showTab(id) {
+    tabs.forEach(function (t) {
+      var on = t.getAttribute("aria-controls") === id;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+    state.tab = id; save();
+  }
+  tabs.forEach(function (t) { t.addEventListener("click", function () { showTab(t.getAttribute("aria-controls")); }); });
+
+  // Visão geral
+  function renderOverview() {
+    var pub = 0, prod = 0;
+    POSTS.forEach(function (_, i) { var s = st(i + 1); if (s === "publicado") pub++; if (s === "producao") prod++; });
+    document.getElementById("kPub").textContent = pub;
+    document.getElementById("kProd").textContent = prod;
+
+    var today = new Date(); today.setHours(12, 0, 0, 0);
+    var start = dateFor(0);
+    var diff = Math.round((today - start) / 86400000);
+    var kDay = document.getElementById("kDay"), kDayL = document.getElementById("kDayL");
+    if (diff < 0) { kDay.textContent = -diff; kDayL.textContent = -diff === 1 ? "Dia para começar" : "Dias para começar"; }
+    else if (diff > 29) { kDay.textContent = "Fim"; kDayL.textContent = "Ciclo encerrado"; }
+    else { kDay.textContent = "D" + pad(diff + 1); kDayL.textContent = "Dia do plano"; }
+    document.getElementById("kEnd").textContent = dLabel(dateFor(29));
+    document.getElementById("topMeta").textContent = "Instagram · " + dLabel(start) + " a " + dLabel(dateFor(29));
+
+    var counts = { A: 0, Au: 0, R: 0, C: 0 };
+    POSTS.forEach(function (p) { counts[p.f]++; });
+    var bar = "", leg = "";
+    ["A", "Au", "R", "C"].forEach(function (k) {
+      var pct = Math.round(counts[k] / POSTS.length * 1000) / 10;
+      bar += '<span class="sw-' + k + '" style="flex:' + counts[k] + '"></span>';
+      leg += '<div><span class="eyebrow"><span class="sw sw-' + k + '"></span>' + FUNCS[k].nome + '</span><b>' + String(pct).replace(".", ",") + '%</b><span class="muted" style="font-size:var(--step--1)">' + counts[k] + " posts · " + FUNCS[k].desc + "</span></div>";
+    });
+    document.getElementById("mixBar").innerHTML = bar;
+    document.getElementById("mixLegend").innerHTML = leg;
+
+    var next = [], startIdx = Math.max(0, Math.min(diff, 29));
+    for (var i = 0; i < POSTS.length && next.length < 3; i++) {
+      var idx = (startIdx + i) % POSTS.length;
+      if (st(idx + 1) !== "publicado") next.push(idx);
+    }
+    document.getElementById("nextList").innerHTML = next.length ? next.map(function (i) {
+      var p = POSTS[i], d = dateFor(i);
+      return '<a href="#d' + (i + 1) + '" data-go="' + (i + 1) + '"><span class="d">D' + pad(i + 1) + " · " + WD[d.getDay()] + " " + dLabel(d) + '</span><span class="h">' + esc(p.hook) + '</span><span class="d">' + FUNCS[p.f].nome + " · " + p.fmt + "</span></a>";
+    }).join("") : '<p class="muted">Os 30 posts estão publicados. Hora de revisar o ciclo e planejar o próximo.</p>';
+  }
+
+  document.getElementById("nextList").addEventListener("click", function (e) {
+    var a = e.target.closest("a[data-go]"); if (!a) return;
+    e.preventDefault();
+    openPost(+a.getAttribute("data-go"));
+  });
+
+  function openPost(n) {
+    filterFn = "todas"; state.hidePub = false; document.getElementById("hidePub").checked = false;
+    renderChips(); renderCalendar(); showTab("calendario");
+    var el = document.getElementById("d" + n);
+    if (el) { el.open = true; el.scrollIntoView({ block: "start" }); el.querySelector("summary").focus({ preventScroll: true }); }
+  }
+
+  // Calendário
+  function renderChips() {
+    var opts = [["todas", "Todas"], ["A", "Atração"], ["Au", "Autoridade"], ["R", "Relacionamento"], ["C", "Conversão"]];
+    document.getElementById("fnChips").innerHTML = opts.map(function (o) {
+      return '<button type="button" class="chip" data-f="' + o[0] + '" aria-pressed="' + (filterFn === o[0]) + '">' + o[1] + "</button>";
+    }).join("");
+  }
+  document.getElementById("fnChips").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-f]"); if (!b) return;
+    filterFn = b.getAttribute("data-f"); renderChips(); renderCalendar();
+  });
+
+  function cover(p, n) {
+    return '<div class="cover' + (p.fmt === "Reels" ? " reels" : "") + '" aria-label="Prévia da capa no padrão Solvix">' +
+      '<div class="cover-top"><b>SOLVIX</b><span>' + p.fmt + "</span></div>" +
+      '<p class="cover-hook">' + esc(p.hook) + "</p>" +
+      '<div class="cover-foot"><span>' + esc(PIL[p.p]) + "</span><span>" + pad(n) + "</span></div></div>";
+  }
+
+  function renderCalendar() {
+    var html = "", openSet = {};
+    Array.prototype.forEach.call(document.querySelectorAll(".post[open]"), function (d) { openSet[d.id] = true; });
+    for (var w = 0; w < 5; w++) {
+      var from = w * 7, to = Math.min(from + 7, POSTS.length), rows = "";
+      for (var i = from; i < to; i++) {
+        var p = POSTS[i], n = i + 1, d = dateFor(i), s = st(n);
+        if (filterFn !== "todas" && p.f !== filterFn) continue;
+        if (state.hidePub && s === "publicado") continue;
+        rows += '<details class="post" id="d' + n + '"' + (openSet["d" + n] ? " open" : "") + ">" +
+          "<summary>" +
+            '<span class="date"><b>D' + pad(n) + "</b><span>" + WD[d.getDay()] + " " + dLabel(d) + "</span></span>" +
+            '<span class="fn"><em><span class="sw sw-' + p.f + '"></span>' + FUNCS[p.f].nome + "</em>" + p.fmt + "</span>" +
+            '<span class="hook">' + esc(p.hook) + '<span class="meta-line">' + esc(PIL[p.p]) + " · " + esc(p.tema) + "</span></span>" +
+            '<span class="status-pill" data-s="' + s + '">' + STATUS[s] + "</span>" +
+          "</summary>" +
+          '<div class="post-body"><div style="display:grid;gap:16px;min-width:0;align-content:start">' +
+            '<dl class="specs">' +
+              "<dt>Objetivo</dt><dd>" + esc(p.objetivo) + "</dd>" +
+              "<dt>Pilar</dt><dd>" + esc(PIL[p.p]) + "</dd>" +
+              "<dt>Tema</dt><dd>" + esc(p.tema) + (p.fio ? ' <span class="tag" style="margin-left:6px">Fio: ' + esc(p.fio) + "</span>" : "") + "</dd>" +
+              "<dt>Ângulo</dt><dd>" + esc(p.angulo) + "</dd>" +
+              "<dt>Ideia central</dt><dd>" + esc(p.ideia) + "</dd>" +
+              "<dt>CTA</dt><dd>" + esc(p.cta) + "</dd>" +
+              "<dt>Métrica</dt><dd>" + esc(p.metrica) + "</dd>" +
+            "</dl>" +
+            (p.requer ? '<p class="req"><b>Requer</b>' + esc(p.requer) + "</p>" : "") +
+          "</div>" +
+          '<div class="side">' + cover(p, n) +
+            '<label for="s' + n + '">Status<select id="s' + n + '" data-n="' + n + '">' +
+              Object.keys(STATUS).map(function (k) { return '<option value="' + k + '"' + (k === s ? " selected" : "") + ">" + STATUS[k] + "</option>"; }).join("") +
+            "</select></label>" +
+            '<label for="r' + n + '">Resultado<textarea id="r' + n + '" data-n="' + n + '" placeholder="Alcance, % não seguidores, salvamentos, envios, pedidos">' + esc(state.notas[n] || "") + "</textarea></label>" +
+          "</div></div></details>";
+      }
+      if (rows) {
+        html += '<div class="week"><div class="week-head"><h2>Semana ' + (w + 1) + '</h2><span class="eyebrow">' + dLabel(dateFor(from)) + " a " + dLabel(dateFor(to - 1)) + "</span></div>" + rows + "</div>";
+      }
+    }
+    document.getElementById("weeks").innerHTML = html || '<p class="muted" style="padding-top:32px">Nenhum post com esse filtro.</p>';
+  }
+
+  var weeks = document.getElementById("weeks");
+  weeks.addEventListener("change", function (e) {
+    var t = e.target;
+    if (t.tagName === "SELECT" && t.dataset.n) {
+      var n = +t.dataset.n; state.status[n] = t.value; save();
+      var pill = document.querySelector("#d" + n + " .status-pill");
+      pill.dataset.s = t.value; pill.textContent = STATUS[t.value];
+      renderOverview();
+      if (state.hidePub && t.value === "publicado") renderCalendar();
+    }
+  });
+  weeks.addEventListener("input", function (e) {
+    var t = e.target;
+    if (t.tagName === "TEXTAREA" && t.dataset.n) { state.notas[+t.dataset.n] = t.value; save(); }
+  });
+
+  var startInput = document.getElementById("startDate");
+  startInput.value = state.start;
+  startInput.addEventListener("change", function () {
+    if (!startInput.value) return;
+    state.start = startInput.value; save(); renderCalendar(); renderOverview();
+  });
+  var hidePub = document.getElementById("hidePub");
+  hidePub.checked = !!state.hidePub;
+  hidePub.addEventListener("change", function () { state.hidePub = hidePub.checked; save(); renderCalendar(); });
+
+  // Hooks
+  function renderHooks() {
+    document.getElementById("hookGroups").innerHTML = HOOKS.map(function (g) {
+      return '<div class="section"><header><p class="eyebrow">Mecanismo</p><h2>' + g.m + '</h2></header><div class="body"><div class="hook-group">' +
+        g.itens.map(function (h) {
+          return '<div class="hook-item"><div style="min-width:0"><p>' + esc(h[0]) + "</p><small>" + (h[1] ? "No calendário · D" + pad(h[1]) : "Reserva para regravação") + '</small></div><button type="button" class="copy" data-t="' + esc(h[0]) + '">Copiar</button></div>';
+        }).join("") + "</div></div></div>";
+    }).join("");
+  }
+  document.getElementById("hookGroups").addEventListener("click", function (e) {
+    var b = e.target.closest(".copy"); if (!b) return;
+    var text = b.getAttribute("data-t");
+    function done(ok) { b.textContent = ok ? "Copiado" : "Selecionado"; setTimeout(function () { b.textContent = "Copiar"; }, 1600); }
+    function fallback() {
+      var p = b.parentNode.querySelector("p"), r = document.createRange(); r.selectNodeContents(p);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); done(false);
+    }
+    try { navigator.clipboard.writeText(text).then(function () { done(true); }, fallback); } catch (err) { fallback(); }
+  });
+
+  // Marca
+  document.getElementById("pillarList").innerHTML = PILARES.map(function (p, i) {
+    var n = POSTS.filter(function (x) { return x.p === p.id; }).length;
+    return '<li><span class="n">' + pad(i + 1) + '</span><div><strong>' + p.nome + '</strong> <span class="muted" style="font-size:var(--step--1)">· ' + n + ' posts</span><p>' + p.desc + "</p></div></li>";
+  }).join("");
+  document.getElementById("palette").innerHTML = PALETTE.map(function (c) {
+    return '<div><i style="background:' + c[1] + '"></i><strong>' + c[0] + "</strong><code>" + c[1] + '</code><span class="muted">' + c[2] + "</span></div>";
+  }).join("");
+
+  // Tema
+  document.getElementById("themeBtn").addEventListener("click", function () {
+    var root = document.documentElement;
+    var cur = root.getAttribute("data-theme") || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    root.setAttribute("data-theme", cur === "light" ? "dark" : "light");
+  });
+
+  renderChips();
+  renderCalendar();
+  renderHooks();
+  renderOverview();
+  showTab(["geral", "calendario", "hooks", "marca", "rotina"].indexOf(state.tab) >= 0 ? state.tab : "geral");
+  if (/^#d\d+$/.test(location.hash)) openPost(+location.hash.slice(2));
+})();
+</script>
+</body>
+</html>
