@@ -106,7 +106,6 @@ PERFIL = {
 
 PENDENCIAS = [
     {"id": "publicacao", "titulo": "Conectar a publicação", "detalhe": "Instagram ligado à página Solvix Agency no Meta Business Suite. Os posts aprovados são agendados pela aba Agendar, com o Claude no navegador."},
-    {"id": "kaza", "titulo": "Autorização do Grupo Kaza", "detalhe": "Para publicar o D12 com o nome e as fotos da Kaza.", "posts": [12]},
     {"id": "materiais", "titulo": "Materiais das palavras-chave", "detalhe": "Checklist de landing page, guia de investimento e roteiro da análise gratuita. Posso escrever os três; preciso do seu ok no conteúdo.", "posts": [5, 10, 17, 24]},
     {"id": "politicas", "titulo": "Confirmar duas políticas da Solvix", "detalhe": "Contrato e pagamento 50% + 50% já estão confirmados. Faltam: o domínio fica no nome do cliente? E existe suporte depois da entrega (incluso por um período ou só como manutenção paga)? Citados no D17, D18, D29 e no guia de investimento.", "posts": [17, 18, 29]},
 ]

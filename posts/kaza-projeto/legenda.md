@@ -23,7 +23,7 @@
 
 Para quem procura um imóvel premium, o site é a primeira visita.
 
-Criamos para a Kaza Negócios um site que conduz como uma visita guiada: endereço, arquitetura, patrimônio e experiência, um capítulo de cada vez. Cada imóvel é apresentado com espaço, foto e contexto, do computador ao celular.
+Num projeto conceitual, imaginamos o site da Kaza Negócios como uma visita guiada: endereço, arquitetura, patrimônio e experiência, um capítulo de cada vez. Cada imóvel é apresentado com espaço, foto e contexto, do computador ao celular.
 
 Curadoria também se mostra no digital.
 

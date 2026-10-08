@@ -68,7 +68,6 @@ Pendências que travam posts específicos (também aparecem no painel, em Hoje):
 
 | Pendência | Posts |
 |---|---|
-| Autorização do Grupo Kaza | D12 |
 | Números reais do Insights | D13, D30 |
 | Confirmar domínio no nome do cliente e suporte depois da entrega (contrato e 50% + 50% já confirmados) | D17, D18, D29 e guia de investimento |
 | Revisar os materiais das palavras-chave | D05, D10, D24 |
