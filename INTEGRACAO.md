@@ -8,7 +8,7 @@ Como os posts aprovados no painel são publicados automaticamente.
 2. Nos horários da agenda (Estratégia › Horários), uma rotina do Claude roda `publicar/publicar.py devidos`, que publica no @solvixagencybr o post do dia e os Stories daquele horário pela API oficial da Meta.
 3. Cada publicação fica anotada em `publicar/registro.json`, e o post muda para **Publicado** no painel, com o link.
 
-Horários das rotinas (Brasília): seg a sex 12:30, 19:00, 19:20 e 21:00; sáb e dom 09:30, 11:00, 11:20 e 20:00.
+Horários das rotinas (Brasília): seg a sex 12:30, 19:00, 19:20 e 21:00; sáb, dom e feriado 09:30, 11:00, 11:20 e 20:00. Feriados do ciclo (em `painel/plano.json`, agenda.feriados): 12/10 e 02/11, com rotinas avulsas nesses dias.
 
 Como a conta está ligada:
 - Página Solvix Agency e @solvixagencybr pertencem ao portfólio "Solvix Agency | Desenvolvimento Web" e estão compartilhados como parceiro com o portfólio "Solvix Agency" do Caio (ID 1966517390683663).

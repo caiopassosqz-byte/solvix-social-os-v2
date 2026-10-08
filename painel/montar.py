@@ -172,8 +172,9 @@ def dados():
             p["pasta"] = "posts/d03-por-que-a-solvix-existe/"
         pasta_st = os.path.join(RAIZ, "stories", pid.lower())
         if os.path.isdir(pasta_st):
-            fds = datetime.date.fromisoformat(INICIO).weekday() + i
-            ag = (plano.get("agenda") or {}).get("fds" if fds % 7 >= 5 else "util", {})
+            dia = datetime.date.fromisoformat(INICIO) + datetime.timedelta(days=i)
+            fds = dia.weekday() >= 5 or dia.isoformat() in (plano.get("agenda") or {}).get("feriados", {})
+            ag = (plano.get("agenda") or {}).get("fds" if fds else "util", {})
             nomes = {"01-bastidor.png": ag.get("bastidor", "") + " · Bastidor", "02-post.png": ag.get("story_post", "") + " · Post do dia e pergunta", "03-palavra.png": ag.get("palavra", "") + " · Palavra-chave"}
             p["stories"] = [{"arquivo": f"stories/{pid.lower()}/{a}", "momento": nomes.get(a, a)} for a in sorted(os.listdir(pasta_st)) if a.endswith(".png")]
         if p["fmt"] == "Reels" and pid in trs:

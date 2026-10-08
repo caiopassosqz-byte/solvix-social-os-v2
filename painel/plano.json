@@ -723,6 +723,10 @@
     "Constância ajuda quem segue a criar o hábito. O horário pesa menos que o gancho: o que espalha um Reels é tempo assistido, envios e curtidas."
    ]
   ],
-  "teste": "Semanas 1 e 2: tudo às 19h. Semana 3: carrosséis às 12h30 e Reels às 19h; compare o alcance e os salvamentos de cada post na ficha. Fica o horário que vencer. Com 100 seguidores, o Insights passa a mostrar os horários em que eles estão ativos, e esse dado vale mais que qualquer média."
+  "teste": "Semanas 1 e 2: tudo às 19h. Semana 3: carrosséis às 12h30 e Reels às 19h; compare o alcance e os salvamentos de cada post na ficha. Fica o horário que vencer. Com 100 seguidores, o Insights passa a mostrar os horários em que eles estão ativos, e esse dado vale mais que qualquer média.",
+  "feriados": {
+   "2026-10-12": "Nossa Senhora Aparecida",
+   "2026-11-02": "Finados"
+  }
  }
 }

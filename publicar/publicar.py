@@ -47,7 +47,7 @@ def itens():
     out = []
     for p in d["posts"]:
         dia = inicio + datetime.timedelta(days=p["n"] - 1)
-        ag = d["agenda"]["fds" if dia.weekday() >= 5 else "util"]
+        ag = d["agenda"]["fds" if dia.weekday() >= 5 or dia.isoformat() in d["agenda"].get("feriados", {}) else "util"]  # feriado segue o fim de semana
 
         def quando(chave):
             h, m = map(int, ag[chave].split(":"))

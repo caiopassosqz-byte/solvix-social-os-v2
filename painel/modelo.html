@@ -523,7 +523,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
     var s = (Store.config().inicio || DATA.inicio) + "T12:00:00";
     var d = new Date(s); return isNaN(d) ? new Date(DATA.inicio + "T12:00:00") : d;
   }
-  function horaPost(p) { var c = Store.config().horario; if (c) return c; var ag = DATA.agenda; if (!ag) return ""; var w = dateOf(p.n).getDay(); return (w === 0 || w === 6 ? ag.fds : ag.util).post; }
+  function horaPost(p) { var c = Store.config().horario; if (c) return c; var ag = DATA.agenda; if (!ag) return ""; var dt = dateOf(p.n), w = dt.getDay(), iso = dt.getFullYear() + "-" + ("0" + (dt.getMonth() + 1)).slice(-2) + "-" + ("0" + dt.getDate()).slice(-2); return (w === 0 || w === 6 || (ag.feriados && ag.feriados[iso]) ? ag.fds : ag.util).post; }
   function dateOf(n) { var d = startDate(); d.setDate(d.getDate() + n - 1); return d; }
   function today() { var d = new Date(); d.setHours(12, 0, 0, 0); return d; }
   function dayIndex() { return Math.round((today() - startDate()) / 86400000) + 1; }
@@ -943,7 +943,7 @@ details.more summary { cursor: pointer; font-size: 0.8125rem; color: var(--text-
         '<div><h3>Revisão de domingo</h3><ul><li>Registre os números de cada post na ficha.</li><li>Refaça os 2 Reels de atração com mais alcance fora da base, com outro hook.</li><li>Post de conversão sem pedidos: revise o material oferecido.</li><li>Toda pergunta da DM vira pauta.</li></ul></div></div></div></section>' +
       (DATA.agenda ? '<section class="sec"><header><p class="eyebrow">Horários</p><h2>Quando cada peça vai ao ar</h2></header><div class="body">' +
         '<div class="agenda"><div><h3>Segunda a sexta</h3><dl class="kv"><dt>' + DATA.agenda.util.bastidor + '</dt><dd>Story de bastidor</dd><dt>' + DATA.agenda.util.post + '</dt><dd><b>Post no feed</b></dd><dt>' + DATA.agenda.util.story_post + '</dt><dd>Story do post, com a pergunta</dd><dt>' + DATA.agenda.util.palavra + '</dt><dd>Story de palavra-chave (seg, qua e sex)</dd></dl></div>' +
-        '<div><h3>Sábado e domingo</h3><dl class="kv"><dt>' + DATA.agenda.fds.bastidor + '</dt><dd>Story de bastidor</dd><dt>' + DATA.agenda.fds.post + '</dt><dd><b>Post no feed</b></dd><dt>' + DATA.agenda.fds.story_post + '</dt><dd>Story do post, com a pergunta</dd></dl></div></div>' +
+        '<div><h3>Sábado, domingo e feriado</h3><dl class="kv"><dt>' + DATA.agenda.fds.bastidor + '</dt><dd>Story de bastidor</dd><dt>' + DATA.agenda.fds.post + '</dt><dd><b>Post no feed</b></dd><dt>' + DATA.agenda.fds.story_post + '</dt><dd>Story do post, com a pergunta</dd></dl></div></div>' +
         '<ol class="why">' + DATA.agenda.porque.map(function (x, i) { return '<li><span class="n">' + pad(i + 1) + "</span><div><b>" + esc(x[0]) + "</b><p>" + esc(x[1]) + "</p></div></li>"; }).join("") + "</ol>" +
         '<p class="req"><b>Teste do ciclo</b>' + esc(DATA.agenda.teste) + "</p></div></section>" : "") +
       '<section class="sec"><header><p class="eyebrow">Ajustes do ciclo</p><h2>Datas e horário</h2></header><div class="body"><div class="fields">' +
