@@ -117,8 +117,20 @@ def conteiner(it):
 
 
 def ja_no_perfil(it):
-    """Confere as últimas publicações do feed, caso o registro não tenha sido salvo."""
-    if it["tipo"] == "story" or not it.get("legenda"):
+    """Confere no próprio Instagram se o item já saiu, caso o registro não tenha sido salvo.
+
+    Story: algum Story ativo publicado entre 5 minutos antes do horário marcado e o fim da janela
+    (dois Stories da agenda nunca ficam a menos de 90 minutos um do outro). Post: legenda igual
+    entre as últimas publicações do feed."""
+    if it["tipo"] == "story":
+        ini = it["quando"] - datetime.timedelta(minutes=5)
+        fim = it["quando"] + datetime.timedelta(minutes=JANELA + 30)
+        for s in api(f"/{IG}/stories?fields=id,timestamp,permalink").get("data", []):
+            ts = datetime.datetime.strptime(s["timestamp"], "%Y-%m-%dT%H:%M:%S%z")
+            if ini <= ts <= fim:
+                return s
+        return None
+    if not it.get("legenda"):
         return None
     ini = it["legenda"].strip()[:80]
     for m in api(f"/{IG}/media?fields=id,caption,permalink&limit=15").get("data", []):
