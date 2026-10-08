@@ -21,7 +21,7 @@ RAIZ = os.path.dirname(AQUI)
 sys.path.insert(0, os.path.join(RAIZ, "trilhas"))
 import gerador  # noqa: E402
 
-INICIO = "2026-10-12"
+INICIO = "2026-10-08"
 
 
 def ler(rel):

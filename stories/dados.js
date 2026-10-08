@@ -3,7 +3,7 @@ window.DIAS = [
  {
   "id": "D01",
   "n": 1,
-  "data": "seg 12/10",
+  "data": "qui 08/10",
   "fmt": "Reels",
   "hook": "Abra seu site no celular. Você tem 5 segundos.",
   "capa": "../posts/d01-teste-5-segundos/capa-v2.png",
@@ -24,7 +24,7 @@ window.DIAS = [
  {
   "id": "D02",
   "n": 2,
-  "data": "ter 13/10",
+  "data": "sex 09/10",
   "fmt": "Carrossel",
   "hook": "Uma landing page que converte tem 7 partes. Quantas a sua tem?",
   "capa": "../posts/d02-anatomia-landing-page/slide-01.png",
@@ -51,7 +51,7 @@ window.DIAS = [
  {
   "id": "D03",
   "n": 3,
-  "data": "qua 14/10",
+  "data": "sáb 10/10",
   "fmt": "Reels",
   "hook": "A Solvix não nasceu para fazer site bonito.",
   "capa": "../posts/d03-por-que-a-solvix-existe/capa.png",
@@ -141,7 +141,7 @@ window.DIAS = [
  {
   "id": "D04",
   "n": 4,
-  "data": "qui 15/10",
+  "data": "dom 11/10",
   "fmt": "Reels",
   "hook": "Mesma empresa. Mesmo serviço. Só mudamos a primeira tela.",
   "capa": "../posts/d04-redesign-clinica/capa.png",
@@ -162,7 +162,7 @@ window.DIAS = [
  {
   "id": "D05",
   "n": 5,
-  "data": "sex 16/10",
+  "data": "seg 12/10",
   "fmt": "Carrossel",
   "hook": "5 itens que toda landing page precisa antes de receber um real de anúncio.",
   "capa": "../posts/d05-checklist-landing-page/slide-01.png",
@@ -187,7 +187,7 @@ window.DIAS = [
  {
   "id": "D06",
   "n": 6,
-  "data": "sáb 17/10",
+  "data": "ter 13/10",
   "fmt": "Reels",
   "hook": "Seu site é bonito. Mas ele vende?",
   "capa": "../posts/d06-site-decorativo/capa.png",
@@ -230,7 +230,7 @@ window.DIAS = [
  {
   "id": "D07",
   "n": 7,
-  "data": "dom 18/10",
+  "data": "qua 14/10",
   "fmt": "Carrossel",
   "hook": "Sites que posicionam. Sistemas que organizam. Visibilidade que traz clientes.",
   "capa": "../posts/d07-tres-frentes/slide-01.png",
@@ -253,7 +253,7 @@ window.DIAS = [
  {
   "id": "D08",
   "n": 8,
-  "data": "seg 19/10",
+  "data": "qui 15/10",
   "fmt": "Reels",
   "hook": "Seu cliente não pesquisa seu nome. Ele pesquisa o que você faz.",
   "capa": "../posts/d08-busca-pelo-servico/capa.png",
@@ -343,7 +343,7 @@ window.DIAS = [
  {
   "id": "D09",
   "n": 9,
-  "data": "ter 20/10",
+  "data": "sex 16/10",
   "fmt": "Imagem",
   "hook": "Bonito não paga a conta. Claro paga.",
   "capa": "../posts/manifestos/manifesto-d09.png",
@@ -364,7 +364,7 @@ window.DIAS = [
  {
   "id": "D10",
   "n": 10,
-  "data": "qua 21/10",
+  "data": "sáb 17/10",
   "fmt": "Reels",
   "hook": "Um site pode custar R$1 mil ou R$35 mil. Aqui está a diferença.",
   "capa": "../posts/d10-quanto-custa-um-site/capa.png",
@@ -385,7 +385,7 @@ window.DIAS = [
  {
   "id": "D11",
   "n": 11,
-  "data": "qui 22/10",
+  "data": "dom 18/10",
   "fmt": "Reels",
   "hook": "O botão mais importante do seu site está escondido.",
   "capa": "../posts/d11-botao-whatsapp/capa.png",
@@ -428,7 +428,7 @@ window.DIAS = [
  {
   "id": "D12",
   "n": 12,
-  "data": "sex 23/10",
+  "data": "seg 19/10",
   "fmt": "Carrossel",
   "hook": "Kaza Negócios. Curadoria de endereços, arquitetura e patrimônio.",
   "capa": "../posts/kaza-projeto/slide-01.png",
@@ -452,7 +452,7 @@ window.DIAS = [
  {
   "id": "D13",
   "n": 13,
-  "data": "sáb 24/10",
+  "data": "ter 20/10",
   "fmt": "Reels",
   "hook": "Comecei o Instagram da Solvix com 0 seguidores. Vou mostrar tudo.",
   "capa": null,
@@ -469,7 +469,7 @@ window.DIAS = [
  {
   "id": "D14",
   "n": 14,
-  "data": "dom 25/10",
+  "data": "qua 21/10",
   "fmt": "Reels",
   "hook": "Redesenhei a página de uma academia em 3 decisões.",
   "capa": "../posts/d14-redesign-academia/capa.png",
@@ -559,7 +559,7 @@ window.DIAS = [
  {
   "id": "D15",
   "n": 15,
-  "data": "seg 26/10",
+  "data": "qui 22/10",
   "fmt": "Carrossel",
   "hook": "Landing page, site ou e-commerce? Escolher errado custa caro.",
   "capa": "../posts/d15-landing-site-ecommerce/slide-01.png",
@@ -583,7 +583,7 @@ window.DIAS = [
  {
   "id": "D16",
   "n": 16,
-  "data": "ter 27/10",
+  "data": "sex 23/10",
   "fmt": "Reels",
   "hook": "Fiz o teste dos 5 segundos em 3 sites. Só um passou.",
   "capa": "../posts/d16-teste-tres-sites/capa.png",
@@ -604,7 +604,7 @@ window.DIAS = [
  {
   "id": "D17",
   "n": 17,
-  "data": "qua 28/10",
+  "data": "sáb 24/10",
   "fmt": "Carrossel",
   "hook": "4 coisas para exigir antes de pagar alguém para fazer seu site.",
   "capa": "../posts/d17-o-que-exigir/slide-01.png",
@@ -628,7 +628,7 @@ window.DIAS = [
  {
   "id": "D18",
   "n": 18,
-  "data": "qui 29/10",
+  "data": "dom 25/10",
   "fmt": "Carrossel",
   "hook": "5 coisas que a Solvix não faz. Nem por um preço maior.",
   "capa": "../posts/d18-o-que-a-solvix-nao-faz/slide-01.png",
@@ -653,7 +653,7 @@ window.DIAS = [
  {
   "id": "D19",
   "n": 19,
-  "data": "sex 30/10",
+  "data": "seg 26/10",
   "fmt": "Reels",
   "hook": "Seu perfil no Google é a primeira página do seu site. E ninguém cuida dela.",
   "capa": "../posts/d19-perfil-google/capa.png",
@@ -696,7 +696,7 @@ window.DIAS = [
  {
   "id": "D20",
   "n": 20,
-  "data": "sáb 31/10",
+  "data": "ter 27/10",
   "fmt": "Carrossel",
   "hook": "Uma clínica que não existe. Um site que poderia existir amanhã.",
   "capa": "../posts/d20-projeto-conceitual-clinica/slide-01.png",
@@ -720,7 +720,7 @@ window.DIAS = [
  {
   "id": "D21",
   "n": 21,
-  "data": "dom 01/11",
+  "data": "qua 28/10",
   "fmt": "Reels",
   "hook": "\"Qualidade e excelência\" não diz nada. Seu cliente pulou essa frase.",
   "capa": "../posts/d21-texto-do-site/capa.png",
@@ -810,7 +810,7 @@ window.DIAS = [
  {
   "id": "D22",
   "n": 22,
-  "data": "seg 02/11",
+  "data": "qui 29/10",
   "fmt": "Carrossel",
   "hook": "Presença digital não é estar online.",
   "capa": "../posts/d22-tres-ideias/slide-01.png",
@@ -833,7 +833,7 @@ window.DIAS = [
  {
   "id": "D23",
   "n": 23,
-  "data": "ter 03/11",
+  "data": "sex 30/10",
   "fmt": "Reels",
   "hook": "Numa loja online, a venda acontece ou morre na página do produto.",
   "capa": "../posts/d23-redesign-loja/capa.png",
@@ -854,7 +854,7 @@ window.DIAS = [
  {
   "id": "D24",
   "n": 24,
-  "data": "qua 04/11",
+  "data": "sáb 31/10",
   "fmt": "Reels",
   "hook": "Seu site não passou no teste dos 5 segundos? Eu faço a análise por você.",
   "capa": "../posts/d24-analise-gratuita/capa.png",
@@ -897,7 +897,7 @@ window.DIAS = [
  {
   "id": "D25",
   "n": 25,
-  "data": "qui 05/11",
+  "data": "dom 01/11",
   "fmt": "Imagem",
   "hook": "Seu cliente decide em segundos. Seu site decide por você.",
   "capa": "../posts/manifestos/manifesto-d25.png",
@@ -918,7 +918,7 @@ window.DIAS = [
  {
   "id": "D26",
   "n": 26,
-  "data": "sex 06/11",
+  "data": "seg 02/11",
   "fmt": "Reels",
   "hook": "Seu site foi feito em 2019. Seu cliente percebe.",
   "capa": "../posts/d26-site-desatualizado/capa.png",
@@ -1008,7 +1008,7 @@ window.DIAS = [
  {
   "id": "D27",
   "n": 27,
-  "data": "sáb 07/11",
+  "data": "ter 03/11",
   "fmt": "Imagem",
   "hook": "Ninguém compra o que não entende.",
   "capa": "../posts/manifestos/manifesto-d27.png",
@@ -1029,7 +1029,7 @@ window.DIAS = [
  {
   "id": "D28",
   "n": 28,
-  "data": "dom 08/11",
+  "data": "qua 04/11",
   "fmt": "Reels",
   "hook": "O site de R$300 costuma custar duas vezes.",
   "capa": "../posts/d28-barato-que-sai-caro/capa.png",
@@ -1050,7 +1050,7 @@ window.DIAS = [
  {
   "id": "D29",
   "n": 29,
-  "data": "seg 09/11",
+  "data": "qui 05/11",
   "fmt": "Carrossel",
   "hook": "Tudo o que você precisa saber antes de falar com a Solvix. Inclusive o preço.",
   "capa": "../posts/d29-como-contratar/slide-01.png",
@@ -1074,7 +1074,7 @@ window.DIAS = [
  {
   "id": "D30",
   "n": 30,
-  "data": "ter 10/11",
+  "data": "sex 06/11",
   "fmt": "Reels",
   "hook": "30 dias atrás: 0 seguidores. Estes são os números de hoje.",
   "capa": null,
