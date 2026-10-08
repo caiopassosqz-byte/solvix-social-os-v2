@@ -2,12 +2,12 @@
 
 Imagem única de 1080×1350. O preto é a base; só o D09 usa fundo off-white, como contraste. Frase em Noto Serif Display, destaque só por contraste (a última frase em cor plena, o resto em cinza), grid fino ao fundo, microtextos nos cantos. Fonte editável: `manifestos.html`. As frases falam da dor do empresário, não de design.
 
-## D09 · Bonito não paga a conta. Claro paga. (`manifesto-d09.png`, fundo claro)
+## D09 · Bonito não paga a conta. Clareza paga. (`manifesto-d09.png`, fundo claro)
 
 **Legenda**
 
 Bonito não paga a conta.
-Claro paga.
+Clareza paga.
 
 Seu site precisa dizer em segundos o que você faz, para quem e como falar com você. Se ele não diz, o cliente volta para a busca.
 

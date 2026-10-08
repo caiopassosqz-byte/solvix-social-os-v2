@@ -347,8 +347,8 @@ window.DIAS = [
   "fmt": "Imagem",
   "hook": "Bonito não paga a conta. Claro paga.",
   "capa": "../posts/manifestos/manifesto-d09.png",
-  "pergunta": "Na hora de escolher, pesa mais o bonito ou o claro?",
-  "resposta": "Responda: bonito ou claro.",
+  "pergunta": "Na hora de escolher, pesa mais o bonito ou a clareza?",
+  "resposta": "Responda: bonito ou clareza.",
   "palavra": null,
   "bastidor": {
    "tipo": "slides",
