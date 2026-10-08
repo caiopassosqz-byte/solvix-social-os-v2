@@ -43,6 +43,8 @@ Nesse tempo, quem chega precisa entender três coisas: o que você faz, para que
 
 Faça o teste agora e conte nos comentários: passou ou não?
 
+Os sites do vídeo são demonstrações criadas pela Solvix.
+
 Solvix Agency · sites que posicionam.
 
 #criacaodesites #landingpage #sitesprofissionais #presencadigital #empreendedorismo
