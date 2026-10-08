@@ -32,7 +32,7 @@ GRAPH = "https://graph.facebook.com/v21.0"
 IG = "17841417373153450"  # @solvixagencybr
 RAW = "https://raw.githubusercontent.com/caiopassosqz-byte/solvix-social-os-v2/claude/clever-darwin-t5nvmp/"
 FUSO = datetime.timezone(datetime.timedelta(hours=-3))  # horário de Brasília
-JANELA = 150  # minutos de tolerância depois do horário marcado
+JANELA = 60  # minutos de tolerância depois do horário marcado (menor que o intervalo entre dois Stories seguidos)
 REGISTRO = os.path.join(AQUI, "registro.json")
 STORIES = {"01-bastidor.png": "bastidor", "02-post.png": "story_post", "03-palavra.png": "palavra"}
 
