@@ -1,8 +1,26 @@
 # Integração com o Instagram da Solvix
 
-Como os posts aprovados no painel passam a ser agendados e publicados automaticamente.
+Como os posts aprovados no painel são publicados automaticamente.
 
-## Caminho grátis: Meta Business Suite + Claude no navegador
+## Como funciona agora: API da Meta (ativo desde 08/10)
+
+1. Você aprova o post no painel (ou pede ajuste). Só sai o que estiver **Aprovado**.
+2. Nos horários da agenda (Estratégia › Horários), uma rotina do Claude roda `publicar/publicar.py devidos`, que publica no @solvixagencybr o post do dia e os Stories daquele horário pela API oficial da Meta.
+3. Cada publicação fica anotada em `publicar/registro.json`, e o post muda para **Publicado** no painel, com o link.
+
+Horários das rotinas (Brasília): seg a sex 12:30, 19:00, 19:20 e 21:00; sáb e dom 09:30, 11:00, 11:20 e 20:00.
+
+Como a conta está ligada:
+- Página Solvix Agency e @solvixagencybr pertencem ao portfólio "Solvix Agency | Desenvolvimento Web" e estão compartilhados como parceiro com o portfólio "Solvix Agency" do Caio (ID 1966517390683663).
+- O app "Solvix Publicador." (ID 2164053351161557) pertence ao portfólio do Caio. O usuário do sistema **publicador** gera o token, que não expira.
+- O token fica só no segredo `META_TOKEN` do ambiente, liberado apenas para graph.facebook.com. Nunca no chat nem no repositório.
+- As mídias são lidas pela Meta do repositório público (raw.githubusercontent.com). Imagens vão em JPEG (`publicar/jpg/`, gerado por `python3 publicar/publicar.py jpg`).
+
+Comandos úteis: `python3 publicar/publicar.py agenda` (o que sai e quando) e `python3 publicar/publicar.py testar D05-post` (cria a mídia na Meta sem publicar).
+
+Não agende os mesmos posts no Meta Business Suite: eles sairiam duas vezes.
+
+## Caminho antigo: Meta Business Suite + Claude no navegador
 
 1. Crie a página do Facebook "Solvix Agency" (categoria Web Designer) e ligue ao @solvixagencybr. O Business Suite precisa dela.
 2. Aprove os posts no painel.
