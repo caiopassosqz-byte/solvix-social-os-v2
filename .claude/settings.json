@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(python3 publicar/publicar.py devidos *)",
-      "Bash(/usr/bin/python3 publicar/publicar.py devidos *)"
+      "Bash(/usr/bin/python3 publicar/publicar.py devidos *)",
+      "Bash(python3 publicar/publicar.py conferir *)"
     ]
   }
 }
