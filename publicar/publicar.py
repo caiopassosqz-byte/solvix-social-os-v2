@@ -224,6 +224,28 @@ def cmd_devidos(args):
     return 1 if resumo["erros"] else 0
 
 
+def cmd_conferir(args):
+    """Checagem do dia: confere no Instagram se cada item da agenda já passou da janela e saiu."""
+    agora = (datetime.datetime.fromisoformat(args[args.index("--agora") + 1]).replace(tzinfo=FUSO)
+             if "--agora" in args else datetime.datetime.now(FUSO))
+    reg = ler_registro()
+    faltou, saiu = [], []
+    for it in itens():
+        if it["quando"].date() != agora.date() or (agora - it["quando"]).total_seconds() / 60 <= JANELA:
+            continue
+        if it["chave"] in reg:
+            saiu.append(it["chave"])
+            continue
+        try:
+            achado = ja_no_perfil(it)
+        except Exception as e:  # sem conferência não dá para afirmar nada
+            faltou.append({"chave": it["chave"], "horario": f"{it['quando']:%H:%M}", "erro": str(e)})
+            continue
+        (saiu if achado else faltou).append(it["chave"] if achado else {"chave": it["chave"], "horario": f"{it['quando']:%H:%M}"})
+    print(json.dumps({"dia": f"{agora:%d/%m}", "saiu": saiu, "faltou": faltou}, ensure_ascii=False, indent=1))
+    return 1 if faltou else 0
+
+
 def main(argv):
     cmd, args = (argv[0], argv[1:]) if argv else ("agenda", [])
     if cmd == "jpg":
@@ -234,6 +256,8 @@ def main(argv):
         return cmd_testar(args)
     if cmd == "devidos":
         return cmd_devidos(args)
+    if cmd == "conferir":
+        return cmd_conferir(args)
     print(__doc__)
     return 2
 
